@@ -1,0 +1,54 @@
+<template>
+  <AppHeader :show-download="false" />
+  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
+    <div class="w-full max-w-screen-md text-center">
+      <h1 class="mb-6 text-6xl font-bold tracking-tight sm:text-8xl">
+        Download
+        for
+        <mark class="relative">
+          <svg class="absolute -bottom-1 -left-1 size-16 fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19.37 7.648c-.114.088-2.11 1.213-2.11 3.715 0 2.894 2.54 3.918 2.616 3.944-.011.062-.403 1.402-1.34 2.767-.834 1.201-1.706 2.4-3.032 2.4s-1.667-.77-3.198-.77c-1.492 0-2.022.796-3.235.796-1.214 0-2.06-1.112-3.033-2.477C4.911 16.42 4 13.93 4 11.566c0-3.791 2.465-5.802 4.891-5.802 1.29 0 2.364.847 3.173.847.77 0 1.972-.897 3.438-.897.556 0 2.553.05 3.867 1.934Zm-4.564-3.54c.607-.719 1.036-1.718 1.036-2.716 0-.138-.012-.279-.037-.392-.987.037-2.161.657-2.87 1.478-.555.632-1.074 1.63-1.074 2.643 0 .152.026.304.037.353.063.011.164.025.266.025.885 0 1.998-.593 2.642-1.39Z"></path>
+          </svg>
+          <span class="pl-[55px] sm:pl-21">Mac</span>
+        </mark>
+      </h1>
+
+      <div class="mx-auto flex max-w-120 flex-col items-center justify-center">
+        <p class="mt-6 text-xl leading-normal sm:mt-10">
+          Once downloaded, run the DMG and move
+          <span class="relative ml-px inline-flex items-center">
+            <div class="relative mr-3 size-6 overflow-hidden rounded-[0.4375rem] border-2 border-stone-800 dark:border-orange-100">
+              <div class="dark:from-orange-75 dark:to-orange-75/15 absolute inset-[1.5px] origin-center rounded bg-linear-to-t from-stone-950/20 to-stone-950 to-95% dark:inset-0.5 dark:rounded-[0.1875rem] dark:to-100%"></div>
+            </div>
+            <span class="ml-8 font-medium">Alcove</span>
+          </span>
+          to your Applications folder
+          <i>before</i> launching it.
+        </p>
+
+        <a class="group my-12 flex w-full max-w-96 flex-col items-center justify-center rounded-3xl border-2 border-orange-950/5 bg-orange-950/2.5 pt-5 pb-8 outline-hidden sm:my-16" href="https://releases.tryalcove.com/latest/Alcove.dmg" aria-label="Download for Mac">
+          <div class="mb-3 size-37">
+            <picture>
+              <source srcset="https://cdn.tryalcove.com/images/disk-icon.webp" type="image/webp">
+              <img class="object-fit size-full select-none" src="https://cdn.tryalcove.com/images/disk-icon.png" alt="Alcove Disk Icon" draggable="false">
+            </picture>
+          </div>
+          <p class="text-2xl font-bold">Alcove</p>
+          <p class="text-lg font-semibold text-orange-950/60">Minimum macOS 14 Sonoma</p>
+          <p class="inline-flex min-h-6 items-center font-semibold text-orange-950/40">
+            <span class="relative top-px inline-block h-[13.5px] w-24 animate-pulse rounded-[0.1875rem] bg-orange-950/12.5" aria-hidden="true"></span>
+          </p>
+          <div class="group-hover:text-orange-75 mt-6 rounded-[0.875rem] border-2 border-orange-950/5 px-5 py-2 text-lg font-bold text-orange-950/65 transition duration-200 group-hover:bg-stone-800">
+            Download
+          </div>
+        </a>
+
+        <p class="max-w-sm text-xl leading-normal">
+          If you have any issues downloading or installing, please
+          <a class="relative font-medium whitespace-nowrap outline-hidden transition duration-200 after:pointer-events-none after:absolute after:right-0 after:bottom-0 after:left-0 after:h-0.5 after:rounded-xs after:bg-teal-400 after:transition after:duration-200 after:content-[''] hover:text-teal-400 hover:after:translate-y-px" href="mailto:hello@tryalcove.com" aria-label="Contact us">contact us</a>.
+        </p>
+      </div>
+    </div>
+  </main>
+  <AppFooter />
+</template>

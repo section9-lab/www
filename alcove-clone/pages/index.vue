@@ -1,0 +1,73 @@
+<template>
+  <AppHeader />
+  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
+    <section class="flex w-full max-w-screen-xl flex-col items-center">
+      <!-- Hero Section -->
+      <section class="mb-14 w-full sm:mb-20 xl:w-4/5 xl:max-w-screen-lg">
+        <h1 class="relative text-center text-5xl leading-[1.05] font-bold tracking-tight sm:text-8xl sm:leading-none">
+          Dynamic Island
+          <br>
+          for
+          <mark class="relative">
+            <svg class="absolute -bottom-0.5 -left-0.5 size-13 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M14.806 4.108C15.413 3.389 15.842 2.39 15.842 1.392C15.842 1.254 15.83 1.113 15.805 1C14.818 1.037 13.644 1.657 12.935 2.478C12.38 3.11 11.861 4.108 11.861 5.121C11.861 5.273 11.887 5.425 11.898 5.474C11.961 5.485 12.062 5.499 12.164 5.499C13.049 5.499 14.162 4.906 14.806 4.109V4.108Z"></path>
+              <path d="M19.37 7.648C19.256 7.736 17.26 8.861 17.26 11.363C17.26 14.257 19.8 15.281 19.876 15.307C19.865 15.369 19.473 16.709 18.536 18.074C17.702 19.275 16.83 20.474 15.504 20.474C14.178 20.474 13.837 19.704 12.306 19.704C10.814 19.704 10.284 20.5 9.071 20.5C7.857 20.5 7.011 19.388 6.038 18.023C4.911 16.42 4 13.93 4 11.566C4 7.775 6.465 5.764 8.891 5.764C10.181 5.764 11.255 6.611 12.064 6.611C12.834 6.611 14.036 5.714 15.502 5.714C16.058 5.714 18.055 5.764 19.369 7.648H19.37Z"></path>
+            </svg>
+            <span class="pl-[46px] sm:pl-21">Mac</span>
+          </mark>
+        </h1>
+
+        <!-- CTA Buttons -->
+        <div class="mt-14 flex flex-col items-center justify-center space-y-6 sm:mt-12 sm:flex-row sm:space-y-0 sm:space-x-7">
+          <a class="group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold outline-hidden transition duration-300 focus:ring-2 focus:ring-rose-300/90 text-orange-75 bg-stone-800 shadow-xl shadow-orange-950/20 after:absolute after:inset-0 after:hidden after:rounded-2xl after:shadow-2xl after:shadow-orange-950/25 after:content-[''] sm:shadow-orange-950/25 sm:after:block pl-13" href="/download" aria-label="Download for Mac">
+            <div class="ease absolute left-5 translate-x-0 opacity-100 transition duration-300 group-hover:-translate-x-full group-hover:scale-x-50 group-hover:opacity-0 group-hover:blur-sm">
+              <svg class="h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19.37 7.648c-.114.088-2.11 1.213-2.11 3.715 0 2.894 2.54 3.918 2.616 3.944-.011.062-.403 1.402-1.34 2.767-.834 1.201-1.706 2.4-3.032 2.4s-1.667-.77-3.198-.77c-1.492 0-2.022.796-3.235.796-1.214 0-2.06-1.112-3.033-2.477C4.911 16.42 4 13.93 4 11.566c0-3.791 2.465-5.802 4.891-5.802 1.29 0 2.364.847 3.173.847.77 0 1.972-.897 3.438-.897.556 0 2.553.05 3.867 1.934Zm-4.564-3.54c.607-.719 1.036-1.718 1.036-2.716 0-.138-.012-.279-.037-.392-.987.037-2.161.657-2.87 1.478-.555.632-1.074 1.63-1.074 2.643 0 .152.026.304.037.353.063.011.164.025.266.025.885 0 1.998-.593 2.642-1.39Z"></path>
+              </svg>
+            </div>
+            <div class="ease translate-x-0 transition duration-300 group-hover:-translate-x-8">Download <span>for Mac</span></div>
+            <div class="ease absolute right-5 translate-x-full scale-x-50 opacity-0 blur-sm transition duration-300 group-hover:translate-x-0 group-hover:scale-x-100 group-hover:opacity-100 group-hover:blur-none">
+              <svg class="h-6 w-6 fill-transparent stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+              </svg>
+            </div>
+          </a>
+          <a class="group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold outline-hidden transition duration-300 focus:ring-2 focus:ring-rose-300/90 dark:bg-orange-75/5 bg-orange-950/5 pl-6" href="https://buy.tryalcove.com/b/aEUaF94fr7D9dK8144" aria-label="Purchase">
+            <svg class="mr-2.5 h-[22px] w-[22px] fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" aria-hidden="true">
+              <g class="origin-center fill-current">
+                <path class="group-hover:running pause ease animate-rotate origin-center text-orange-950/25 transition duration-300 group-hover:text-rose-400/75" d="M7.21 24.471h2.542c.235 0 .41.07.586.246l1.805 1.793c1.477 1.488 2.848 1.477 4.324 0l1.805-1.793c.188-.175.352-.246.598-.246h2.53c2.099 0 3.071-.96 3.071-3.07V18.87c0-.247.07-.41.246-.598l1.793-1.805c1.488-1.476 1.477-2.847 0-4.324l-1.793-1.805a.763.763 0 0 1-.246-.586V7.21c0-2.085-.96-3.07-3.07-3.07H18.87a.777.777 0 0 1-.598-.234l-1.805-1.793c-1.476-1.488-2.847-1.477-4.324 0l-1.805 1.793a.752.752 0 0 1-.586.234H7.21c-2.097 0-3.07.961-3.07 3.07v2.543c0 .235-.058.41-.234.586l-1.793 1.805c-1.488 1.477-1.477 2.848 0 4.324l1.793 1.805a.777.777 0 0 1 .234.598v2.53c0 2.099.973 3.071 3.07 3.071Z"></path>
+              </g>
+              <path class="text-[#f5e5d5]" d="M12.998 20.03c-.398 0-.726-.153-1.03-.563l-2.942-3.61c-.176-.233-.281-.503-.281-.76 0-.54.41-.973.949-.973.328 0 .586.117.879.503l2.379 3.07 5.004-8.038c.222-.364.527-.54.843-.54.504 0 .985.352.985.891 0 .27-.153.54-.293.774l-5.508 8.683c-.246.375-.586.563-.985.563Z"></path>
+            </svg>
+            <span>Purchase</span>
+            <span class="text-orange-75 ml-3.5 rounded-lg bg-stone-800 px-2 py-1 text-sm tracking-wide"> $14.99</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Mac Simulator -->
+      <MacSimulator />
+
+      <!-- Features Grid -->
+      <FeatureGrid />
+
+      <!-- Bottom CTA -->
+      <div class="mt-24 flex items-center justify-center">
+        <a class="group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold outline-hidden transition duration-300 focus:ring-2 focus:ring-rose-300/90 text-orange-75 bg-stone-800 shadow-xl shadow-orange-950/20 after:absolute after:inset-0 after:hidden after:rounded-2xl after:shadow-2xl after:shadow-orange-950/25 after:content-[''] sm:shadow-orange-950/25 sm:after:block pl-13" href="https://buy.tryalcove.com/b/aEUaF94fr7D9dK8144" aria-label="Purchase">
+          <div class="ease absolute left-5 translate-x-0 opacity-100 transition duration-300 group-hover:-translate-x-full group-hover:scale-x-50 group-hover:opacity-0 group-hover:blur-sm">
+            <svg class="h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M19.37 7.648c-.114.088-2.11 1.213-2.11 3.715 0 2.894 2.54 3.918 2.616 3.944-.011.062-.403 1.402-1.34 2.767-.834 1.201-1.706 2.4-3.032 2.4s-1.667-.77-3.198-.77c-1.492 0-2.022.796-3.235.796-1.214 0-2.06-1.112-3.033-2.477C4.911 16.42 4 13.93 4 11.566c0-3.791 2.465-5.802 4.891-5.802 1.29 0 2.364.847 3.173.847.77 0 1.972-.897 3.438-.897.556 0 2.553.05 3.867 1.934Zm-4.564-3.54c.607-.719 1.036-1.718 1.036-2.716 0-.138-.012-.279-.037-.392-.987.037-2.161.657-2.87 1.478-.555.632-1.074 1.63-1.074 2.643 0 .152.026.304.037.353.063.011.164.025.266.025.885 0 1.998-.593 2.642-1.39Z"></path>
+            </svg>
+          </div>
+          <div class="ease translate-x-0 transition duration-300 group-hover:-translate-x-8">Purchase <span>for Mac</span></div>
+          <div class="ease absolute right-5 translate-x-full scale-x-50 opacity-0 blur-sm transition duration-300 group-hover:translate-x-0 group-hover:scale-x-100 group-hover:opacity-100 group-hover:blur-none">
+            <svg class="h-6 w-6 fill-transparent stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+            </svg>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+  <AppFooter />
+</template>

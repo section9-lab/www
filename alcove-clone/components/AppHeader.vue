@@ -1,0 +1,51 @@
+<template>
+  <header class="transition-shadow bg-orange-75 fixed top-0 z-40 flex w-full flex-col outline outline-1 outline-orange-400/0 duration-300 dark:bg-stone-900">
+    <div class="flex w-full justify-center px-8 py-5 sm:py-7">
+      <div class="max-w-screen-3xl flex w-full justify-between">
+        <div class="flex items-center">
+          <NuxtLink to="/" class="group flex items-center outline-hidden" aria-label="Go home">
+            <div class="relative mr-3 size-10 overflow-hidden rounded-xl border-[2.5px] border-stone-800 dark:border-orange-100">
+              <div class="dark:from-orange-75 dark:to-orange-75/5 absolute inset-0.5 origin-center rounded-lg bg-linear-to-t from-stone-950/20 to-stone-950 to-95% transition delay-50 duration-300 ease-out group-hover:-translate-x-full group-hover:scale-x-50 group-hover:scale-y-75 group-hover:opacity-25 group-hover:delay-0 dark:inset-[2.5px] dark:rounded-[0.4375rem] dark:to-100%"></div>
+              <svg class="absolute -inset-[0.3125rem] size-[2.8125rem] fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" aria-hidden="true">
+                <path class="ease absolute origin-right translate-x-0.5 scale-50 opacity-0 blur-xs transition duration-300 group-hover:translate-x-0 group-hover:scale-100 group-hover:opacity-100 group-hover:blur-none group-hover:delay-50" d="M18.032 11.218a1 1 0 0 0-1.414 0l-6.075 6.075a1 1 0 0 0 0 1.414l6.075 6.075a1 1 0 0 0 1.414-1.414L13.664 19H24.75a1 1 0 1 0 0-2H13.664l4.368-4.368a1 1 0 0 0 0-1.414Z"></path>
+              </svg>
+            </div>
+            <div class="text-2xl font-bold">Alcove</div>
+          </NuxtLink>
+        </div>
+        <div class="flex items-center sm:space-x-5">
+          <NuxtLink class="group dark:hover:bg-orange-75/5 inline-flex items-center justify-center outline-hidden transition duration-300 hover:bg-orange-950/5 focus:ring-2 focus:ring-rose-300/90 rounded-2xl px-5 py-4 text-lg font-bold not-sm:bg-stone-800/5" to="/faqs" aria-label="Frequently asked questions">
+            <svg class="size-[22px] origin-bottom fill-current transition duration-300 group-hover:-rotate-12 sm:mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" aria-hidden="true">
+              <path d="M13.8906 26.9805C14.418 26.9805 14.9102 26.7578 15.3789 25.9492L17.5469 22.3281H21.4609C24.9531 22.3281 26.8281 20.3945 26.8281 16.9609V7.98438C26.8281 4.55078 24.9531 2.61719 21.4609 2.61719H6.36719C2.875 2.61719 1 4.53906 1 7.98438V16.9609C1 20.4062 2.875 22.3281 6.36719 22.3281H10.2344L12.4023 25.9492C12.8711 26.7578 13.3633 26.9805 13.8906 26.9805Z"></path>
+              <path class="text-orange-75 origin-top-left stroke-current stroke-2 transition duration-250 group-hover:-rotate-3 group-hover:text-[#f6e5d5] group-hover:delay-50 dark:text-stone-900 dark:group-hover:text-stone-900" d="M8 14H16M8 10H20.25" stroke-linecap="round"></path>
+            </svg>
+            <span class="hidden sm:block">FAQs</span>
+          </NuxtLink>
+          <NuxtLink v-if="showDownload" class="group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold outline-hidden transition duration-300 focus:ring-2 focus:ring-rose-300/90 dark:bg-orange-75/5 bg-orange-950/5 pl-13 not-sm:hidden" to="/download" aria-label="Download for Mac">
+            <div class="ease absolute left-5 translate-x-0 opacity-100 transition duration-300 group-hover:-translate-x-full group-hover:scale-x-50 group-hover:opacity-0 group-hover:blur-sm">
+              <svg class="h-6 w-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M19.37 7.648c-.114.088-2.11 1.213-2.11 3.715 0 2.894 2.54 3.918 2.616 3.944-.011.062-.403 1.402-1.34 2.767-.834 1.201-1.706 2.4-3.032 2.4s-1.667-.77-3.198-.77c-1.492 0-2.022.796-3.235.796-1.214 0-2.06-1.112-3.033-2.477C4.911 16.42 4 13.93 4 11.566c0-3.791 2.465-5.802 4.891-5.802 1.29 0 2.364.847 3.173.847.77 0 1.972-.897 3.438-.897.556 0 2.553.05 3.867 1.934Zm-4.564-3.54c.607-.719 1.036-1.718 1.036-2.716 0-.138-.012-.279-.037-.392-.987.037-2.161.657-2.87 1.478-.555.632-1.074 1.63-1.074 2.643 0 .152.026.304.037.353.063.011.164.025.266.025.885 0 1.998-.593 2.642-1.39Z"></path>
+              </svg>
+            </div>
+            <div class="ease translate-x-0 transition duration-300 group-hover:-translate-x-8">
+              Download for Mac
+            </div>
+            <div class="ease absolute right-5 translate-x-full scale-x-50 opacity-0 blur-sm transition duration-300 group-hover:translate-x-0 group-hover:scale-x-100 group-hover:opacity-100 group-hover:blur-none">
+              <svg class="h-6 w-6 fill-transparent stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
+              </svg>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
+    </div>
+  </header>
+</template>
+
+<script setup lang="ts">
+const props = withDefaults(defineProps<{
+  showDownload?: boolean
+}>(), {
+  showDownload: true
+})
+</script>
