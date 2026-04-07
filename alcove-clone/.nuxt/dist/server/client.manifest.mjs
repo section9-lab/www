@@ -1,1 +1,0 @@
-export { default } from "file:///Users/shwang/Documents/GitHub/ww/alcove-clone/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"

@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "SF Soft Time";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/fonts/sf-soft-time.woff2") format("woff2");
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4314071a transparent;
+}
+
+body {
+  background-color: #fff0df;
+  color: oklch(26.8% .007 34.298);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body ::selection {
+  background-color: #4413061a;
+}
+
+body:where(.dark, .dark *) ::selection {
+  background-color: #fff0df1a;
+}
+
+.shimmer {
+  background: radial-gradient(circle, #f5d0fe, #0000) -200% 100% / 200% 100% no-repeat, #f0abfc80;
+}
+
+mark {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding-right: 0.5rem;
+  font-weight: 800;
+  color: oklch(26.8% .007 34.298);
+  background-color: transparent;
+  display: inline-block;
+  position: relative;
+}
+
+mark::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -0.25rem;
+  left: 0;
+  z-index: -10;
+  border-radius: 0.125rem;
+  background-color: #ffa2aee6;
+  height: 0.5em;
+}
+
+.gooey {
+  filter: url(#gooey);
+}
+
+.gooey > * {
+  transition: transform 0.7s ease;
+}
+
+.gooey:hover > *:first-child {
+  transform: translateX(2.75rem);
+}
+
+.gooey:hover > *:last-child {
+  transform: translateX(-3rem);
+}
+
+.animate-shine {
+  background: linear-gradient(90deg, #f0abfc 0%, #fff 50%, #f0abfc 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@keyframes playing {
+  0%, 100% { height: 3px; }
+  50% { height: 12px; }
+}
+
+@keyframes marquee-first {
+  0% { transform: translate(0); }
+  100% { transform: translate(-100%); }
+}
+
+@keyframes marquee-second {
+  0% { transform: translate(100%); }
+  100% { transform: translate(0); }
+}
+
+@keyframes draw {
+  0% {
+    stroke-dashoffset: 500;
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8));
+  }
+  100% {
+    stroke-dashoffset: 0;
+    filter: drop-shadow(0 0 0 transparent);
+  }
+}
+
+.animate-draw {
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  animation: draw 3s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+@keyframes fade-in-delayed {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in-delayed {
+  animation: fade-in-delayed 1s ease-out 0.3s forwards;
+  opacity: 0;
+}

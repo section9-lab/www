@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro'
+import AppHeader from '../components/AppHeader.astro'
+import AppFooter from '../components/AppFooter.astro'
+import FaqsContent from '../components/FaqsContent'
+import '../assets/css/main.css'
+---
+<Layout title="Dyno — FAQs" description="Frequently asked questions">
+  <AppHeader />
+  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
+    <FaqsContent client:load />
+  </main>
+  <AppFooter />
+</Layout>

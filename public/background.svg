@@ -1,0 +1,46 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+<!--定义渐变-->
+  <defs>
+<!--天空渐变-->
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f1b3d"/>
+<!--顶部深蓝-->
+      <stop offset="30%" stop-color="#3a1c5d"/>
+<!--过渡到紫-->
+      <stop offset="50%" stop-color="#8a2c8a"/>
+<!--中央紫粉色-->
+      <stop offset="70%" stop-color="#c44569"/>
+<!--亮粉色区域-->
+      <stop offset="100%" stop-color="#2d3a5c"/>
+<!--底部普鲁士蓝-->
+    </linearGradient>
+<!--光源效果-->
+    <radialGradient id="lightGlow" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" stop-color="#ff9ff3" stop-opacity="0.8"/>
+<!--中心亮粉-->
+      <stop offset="100%" stop-color="#8a2c8a" stop-opacity="0"/>
+<!--边缘透明-->
+    </radialGradient>
+<!--山脉渐变-->
+    <linearGradient id="mountainGradient1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2d3a5c"/>
+      <stop offset="100%" stop-color="#1a2539"/>
+    </linearGradient>
+    <linearGradient id="mountainGradient2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3a1c5d"/>
+      <stop offset="100%" stop-color="#2a1445"/>
+    </linearGradient>
+    <linearGradient id="mountainGradient3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5a2a6d"/>
+      <stop offset="100%" stop-color="#3d1c4d"/>
+    </linearGradient>
+  </defs>
+<!--背景天空-->
+  <rect width="800" height="600" fill="url(#skyGradient)"/>
+<!--最远的山峦层-->
+  <path d="M0,450 Q150,380 300,430 T600,400 T800,450 L800,600 L0,600 Z" fill="url(#mountainGradient3)" opacity="0.7"/>
+<!--中间山峦层-->
+  <path d="M0,500 Q200,350 350,450 T550,420 T800,500 L800,600 L0,600 Z" fill="url(#mountainGradient2)"/>
+<!--最近的山峦层-->
+  <path d="M0,550 Q100,400 250,480 T600,450 T800,550 L800,600 L0,600 Z" fill="url(#mountainGradient1)"/>
+</svg>
