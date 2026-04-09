@@ -1,5 +1,6 @@
 import * as Accordion from '@radix-ui/react-accordion'
 import ReactMarkdown from 'react-markdown'
+import { FaqBadgeIcon, PlusToggleIcon } from '../icons/react'
 
 type Badge = 'privacy' | 'refund' | 'warning'
 
@@ -46,29 +47,14 @@ export default function FaqAccordion({ items }: Props) {
           <Accordion.Header>
             <Accordion.Trigger className="group flex w-full items-start justify-between space-x-4 py-6 text-left outline-hidden">
               <div className="mt-[5px] text-stone-500 dark:text-[#8d8881]">
-                <svg className="size-[22px] fill-transparent stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-                  <path
-                    className="origin-center transition duration-300 group-data-[state=open]:rotate-180"
-                    d="M19.5 12H4.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    className="origin-center transition duration-300 group-data-[state=open]:rotate-90 group-data-[state=open]:scale-0"
-                    d="M12 4.5V19.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <PlusToggleIcon className="size-[22px] fill-transparent stroke-current stroke-2" />
               </div>
               <div className="grow pr-6">
                 <h2 className="text-2xl font-bold">{item.title}</h2>
               </div>
               {item.badge ? (
                 <div className="flex pr-1.5 text-orange-500 dark:text-orange-75/50">
-                  <svg className="size-[30px] fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" aria-hidden="true">
-                    <path d={BADGE_PATHS[item.badge]} />
-                  </svg>
+                  <FaqBadgeIcon className="size-[30px] fill-current" path={BADGE_PATHS[item.badge]} />
                 </div>
               ) : null}
             </Accordion.Trigger>

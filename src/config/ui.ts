@@ -3,8 +3,8 @@ export const uiClasses = {
   softSurface: 'bg-orange-950/5 dark:bg-orange-75/5',
   primarySurface:
     "text-orange-75 bg-stone-800 shadow-xl shadow-orange-950/20 after:absolute after:inset-0 after:hidden after:rounded-2xl after:shadow-2xl after:shadow-orange-950/25 after:content-[''] sm:shadow-orange-950/25 sm:after:block",
-  glowHover:
-    'shadow-[0_0_20px_rgba(251,146,60,0.3)] hover:shadow-[0_0_30px_rgba(251,146,60,0.5)]',
+  glowHover: 'shadow-brand-glow hover:shadow-brand-glow-strong',
+  glowHoverStrong: 'hover:shadow-brand-glow-strong',
   socialButton:
     'group inline-flex size-10 items-center justify-center rounded-xl p-2 text-orange-950/50 hover:bg-orange-950/5 hover:text-orange-950/75 dark:text-orange-75 dark:hover:text-orange-75',
   contactLink:

@@ -1,9 +1,32 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  IslandLockIcon,
+  MusicNoteIcon,
+  PauseIcon,
+  PlayIcon,
+  StatusRingIcon,
+} from './icons/react'
 import { useIslandStore } from '../stores/island'
 
 interface DynamicIslandProps {
   notchWidth?: number
   notchHeight?: number
+}
+
+interface MarqueeTrackInfoProps {
+  name?: string
+  artist?: string
+}
+
+function MarqueeTrackInfo({ name, artist }: MarqueeTrackInfoProps) {
+  return (
+    <>
+      <MusicNoteIcon className="mr-0.5 size-[15px] fill-current text-stone-600" />
+      <span>{name}</span>
+      <span className="mx-0.5 text-stone-600">&middot;</span>
+      <span>{artist}</span>
+    </>
+  )
 }
 
 export default function DynamicIsland({
@@ -104,16 +127,7 @@ export default function DynamicIsland({
 
             {liveActivityType === 'isLocked' ? (
               <div className="pl-2.5 transition-all duration-300">
-                <svg className="size-[18px] fill-current" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path
-                    className={`origin-[56%_50%] transition duration-300 ${isUnlocked ? '-scale-x-100' : ''}`}
-                    d="M4.21913,6.85699 L5.46719,6.85699 L5.46719,4.60904 C5.46719,3.04945 6.46827,2.19354 7.66062,2.19354 C8.85055,2.19354 9.86619,3.04945 9.86619,4.60904 L9.86619,6.85699 L11.10875,6.85699 L11.10875,4.73287 C11.10875,2.27366 9.48122,1 7.66062,1 C5.8455,1 4.21913,2.27366 4.21913,4.73287 L4.21913,6.85699 Z"
-                  />
-                  <path
-                    className={`origin-center transition duration-300 ${isUnlocked ? '-translate-x-px' : ''}`}
-                    d="M4.54279,14.2793 L10.78394,14.2793 C11.79607,14.2793 12.3267,13.7365 12.3267,12.6438 L12.3267,7.92337 C12.3267,6.83432 11.79607,6.29701 10.78394,6.29701 L4.54279,6.29701 C3.529458,6.29701 3,6.83432 3,7.92337 L3,12.6438 C3,13.7365 3.529458,14.2793 4.54279,14.2793 Z"
-                  />
-                </svg>
+                <IslandLockIcon className="size-[18px] fill-current" unlocked={isUnlocked} />
               </div>
             ) : null}
 
@@ -141,10 +155,7 @@ export default function DynamicIsland({
           <div className="absolute right-0 top-0 flex h-10 items-center">
             {notificationType === 'didConnectAirPods' ? (
               <div className="pr-2.5 transition-all duration-300">
-                <svg className="size-5 -rotate-90" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <circle className="fill-transparent stroke-current stroke-2 text-green-300/30" r="6" cx="8" cy="8" strokeDasharray="38px" strokeDashoffset="0" />
-                  <circle className="fill-transparent stroke-current stroke-2 text-green-300" r="6" cx="8" cy="8" strokeDasharray="38px" strokeDashoffset="14px" strokeLinecap="round" />
-                </svg>
+                <StatusRingIcon className="size-5 -rotate-90" />
               </div>
             ) : null}
 
@@ -160,14 +171,10 @@ export default function DynamicIsland({
                   aria-label={isPlaying ? 'Pause preview' : 'Play preview'}
                 >
                   <div className={`absolute inset-0 flex items-center justify-center pr-[9px] transition duration-400 ${!isPlaying ? 'scale-0 opacity-0 blur-sm' : ''}`}>
-                    <svg className="size-4 fill-current text-orange-25/85" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" aria-hidden="true">
-                      <path d="M8.55859 23.0898H11.2305C12.25 23.0898 12.7891 22.5508 12.7891 21.5195V5.55859C12.7891 4.49219 12.25 4 11.2305 4H8.55859C7.53906 4 7 4.53906 7 5.55859V21.5195C7 22.5508 7.53906 23.0898 8.55859 23.0898ZM17.0781 23.0898H19.7383C20.7695 23.0898 21.2969 22.5508 21.2969 21.5195V5.55859C21.2969 4.49219 20.7695 4 19.7383 4H17.0781C16.0469 4 15.5078 4.53906 15.5078 5.55859V21.5195C15.5078 22.5508 16.0469 23.0898 17.0781 23.0898Z" />
-                    </svg>
+                    <PauseIcon className="size-4 fill-current text-orange-25/85" />
                   </div>
                   <div className={`absolute inset-0 flex items-center justify-center pr-[9px] transition duration-400 ${isPlaying ? 'scale-0 opacity-0 blur-sm' : ''}`}>
-                    <svg className="size-4 fill-current text-orange-25/85" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" aria-hidden="true">
-                      <path d="M6.40625 23.8633C6.875 23.8633 7.27344 23.6758 7.74219 23.4062L21.4062 15.5078C22.3789 14.9336 22.7188 14.5586 22.7188 13.9375C22.7188 13.3164 22.3789 12.9414 21.4062 12.3789L7.74219 4.46875C7.27344 4.19922 6.875 4.02344 6.40625 4.02344C5.53906 4.02344 5 4.67969 5 5.69922V22.1758C5 23.1953 5.53906 23.8633 6.40625 23.8633Z" />
-                    </svg>
+                    <PlayIcon className="size-4 fill-current text-orange-25/85" />
                   </div>
                 </button>
 
@@ -195,20 +202,10 @@ export default function DynamicIsland({
             {tracks.length > 0 ? (
               <div ref={marqueeRef} className="relative flex overflow-hidden" style={{ ['--marquee-duration' as string]: marqueeDuration }}>
                 <div className="inline-flex shrink-0 items-center whitespace-nowrap px-1.5" style={{ animation: 'marquee-first var(--marquee-duration, 8s) linear infinite' }}>
-                  <svg className="mr-0.5 size-[15px] fill-current text-stone-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" aria-hidden="true">
-                    <path d="M20.797 7.166V2.914c0-.6-.486-.984-1.063-.871L13.92 3.309c-.724.159-1.12.555-1.12 1.188l.023 12.576c.057.554-.203.915-.701 1.017l-1.798.373C8.063 18.939 7 20.093 7 21.8c0 1.73 1.334 2.94 3.212 2.94 1.662 0 4.15-1.221 4.15-4.512V9.88c0-.6.113-.724.645-.837l5.168-1.13c.384-.08.622-.374.622-.747Z" />
-                  </svg>
-                  <span>{track?.name}</span>
-                  <span className="mx-0.5 text-stone-600">&middot;</span>
-                  <span>{track?.artist}</span>
+                  <MarqueeTrackInfo name={track?.name} artist={track?.artist} />
                 </div>
                 <div className="absolute top-0 inline-flex shrink-0 items-center whitespace-nowrap px-1.5" style={{ animation: 'marquee-second var(--marquee-duration, 8s) linear infinite' }}>
-                  <svg className="mr-0.5 size-[15px] fill-current text-stone-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" aria-hidden="true">
-                    <path d="M20.797 7.166V2.914c0-.6-.486-.984-1.063-.871L13.92 3.309c-.724.159-1.12.555-1.12 1.188l.023 12.576c.057.554-.203.915-.701 1.017l-1.798.373C8.063 18.939 7 20.093 7 21.8c0 1.73 1.334 2.94 3.212 2.94 1.662 0 4.15-1.221 4.15-4.512V9.88c0-.6.113-.724.645-.837l5.168-1.13c.384-.08.622-.374.622-.747Z" />
-                  </svg>
-                  <span>{track?.name}</span>
-                  <span className="mx-0.5 text-stone-600">&middot;</span>
-                  <span>{track?.artist}</span>
+                  <MarqueeTrackInfo name={track?.name} artist={track?.artist} />
                 </div>
               </div>
             ) : null}

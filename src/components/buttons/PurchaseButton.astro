@@ -21,7 +21,7 @@ const {
 
 const baseClasses =
   emphasis === 'primary'
-    ? ['group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold pl-13', uiClasses.focusRing, uiClasses.primarySurface, 'hover:shadow-[0_0_30px_rgba(251,146,60,0.5)]']
+    ? ['group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold pl-13', uiClasses.focusRing, uiClasses.primarySurface, uiClasses.glowHoverStrong]
     : ['group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold pl-6', uiClasses.focusRing, uiClasses.softSurface, uiClasses.glowHover]
 ---
 <a class:list={[baseClasses, className]} href={href} aria-label={label}>

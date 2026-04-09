@@ -72,56 +72,8 @@ mark::after {
   color: transparent;
 }
 
-@keyframes playing {
-  0%, 100% { height: 3px; }
-  50% { height: 12px; }
-}
-
-@keyframes marquee-first {
-  0% { transform: translate(0); }
-  100% { transform: translate(-100%); }
-}
-
-@keyframes marquee-second {
-  0% { transform: translate(100%); }
-  100% { transform: translate(0); }
-}
-
-@keyframes draw {
-  0% {
-    stroke-dashoffset: 500;
-    filter: drop-shadow(0 0 0 transparent);
-  }
-  50% {
-    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8));
-  }
-  100% {
-    stroke-dashoffset: 0;
-    filter: drop-shadow(0 0 0 transparent);
-  }
-}
-
 .animate-draw {
   stroke-dasharray: 500;
   stroke-dashoffset: 500;
-  animation: draw 3s ease-in-out infinite;
-}
-
-@keyframes fade-in {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in {
-  animation: fade-in 1s ease-out forwards;
-}
-
-@keyframes fade-in-delayed {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-.animate-fade-in-delayed {
-  animation: fade-in-delayed 1s ease-out 0.3s forwards;
-  opacity: 0;
+  animation: var(--animate-draw);
 }

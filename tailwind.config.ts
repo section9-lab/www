@@ -11,6 +11,8 @@ export default {
         orange: {
           25: '#fffaf4',
           75: '#fff0df',
+          100: '#f6e5d5',
+          125: '#f5e5d5',
           950: 'oklch(26.6% .079 36.259)'
         },
         stone: {
@@ -30,6 +32,10 @@ export default {
           300: 'oklch(81% .117 11.638)',
           400: 'oklch(71.2% .194 13.428)'
         }
+      },
+      boxShadow: {
+        'brand-glow': '0 0 20px rgba(251, 146, 60, 0.3)',
+        'brand-glow-strong': '0 0 30px rgba(251, 146, 60, 0.5)'
       },
       fontFamily: {
         numeric: ['ui-rounded', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif']
@@ -69,7 +75,33 @@ export default {
           to: { height: '0' }
         },
         draw: {
-          to: { strokeDashoffset: '0' }
+          '0%': {
+            strokeDashoffset: '500',
+            filter: 'drop-shadow(0 0 0 transparent)'
+          },
+          '50%': {
+            filter: 'drop-shadow(0 0 8px rgba(168, 85, 247, 0.8))'
+          },
+          '100%': {
+            strokeDashoffset: '0',
+            filter: 'drop-shadow(0 0 0 transparent)'
+          }
+        },
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' }
+        },
+        'marquee-first': {
+          '0%': { transform: 'translate(0)' },
+          '100%': { transform: 'translate(-100%)' }
+        },
+        'marquee-second': {
+          '0%': { transform: 'translate(100%)' },
+          '100%': { transform: 'translate(0)' }
+        },
+        playing: {
+          '0%, 100%': { height: '3px' },
+          '50%': { height: '12px' }
         },
         rotate: {
           '0%': { transform: 'rotate(0)' },
@@ -87,7 +119,9 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.3s ease-out',
         'accordion-up': 'accordion-up 0.3s ease-out',
-        draw: 'draw 0.8s ease-in forwards',
+        draw: 'draw 3s ease-in-out infinite',
+        'fade-in': 'fade-in-up 1s ease-out forwards',
+        'fade-in-delayed': 'fade-in-up 1s ease-out 0.3s forwards',
         rotate: 'rotate 3s linear infinite',
         'rotate-slow': 'rotate 10s linear infinite',
         shine: 'shine 2s linear infinite',
