@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro'
+import AppHeader from '../components/AppHeader.astro'
+import AppFooter from '../components/AppFooter.astro'
+import { siteConfig } from '../config/site'
+import { uiClasses } from '../config/ui'
+import '../assets/css/main.css'
+---
+<Layout title="Dyno — Recover License" description="Recover your Dyno license">
+  <AppHeader showDownload={false} />
+  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
+    <section class="w-full max-w-screen-md">
+      <h1 class="mb-6 text-5xl font-bold tracking-tight sm:text-7xl">Recover your license</h1>
+      <div class="space-y-6 text-xl leading-relaxed text-stone-700 dark:text-orange-75/85">
+        <p>
+          If you need help recovering your Dyno license, email
+          <a
+            class:list={[uiClasses.contactLink, 'ml-1']}
+            href={`mailto:${siteConfig.supportEmail}?subject=Dyno%20License%20Recovery`}
+          >
+            {siteConfig.supportEmail}
+          </a>
+          from the email address you used for purchase.
+        </p>
+        <p>
+          Include any details that will help support find your order quickly, such as your original purchase email, invoice information, or the devices you want removed from your license.
+        </p>
+      </div>
+    </section>
+  </main>
+  <AppFooter />
+</Layout>

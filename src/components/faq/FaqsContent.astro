@@ -1,0 +1,50 @@
+---
+import { getCollection } from 'astro:content'
+import FaqAccordion from './FaqAccordion'
+import { siteConfig } from '../../config/site'
+import { uiClasses } from '../../config/ui'
+
+const faqs = (await getCollection('faqs'))
+  .sort((a, b) => a.data.order - b.data.order)
+  .map((entry) => ({
+    id: entry.id,
+    title: entry.data.title,
+    badge: entry.data.badge,
+    notes: entry.data.notes,
+    body: entry.body ?? '',
+  }))
+
+const lastUpdated = 'April 2026'
+---
+
+<div class="mb-0 w-full max-w-screen-md sm:mb-6">
+  <h1 class="mb-3 text-6xl font-bold sm:text-8xl">FAQs</h1>
+
+  <div>
+    <p class="group dark:text-orange-75/50 flex items-center text-xl text-stone-500">
+      <svg class="mr-2 size-[22px] fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" aria-hidden="true">
+        <path d="M7.63281 26.125H20.0781C22.5039 26.125 23.7109 24.8945 23.7109 22.457V11.8164H15.2266C13.7266 11.8164 13.0117 11.1016 13.0117 9.60156V1H7.63281C5.21875 1 4 2.24219 4 4.67969V22.457C4 24.9062 5.20703 26.125 7.63281 26.125ZM15.2617 10.2109H23.5703C23.5 9.73047 23.1602 9.26172 22.5977 8.6875L16.1406 2.11328C15.5898 1.55078 15.1094 1.21094 14.6172 1.12891V9.57812C14.6172 10 14.8281 10.2109 15.2617 10.2109Z" />
+        <path class="text-orange-75 stroke-current group-hover:-translate-y-[4.45px] group-hover:opacity-0 group-hover:transition group-hover:duration-300 dark:text-stone-900" d="M9.25 16.15H18.5" stroke-width="2" stroke-linecap="round" />
+        <path class="text-orange-75 stroke-current group-hover:-translate-y-[4.45px] group-hover:transition group-hover:duration-300 dark:text-stone-900" d="M9.25 20.6H18.5" stroke-width="2" stroke-linecap="round" />
+        <path class="text-orange-75 stroke-current opacity-0 group-hover:opacity-100 group-hover:transition-all group-hover:delay-75 group-hover:duration-500 group-hover:[stroke-dashoffset:0] dark:text-stone-900" d="M9.25 20.6H18.5" stroke-width="2" stroke-linecap="round" stroke-dasharray="10" stroke-dashoffset="10" />
+      </svg>
+      <span>Updated {lastUpdated}</span>
+    </p>
+  </div>
+
+  <FaqAccordion client:idle items={faqs} />
+
+  <div class="mt-12 pt-6">
+    <h3 class="mb-3 text-2xl font-bold">Have more questions?</h3>
+    <p class="text-xl">
+      If you have any additional questions, do not hesitate to
+      <a
+        class:list={[uiClasses.contactLink, 'ml-1']}
+        href={`mailto:${siteConfig.supportEmail}`}
+        aria-label="Contact us"
+      >
+        contact us
+      </a>.
+    </p>
+  </div>
+</div>

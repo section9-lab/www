@@ -2,6 +2,9 @@
 import Layout from '../layouts/Layout.astro'
 import AppHeader from '../components/AppHeader.astro'
 import AppFooter from '../components/AppFooter.astro'
+import AppleWordmark from '../components/AppleWordmark.astro'
+import { siteConfig } from '../config/site'
+import { uiClasses } from '../config/ui'
 import '../assets/css/main.css'
 ---
 <Layout title="Dyno — Download" description="Download Dyno for Mac">
@@ -11,12 +14,10 @@ import '../assets/css/main.css'
       <h1 class="mb-6 text-6xl font-bold tracking-tight sm:text-8xl animate-fade-in">
         Download
         for
-        <mark class="relative">
-          <svg class="absolute -bottom-1 -left-1 size-16 fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M19.37 7.648c-.114.088-2.11 1.213-2.11 3.715 0 2.894 2.54 3.918 2.616 3.944-.011.062-.403 1.402-1.34 2.767-.834 1.201-1.706 2.4-3.032 2.4s-1.667-.77-3.198-.77c-1.492 0-2.022.796-3.235.796-1.214 0-2.06-1.112-3.033-2.477C4.911 16.42 4 13.93 4 11.566c0-3.791 2.465-5.802 4.891-5.802 1.29 0 2.364.847 3.173.847.77 0 1.972-.897 3.438-.897.556 0 2.553.05 3.867 1.934Zm-4.564-3.54c.607-.719 1.036-1.718 1.036-2.716 0-.138-.012-.279-.037-.392-.987.037-2.161.657-2.87 1.478-.555.632-1.074 1.63-1.074 2.643 0 .152.026.304.037.353.063.011.164.025.266.025.885 0 1.998-.593 2.642-1.39Z"></path>
-          </svg>
-          <span class="pl-[55px] sm:pl-21">Mac</span>
-        </mark>
+        <AppleWordmark
+          iconClass="absolute -bottom-1 -left-1 size-16 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25"
+          textClass="pl-[55px] sm:pl-21"
+        />
       </h1>
 
       <div class="mx-auto flex max-w-120 flex-col items-center justify-center animate-fade-in-delayed">
@@ -32,7 +33,7 @@ import '../assets/css/main.css'
           <i>before</i> launching it.
         </p>
 
-         <a class="group my-12 flex w-full max-w-96 flex-col items-center justify-center rounded-3xl border-2 border-orange-950/5 bg-orange-950/2.5 pt-5 pb-8 outline-hidden sm:my-16" href="https://releases.bud.dyno.app/latest/Dyno.dmg" aria-label="Download for Mac">
+         <a class="group my-12 flex w-full max-w-96 flex-col items-center justify-center rounded-3xl border-2 border-orange-950/5 bg-orange-950/2.5 pt-5 pb-8 outline-hidden sm:my-16" href={siteConfig.releaseUrl} aria-label="Download for Mac">
            <div class="mb-3 size-37">
              <picture>
                <source srcset="/images/disk-icon.webp" type="image/webp" />
@@ -51,7 +52,7 @@ import '../assets/css/main.css'
 
         <p class="max-w-sm text-xl leading-normal">
           If you have any issues downloading or installing, please
-           <a class="relative font-medium whitespace-nowrap outline-hidden transition duration-200 after:pointer-events-none after:absolute after:right-0 after:bottom-0 after:left-0 after:h-0.5 after:rounded-xs after:bg-teal-400 after:transition after:duration-200 after:content-[''] hover:text-teal-400 hover:after:translate-y-px" href="mailto:hello@bud.dyno.app" aria-label="Contact us">contact us</a>.
+           <a class={uiClasses.contactLink} href={`mailto:${siteConfig.supportEmail}`} aria-label="Contact us">contact us</a>.
         </p>
       </div>
     </div>

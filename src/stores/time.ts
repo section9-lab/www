@@ -15,10 +15,9 @@ export const useTimeStore = create<TimeState>((set) => ({
     interval = setInterval(() => set({ now: new Date() }), 1000)
   },
   stop: () => {
-    if (interval) {
-      clearInterval(interval)
-      interval = null
-    }
+    if (!interval) return
+    clearInterval(interval)
+    interval = null
   },
 }))
 
@@ -43,6 +42,6 @@ export function getDateString(now: Date) {
 }
 
 export function getIsNight(now: Date) {
-  const h = now.getHours()
-  return h >= 19 || h < 6
+  const hour = now.getHours()
+  return hour >= 19 || hour < 6
 }

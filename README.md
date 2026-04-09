@@ -7,28 +7,31 @@ Dynamic Island for Mac - A beautiful dynamic island implementation for macOS
 ```text
 /
 ├── public/
-│   └── favicon.svg
+│   └── (static assets)
 ├── src
 │   ├── assets
 │   │   └── (various assets)
 │   ├── components
 │   │   ├── AppFooter.astro
 │   │   ├── AppHeader.astro
-│   │   ├── DynamicIsland.tsx
-│   │   ├── FaqsContent.tsx
+│   │   ├── DynamicIsland.astro
 │   │   ├── FeatureGrid.astro
-│   │   └── MacSimulator.tsx
+│   │   ├── MacSimulator.astro
+│   │   └── faq
+│   │       ├── FaqAccordion.tsx
+│   │       └── FaqsContent.astro
+│   ├── content
+│   │   └── faqs
+│   │       └── *.md
+│   ├── content.config.ts
 │   ├── layouts
 │   │   └── Layout.astro
 │   ├── pages
 │   │   ├── download.astro
 │   │   ├── faqs.astro
+│   │   ├── privacy.astro
+│   │   ├── recover.astro
 │   │   └── index.astro
-│   ├── stores
-│   │   ├── playlist.ts
-│   │   └── time.ts
-│   └── lib
-│       └── emitter.ts
 └── package.json
 ```
 
@@ -44,6 +47,7 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm dev`             | Starts local dev server at `localhost:4321`      |
 | `pnpm build`           | Build your production site to `./dist/`          |
 | `pnpm preview`         | Preview your build locally, before deploying     |
+| `pnpm check`           | Run Astro type/content checks                    |
 | `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `pnpm astro -- --help` | Get help using the Astro CLI                     |
 

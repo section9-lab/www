@@ -60,6 +60,14 @@ export default {
         37: '9.25rem'
       },
       keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' }
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' }
+        },
         draw: {
           to: { strokeDashoffset: '0' }
         },
@@ -77,6 +85,8 @@ export default {
         }
       },
       animation: {
+        'accordion-down': 'accordion-down 0.3s ease-out',
+        'accordion-up': 'accordion-up 0.3s ease-out',
         draw: 'draw 0.8s ease-in forwards',
         rotate: 'rotate 3s linear infinite',
         'rotate-slow': 'rotate 10s linear infinite',

@@ -1,0 +1,21 @@
+---
+import SocialIcon from './icons/SocialIcon.astro'
+import { siteConfig } from '../config/site'
+import { uiClasses } from '../config/ui'
+---
+<div class="z-10 flex items-center justify-center space-x-3">
+  {siteConfig.socialLinks.map((link) => (
+    <a
+      class:list={[uiClasses.socialButton, uiClasses.focusRing, uiClasses.softSurface]}
+      href={link.href}
+      rel="noopener noreferrer"
+      target="_blank"
+      aria-label={link.label}
+    >
+      <SocialIcon
+        icon={link.icon}
+        class="size-6 fill-current transition duration-300 ease-out group-hover:scale-105 dark:opacity-50 dark:group-hover:opacity-100"
+      />
+    </a>
+  ))}
+</div>

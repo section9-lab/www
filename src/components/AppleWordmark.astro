@@ -1,0 +1,21 @@
+---
+import AppleIcon from './icons/AppleIcon.astro'
+
+interface Props {
+  class?: string
+  iconClass?: string
+  text?: string
+  textClass?: string
+}
+
+const {
+  class: className = '',
+  iconClass = 'absolute -bottom-0.5 -left-0.5 size-13 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25',
+  text = 'Mac',
+  textClass = 'pl-[46px] sm:pl-21',
+} = Astro.props as Props
+---
+<mark class:list={['relative', className]}>
+  <AppleIcon class={iconClass} />
+  <span class={textClass}>{text}</span>
+</mark>

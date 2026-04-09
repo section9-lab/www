@@ -1,0 +1,51 @@
+---
+import PurchaseIcon from '../icons/PurchaseIcon.astro'
+import ArrowRightIcon from '../icons/ArrowRightIcon.astro'
+import { uiClasses } from '../../config/ui'
+
+interface Props {
+  href: string
+  price?: string
+  emphasis?: 'primary' | 'secondary'
+  class?: string
+  label?: string
+}
+
+const {
+  href,
+  price,
+  emphasis = 'secondary',
+  class: className = '',
+  label = 'Purchase',
+} = Astro.props
+
+const baseClasses =
+  emphasis === 'primary'
+    ? ['group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold pl-13', uiClasses.focusRing, uiClasses.primarySurface, 'hover:shadow-[0_0_30px_rgba(251,146,60,0.5)]']
+    : ['group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold pl-6', uiClasses.focusRing, uiClasses.softSurface, uiClasses.glowHover]
+---
+<a class:list={[baseClasses, className]} href={href} aria-label={label}>
+  {emphasis === 'primary' ? (
+    <>
+      <div class="ease absolute left-5 translate-x-0 opacity-100 transition duration-300 group-hover:-translate-x-full group-hover:scale-x-50 group-hover:opacity-0 group-hover:blur-sm">
+        <PurchaseIcon class="h-6 w-6 fill-current" />
+      </div>
+      <div class="ease translate-x-0 transition duration-300 group-hover:-translate-x-8">
+        {label} <span>for Mac</span>
+      </div>
+      <div class="ease absolute right-5 translate-x-full scale-x-50 opacity-0 blur-sm transition duration-300 group-hover:translate-x-0 group-hover:scale-x-100 group-hover:opacity-100 group-hover:blur-none">
+        <ArrowRightIcon class="h-6 w-6 fill-transparent stroke-current stroke-2" />
+      </div>
+    </>
+  ) : (
+    <>
+      <PurchaseIcon class="mr-2.5 h-[22px] w-[22px] fill-current" />
+      <span>{label}</span>
+    </>
+  )}
+  {price && (
+    <span class="text-orange-75 ml-3.5 rounded-lg bg-stone-800 px-2 py-1 text-sm tracking-wide">
+      {price}
+    </span>
+  )}
+</a>
