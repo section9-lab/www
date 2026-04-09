@@ -32,7 +32,7 @@ export default {
         }
       },
       fontFamily: {
-        numeric: ['"SF Soft Time"', 'sans-serif']
+        numeric: ['ui-rounded', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif']
       },
       borderRadius: {
         '5xl': '2.5rem'

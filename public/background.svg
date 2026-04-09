@@ -38,9 +38,9 @@
 <!--背景天空-->
   <rect width="800" height="600" fill="url(#skyGradient)"/>
 <!--最远的山峦层-->
-  <path d="M0,450 Q150,380 300,430 T600,400 T800,450 L800,600 L0,600 Z" fill="url(#mountainGradient3)" opacity="0.7"/>
+  <path d="M0,400 Q150,330 300,380 T600,350 T800,400 L800,600 L0,600 Z" fill="url(#mountainGradient3)" opacity="0.7"/>
 <!--中间山峦层-->
-  <path d="M0,500 Q200,350 350,450 T550,420 T800,500 L800,600 L0,600 Z" fill="url(#mountainGradient2)"/>
+  <path d="M0,450 Q200,300 320,410 T550,370 T800,450 L800,600 L0,600 Z" fill="url(#mountainGradient2)"/>
 <!--最近的山峦层-->
-  <path d="M0,550 Q100,400 250,480 T600,450 T800,550 L800,600 L0,600 Z" fill="url(#mountainGradient1)"/>
+  <path d="M0,500 Q100,350 250,430 T600,400 T800,700 L800,600 L0,600 Z" fill="url(#mountainGradient1)"/>
 </svg>
