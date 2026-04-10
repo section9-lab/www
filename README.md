@@ -2,41 +2,6 @@
 
 Dynamic Island for Mac - A beautiful dynamic island implementation for macOS
 
-## 🚀 Project Structure
-
-```text
-/
-├── public/
-│   └── (static assets)
-├── src
-│   ├── assets
-│   │   └── (various assets)
-│   ├── components
-│   │   ├── AppFooter.astro
-│   │   ├── AppHeader.astro
-│   │   ├── DynamicIsland.astro
-│   │   ├── FeatureGrid.astro
-│   │   ├── MacSimulator.astro
-│   │   └── faq
-│   │       ├── FaqAccordion.tsx
-│   │       └── FaqsContent.astro
-│   ├── content
-│   │   └── faqs
-│   │       └── *.md
-│   ├── content.config.ts
-│   ├── layouts
-│   │   └── Layout.astro
-│   ├── pages
-│   │   ├── download.astro
-│   │   ├── faqs.astro
-│   │   ├── privacy.astro
-│   │   ├── recover.astro
-│   │   └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
 ## 🧞 Commands
 
 All commands are run from the root of the project, from a terminal:
