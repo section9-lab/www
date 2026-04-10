@@ -1,81 +1,101 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import AppHeader from '../components/AppHeader.astro'
-import AppFooter from '../components/AppFooter.astro'
-import AppleWordmark from '../components/AppleWordmark.astro'
-import { siteConfig } from '../config/site'
-import { uiClasses } from '../config/ui'
-import '../assets/css/main.css'
+import Layout from "../layouts/Layout.astro";
+import AppHeader from "../components/AppHeader.astro";
+import AppFooter from "../components/AppFooter.astro";
+import AppleWordmark from "../components/AppleWordmark.astro";
+import { siteConfig } from "../config/site";
+import { uiClasses } from "../config/ui";
+import "../assets/css/main.css";
 
 const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: siteConfig.siteName,
-  applicationCategory: 'MultimediaApplication',
-  operatingSystem: 'macOS 14 Sonoma or later',
-  downloadUrl: siteConfig.releaseUrl,
-  url: `${siteConfig.siteUrl}/download`,
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-    category: 'trial',
-  },
-}
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: siteConfig.siteName,
+    applicationCategory: "MultimediaApplication",
+    operatingSystem: "macOS 14 Sonoma or later",
+    downloadUrl: siteConfig.releaseUrl,
+    url: `${siteConfig.siteUrl}/download`,
+    offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+        category: "trial",
+    },
+};
 ---
+
 <Layout
-  title="Download Dyno for Mac | Dynamic Island App for macOS"
-  description="Download Dyno for Mac and start a limited 72-hour trial. Dyno adds Dynamic Island style media controls, live activities, and notifications to macOS."
-  structuredData={structuredData}
+    title="Download Dyno for Mac | Dynamic Island App for macOS"
+    description="Download Dyno for Mac and start a limited 72-hour trial. Dyno adds Dynamic Island style media controls, live activities, and notifications to macOS."
+    structuredData={structuredData}
 >
-  <AppHeader showDownload={false} />
-  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
-    <div class="w-full max-w-screen-md text-center">
-      <h1 class="mb-6 text-6xl font-bold tracking-tight sm:text-8xl animate-fade-in">
-        Download
-        for
-        <AppleWordmark
-          class="pl-[55px] sm:pl-21"
-          iconClass="absolute -bottom-1 -left-1 size-16 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25"
-        />
-      </h1>
+    <AppHeader showDownload={false} />
+    <main
+        class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36"
+    >
+        <div class="w-full max-w-screen-md text-center">
+            <h1
+                class="mb-6 text-6xl font-bold tracking-tight sm:text-8xl animate-fade-in"
+            >
+                Download for
+                <AppleWordmark
+                    class="pl-[55px] sm:pl-21"
+                    iconClass="absolute -bottom-1 -left-1 size-16 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25"
+                />
+            </h1>
 
-      <div class="mx-auto flex max-w-120 flex-col items-center justify-center animate-fade-in-delayed">
-        <p class="mt-6 text-xl leading-normal sm:mt-10">
-          Once downloaded, run the DMG and move
-          <span class="relative ml-px inline-flex items-center">
-            <div class="relative mr-3 size-6 overflow-hidden rounded-[0.4375rem] border-2 border-stone-800 dark:border-orange-100">
-              <div class="dark:from-orange-75 dark:to-orange-75/15 absolute inset-[1.5px] origin-center rounded bg-linear-to-t from-stone-950/20 to-stone-950 to-95% dark:inset-0.5 dark:rounded-[0.1875rem] dark:to-100%"></div>
+            <div
+                class="mx-auto flex max-w-120 flex-col items-center justify-center animate-fade-in-delayed"
+            >
+                <a
+                    class="group my-12 flex w-full max-w-96 flex-col items-center justify-center rounded-3xl border-2 border-orange-950/5 bg-orange-950/5 pt-5 pb-8 outline-hidden sm:my-16"
+                    href={siteConfig.releaseUrl}
+                    aria-label="Download for Mac"
+                >
+                    <div class="mb-3 size-37">
+                        <picture>
+                            <source
+                                srcset="/images/disk-icon.webp"
+                                type="image/webp"
+                            />
+                            <img
+                                class="object-fit size-full select-none"
+                                src="/images/disk-icon.png"
+                                alt="Dyno Disk Icon"
+                                draggable="false"
+                            />
+                        </picture>
+                    </div>
+                    <p class="text-2xl font-bold">Dyno</p>
+                    <p class="text-lg font-semibold text-orange-950/60">
+                        Minimum macOS 14 Sonoma
+                    </p>
+                    <p
+                        class="inline-flex min-h-6 items-center font-semibold text-orange-950/40"
+                    >
+                        21.5MB
+                        <span
+                            class="mx-1.5 mt-px inline-block size-[3px] rounded-full bg-orange-950/40"
+                        ></span>
+                        v2.1.2
+                    </p>
+                    <div
+                        class="group-hover:text-orange-75 mt-6 rounded-[0.875rem] border-2 border-orange-950/5 px-5 py-2 text-lg font-bold text-orange-950/65 transition duration-200 group-hover:bg-stone-800"
+                    >
+                        Download
+                    </div>
+                </a>
+
+                <p class="max-w-sm text-xl leading-normal">
+                    If you have any issues downloading or installing, please
+                    <a
+                        class={uiClasses.contactLink}
+                        href={`mailto:${siteConfig.supportEmail}`}
+                        aria-label="Contact us">contact us</a
+                    >.
+                </p>
             </div>
-            <span class="ml-8 font-medium">Dyno</span>
-          </span>
-          to your Applications folder
-          <i>before</i> launching it.
-        </p>
-
-         <a class="group my-12 flex w-full max-w-96 flex-col items-center justify-center rounded-3xl border-2 border-orange-950/5 bg-orange-950/5 pt-5 pb-8 outline-hidden sm:my-16" href={siteConfig.releaseUrl} aria-label="Download for Mac">
-           <div class="mb-3 size-37">
-             <picture>
-               <source srcset="/images/disk-icon.webp" type="image/webp" />
-               <img class="object-fit size-full select-none" src="/images/disk-icon.png" alt="Dyno Disk Icon" draggable="false" />
-             </picture>
-           </div>
-            <p class="text-2xl font-bold">Dyno</p>
-           <p class="text-lg font-semibold text-orange-950/60">Minimum macOS 14 Sonoma</p>
-           <p class="inline-flex min-h-6 items-center font-semibold text-orange-950/40">
-             <span class="relative top-px inline-block h-[13.5px] w-24 animate-pulse rounded-[0.1875rem] bg-orange-950/10" aria-hidden="true"></span>
-           </p>
-           <div class="group-hover:text-orange-75 mt-6 rounded-[0.875rem] border-2 border-orange-950/5 px-5 py-2 text-lg font-bold text-orange-950/65 transition duration-200 group-hover:bg-stone-800">
-             Download
-           </div>
-         </a>
-
-        <p class="max-w-sm text-xl leading-normal">
-          If you have any issues downloading or installing, please
-           <a class={uiClasses.contactLink} href={`mailto:${siteConfig.supportEmail}`} aria-label="Contact us">contact us</a>.
-        </p>
-      </div>
-    </div>
-  </main>
-  <AppFooter />
+        </div>
+    </main>
+    <AppFooter />
 </Layout>
