@@ -1,15 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import DynamicIsland from "./DynamicIsland";
 import {
-  BatteryAlertIcon,
   ContactCardIcon,
   CursorHintIcon,
-  GlobeIcon,
   WeatherSunIcon,
 } from "./icons/react";
 import { useIslandStore } from "../stores/island";
 import {
-  getAmpm,
   getDateString,
   getHours,
   getIsNight,
@@ -49,7 +46,6 @@ export default function MacSimulator() {
 
   const hours = getHours(now);
   const minutes = getMinutes(now);
-  const ampm = getAmpm(now);
   const dateString = getDateString(now);
   const currentTemperature = getIsNight(now) ? 16 : 24;
 
