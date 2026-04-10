@@ -9,9 +9,32 @@ import FeatureGrid from "../components/FeatureGrid.astro";
 import MacSimulator from "../components/MacSimulator";
 import { siteConfig } from "../config/site";
 import "../assets/css/main.css";
+
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: siteConfig.siteName,
+    applicationCategory: "MultimediaApplication",
+    applicationSubCategory: "Desktop Enhancement",
+    operatingSystem: "macOS 14 Sonoma or later",
+    description: siteConfig.defaultDescription,
+    url: siteConfig.siteUrl,
+    image: `${siteConfig.siteUrl}${siteConfig.defaultSocialImagePath}`,
+    offers: {
+        "@type": "Offer",
+        price: "14.99",
+        priceCurrency: "USD",
+        availability: "https://schema.org/InStock",
+        url: siteConfig.purchaseUrl,
+    },
+};
 ---
 
-<Layout>
+<Layout
+    title={siteConfig.defaultTitle}
+    description={siteConfig.defaultDescription}
+    structuredData={structuredData}
+>
     <AppHeader />
     <main
         class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36"
@@ -41,6 +64,13 @@ import "../assets/css/main.css";
                         price={siteConfig.priceLabel}
                     />
                 </div>
+
+                <p class="mx-auto mt-8 max-w-3xl text-center text-xl leading-relaxed text-stone-700 dark:text-orange-25/85">
+                    Dyno is a native macOS app that brings Dynamic Island to
+                    your Mac with fluid transitions, live activities, instant
+                    notifications, media controls, widgets, and customizable
+                    HUDs.
+                </p>
             </section>
 
             <!-- Mac Simulator -->

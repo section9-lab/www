@@ -6,8 +6,28 @@ import AppleWordmark from '../components/AppleWordmark.astro'
 import { siteConfig } from '../config/site'
 import { uiClasses } from '../config/ui'
 import '../assets/css/main.css'
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: siteConfig.siteName,
+  applicationCategory: 'MultimediaApplication',
+  operatingSystem: 'macOS 14 Sonoma or later',
+  downloadUrl: siteConfig.releaseUrl,
+  url: `${siteConfig.siteUrl}/download`,
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+    category: 'trial',
+  },
+}
 ---
-<Layout title="Dyno — Download" description="Download Dyno for Mac">
+<Layout
+  title="Download Dyno for Mac | Dynamic Island App for macOS"
+  description="Download Dyno for Mac and start a limited 72-hour trial. Dyno adds Dynamic Island style media controls, live activities, and notifications to macOS."
+  structuredData={structuredData}
+>
   <AppHeader showDownload={false} />
   <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
     <div class="w-full max-w-screen-md text-center">

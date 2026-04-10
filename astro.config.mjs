@@ -4,6 +4,7 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
+  site: 'https://section9lab.cn',
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],

@@ -1,13 +1,55 @@
 ---
+import { siteConfig } from '../config/site'
+
+type StructuredData = Record<string, unknown>
+
 interface Props {
   title?: string
   description?: string
+  image?: string
+  type?: 'website' | 'article'
+  noindex?: boolean
+  structuredData?: StructuredData | StructuredData[]
 }
 
 const {
-  title = 'Dyno — Dynamic Island for your Mac',
-  description = 'An entirely new way to experience Mac',
+  title = siteConfig.defaultTitle,
+  description = siteConfig.defaultDescription,
+  image = siteConfig.defaultSocialImagePath,
+  type = 'website',
+  noindex = false,
+  structuredData = [],
 } = Astro.props
+
+const siteUrl = Astro.site?.toString() ?? siteConfig.siteUrl
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString()
+const socialImageUrl = new URL(image, siteUrl).toString()
+const robotsContent = noindex ? 'noindex, nofollow' : 'index, follow'
+const structuredDataItems = Array.isArray(structuredData)
+  ? structuredData
+  : [structuredData]
+
+const baseStructuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteConfig.siteName,
+    url: siteUrl,
+    email: siteConfig.supportEmail,
+    logo: new URL(siteConfig.defaultSocialImagePath, siteUrl).toString(),
+    sameAs: siteConfig.socialLinks.map((link) => link.href),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: siteConfig.siteName,
+    url: siteUrl,
+    description: siteConfig.defaultDescription,
+  },
+]
+
+const allStructuredData = [...baseStructuredData, ...structuredDataItems]
+const structuredDataScripts = allStructuredData.map((item) => JSON.stringify(item))
 ---
 <!doctype html>
 <html lang="en">
@@ -16,8 +58,31 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="keywords" content="macos, swift, macos app, app, dynamic, island, notch, media, controls, hud, interface" />
-     <link rel="icon" href="/favicon.svg" />
+    <meta name="robots" content={robotsContent} />
+    <meta name="theme-color" content="#fff0df" />
+    <meta name="keywords" content="macOS app, Dynamic Island for Mac, Dynamic Island macOS, media controls for Mac, live activities Mac, notch app macOS" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/images/icon.png" />
+
+    <meta property="og:site_name" content={siteConfig.siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImageUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageUrl} />
+
+    {
+      structuredDataScripts.map((script) => (
+        <script type="application/ld+json" is:inline set:html={script} />
+      ))
+    }
   </head>
   <body>
     <div class="flex min-h-svh flex-col bg-orange-75 text-stone-900 dark:bg-stone-900 dark:text-orange-25">
