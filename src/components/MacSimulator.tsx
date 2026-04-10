@@ -14,9 +14,40 @@ import {
   useTimeStore,
 } from "../stores/time";
 
+const shimmerTextStyle = {
+  backgroundImage: "linear-gradient(90deg, #f0abfc 0%, #fff 50%, #f0abfc 100%)",
+  backgroundSize: "200% 100%",
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  color: "transparent",
+} as const
+
 function MacSimulatorPoster() {
+  const [isVisible, setIsVisible] = useState(false);
+  const posterRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = posterRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setIsVisible(true);
+        observer.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="isolate flex w-full flex-col items-center px-0 select-none lg:px-8">
+    <section
+      ref={posterRef}
+      className="isolate flex w-full flex-col items-center px-0 select-none lg:px-8"
+    >
       <div className="relative h-48 w-full overflow-visible sm:aspect-[2/1] sm:h-auto sm:overflow-hidden">
         <div className="absolute left-0 right-0 top-0 z-20 flex justify-center">
           <div className="flex justify-center p-5">
@@ -42,7 +73,12 @@ function MacSimulatorPoster() {
             </div>
           </div>
 
-          <div className="shimmer animate-shine bg-transparent p-6 text-2xl font-bold text-transparent saturate-150 sm:text-lg sm:font-semibold lg:p-4">
+          <div
+            className={`bg-transparent p-6 text-2xl font-bold saturate-150 transition duration-700 sm:text-lg sm:font-semibold lg:p-4 ${
+              isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-70"
+            }`}
+            style={shimmerTextStyle}
+          >
             Interactive demo loads on demand
           </div>
         </div>
@@ -109,7 +145,9 @@ export default function MacSimulator() {
   const [heroClipPath, setHeroClipPath] = useState<string | null>(null);
   const [hintActive, setHintActive] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
 
+  const rootRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const imageContainer2Ref = useRef<HTMLDivElement>(null);
@@ -132,6 +170,23 @@ export default function MacSimulator() {
 
   useEffect(() => {
     setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const element = rootRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setIsVisible(true);
+        observer.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -227,7 +282,10 @@ export default function MacSimulator() {
   }
 
   return (
-    <section className="isolate flex w-full flex-col items-center px-0 select-none lg:px-8">
+    <section
+      ref={rootRef}
+      className="isolate flex w-full flex-col items-center px-0 select-none lg:px-8"
+    >
       <div
         ref={imageContainerRef}
         className="relative h-48 w-full overflow-visible sm:aspect-[2/1] sm:h-auto sm:overflow-hidden"
@@ -321,7 +379,10 @@ export default function MacSimulator() {
 
             <button
               type="button"
-              className="shimmer animate-shine cursor-pointer bg-transparent p-6 text-2xl font-bold text-transparent saturate-150 sm:text-lg sm:font-semibold lg:p-4"
+              className={`cursor-pointer bg-transparent p-6 text-2xl font-bold saturate-150 transition duration-700 sm:text-lg sm:font-semibold lg:p-4 ${
+                isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-70"
+              }`}
+              style={shimmerTextStyle}
               onClick={handleUnlockClick}
             >
               Press to unlock
