@@ -14,6 +14,79 @@ import {
   useTimeStore,
 } from "../stores/time";
 
+function MacSimulatorPoster() {
+  return (
+    <section className="isolate flex w-full flex-col items-center px-0 select-none lg:px-8">
+      <div className="relative h-48 w-full overflow-visible sm:aspect-[2/1] sm:h-auto sm:overflow-hidden">
+        <div className="absolute left-0 right-0 top-0 z-20 flex justify-center">
+          <div className="flex justify-center p-5">
+            <div className="h-10 w-[136px] rounded-xl bg-stone-950 shadow-[0_2px_16px_0_rgba(12,10,9,0.25)]" />
+          </div>
+        </div>
+
+        <div className="absolute inset-0 z-10 mb-6 mt-22 flex flex-col items-center justify-end md:justify-between lg:mt-23">
+          <div className="hidden flex-col items-center text-center lg:flex">
+            <div className="text-3xl font-semibold text-purple-300/85 saturate-150">
+              Dynamic Island preview
+            </div>
+            <div className="font-numeric text-8xl font-bold text-purple-300/90 saturate-150">
+              Dyno
+            </div>
+            <div className="mt-3.5 flex items-center space-x-5 font-semibold text-purple-300/90 saturate-150">
+              <div>Native macOS app</div>
+              <div className="inline-flex items-center">
+                <span>Widgets</span>
+                <span className="mx-2 text-purple-300/60">&middot;</span>
+                <span>Notifications</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="shimmer animate-shine bg-transparent p-6 text-2xl font-bold text-transparent saturate-150 sm:text-lg sm:font-semibold lg:p-4">
+            Interactive demo loads on demand
+          </div>
+        </div>
+
+        <div className="absolute bottom-6 z-20 flex w-full items-center justify-center">
+          <div className="flex items-center justify-center space-x-2.5 rounded-[24px] bg-black/50 px-4 py-2.5 backdrop-blur-xl">
+            {[
+              ["Finder", "/images/dock/finder.webp"],
+              ["Launchpad", "/images/dock/launchpad.webp"],
+              ["Dyno", "/images/dock/dyno_icon.webp"],
+              ["Music", "/images/dock/music.webp"],
+              ["Settings", "/images/dock/settings.webp"],
+            ].map(([alt, src]) => (
+              <img
+                key={src}
+                className="size-12 object-contain"
+                src={src}
+                alt={alt}
+                draggable={false}
+                loading="lazy"
+              />
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-5xl absolute left-0 right-0 top-0 h-48 w-full overflow-hidden bg-stone-900 sm:h-full">
+          <img
+            className="aspect-video h-96 w-full object-cover blur-sm sm:h-auto sm:blur-none"
+            src="/background.svg"
+            alt="Dyno preview wallpaper"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/35 via-transparent to-stone-950/20" />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-stone-900 to-transparent sm:hidden" />
+        </div>
+      </div>
+
+      <div className="mt-4 hidden cursor-default items-center p-4 text-sm font-bold text-stone-700 select-none sm:flex dark:text-orange-25/90">
+        <CursorHintIcon className="mr-2 h-3.5 w-3.5 fill-current" />
+        Interactive demo will appear when this section enters view.
+      </div>
+    </section>
+  );
+}
+
 export default function MacSimulator() {
   const now = useTimeStore((state) => state.now);
   const startTime = useTimeStore((state) => state.start);
@@ -35,6 +108,7 @@ export default function MacSimulator() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [heroClipPath, setHeroClipPath] = useState<string | null>(null);
   const [hintActive, setHintActive] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
 
   const imageRef = useRef<HTMLImageElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -55,6 +129,10 @@ export default function MacSimulator() {
       imageRef.current.offsetHeight - imageContainerRef.current.offsetHeight;
     return -(scrollProgress * diff * 0.5);
   }, [scrollProgress]);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -144,6 +222,10 @@ export default function MacSimulator() {
     unlockTimersRef.current.push(notificationTimer);
   };
 
+  if (!hasMounted) {
+    return <MacSimulatorPoster />;
+  }
+
   return (
     <section className="isolate flex w-full flex-col items-center px-0 select-none lg:px-8">
       <div
@@ -167,31 +249,31 @@ export default function MacSimulator() {
             <div className="flex items-center justify-center space-x-2.5 rounded-[24px] bg-black/50 px-4 py-2.5 backdrop-blur-xl">
               <img
                 className="size-12 object-contain"
-                src="/images/dock/finder.png"
+                src="/images/dock/finder.webp"
                 alt="Finder"
                 draggable={false}
               />
               <img
                 className="size-12 object-contain"
-                src="/images/dock/launchpad.png"
+                src="/images/dock/launchpad.webp"
                 alt="Launchpad"
                 draggable={false}
               />
               <img
                 className="size-12 object-contain"
-                src="/images/dock/dyno_icon.png"
+                src="/images/dock/dyno_icon.webp"
                 alt="Dyno"
                 draggable={false}
               />
               <img
                 className="size-12 object-contain"
-                src="/images/dock/music.png"
+                src="/images/dock/music.webp"
                 alt="Music"
                 draggable={false}
               />
               <img
                 className="size-12 object-contain"
-                src="/images/dock/settings.png"
+                src="/images/dock/settings.webp"
                 alt="Settings"
                 draggable={false}
               />
