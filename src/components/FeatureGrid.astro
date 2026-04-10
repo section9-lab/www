@@ -59,9 +59,10 @@ import { featureItems } from "../config/features";
             ([entry]) => {
                 if (!entry?.isIntersecting) return;
                 if (!hasUserScrolled) return;
+                if (entry.intersectionRatio < 0.85) return;
                 enableAnimation();
             },
-            { threshold: 0.6, rootMargin: "0px 0px -12% 0px" },
+            { threshold: [0.85], rootMargin: "0px 0px -5% 0px" },
         );
 
         window.addEventListener("scroll", handleFirstScroll, { passive: true });
@@ -96,7 +97,7 @@ import { featureItems } from "../config/features";
     }
 
     #feature-grid[data-in-view="true"] .feature-pencil-mark__stroke--main {
-        animation: pencil-draw-main 1.8s 0.45s cubic-bezier(0.22, 1, 0.36, 1)
+        animation: pencil-draw-main 2.6s 0.45s cubic-bezier(0.22, 1, 0.36, 1)
             forwards;
     }
 

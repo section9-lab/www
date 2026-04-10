@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import DynamicIsland from "./DynamicIsland";
-import { ContactCardIcon, CursorHintIcon, WeatherSunIcon } from "./icons/react";
+import { ContactCardIcon, WeatherSunIcon } from "./icons/react";
 import { useIslandStore } from "../stores/island";
 import {
   getDateString,
@@ -122,11 +122,6 @@ function MacSimulatorPoster() {
           <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-stone-900 to-transparent sm:hidden" />
         </div>
       </div>
-
-      <div className="mt-4 hidden cursor-default items-center p-4 text-sm font-bold text-stone-700 select-none sm:flex dark:text-orange-25/90">
-        <CursorHintIcon className="mr-2 h-3.5 w-3.5 fill-current" />
-        Interactive demo will appear when this section enters view.
-      </div>
     </section>
   );
 }
@@ -151,7 +146,6 @@ export default function MacSimulator() {
   const [isLocked, setIsLocked] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [heroClipPath, setHeroClipPath] = useState<string | null>(null);
-  const [hintActive, setHintActive] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [openApps, setOpenApps] = useState<Record<DockAppId, boolean>>({
@@ -167,8 +161,6 @@ export default function MacSimulator() {
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const imageContainer2Ref = useRef<HTMLDivElement>(null);
   const unlockTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
-  const hintIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const hintTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const dockButtonRefs = useRef<Record<DockAppId, HTMLButtonElement | null>>({
     finder: null,
@@ -246,23 +238,9 @@ export default function MacSimulator() {
       window.removeEventListener("resize", calculateHeroClipPath);
       stopTime();
       unlockTimersRef.current.forEach(clearTimeout);
-      if (hintIntervalRef.current) clearInterval(hintIntervalRef.current);
-      if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
       disposeIsland();
     };
   }, [disposeIsland, initialize, startTime, stopTime]);
-
-  useEffect(() => {
-    hintIntervalRef.current = setInterval(() => {
-      setHintActive(true);
-      hintTimeoutRef.current = setTimeout(() => setHintActive(false), 1000);
-    }, 7000);
-
-    return () => {
-      if (hintIntervalRef.current) clearInterval(hintIntervalRef.current);
-      if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
-    };
-  }, []);
 
   const handleUnlockClick = () => {
     if (!isLocked) return;
@@ -302,6 +280,8 @@ export default function MacSimulator() {
   };
 
   const handleDockAppClick = (appId: DockAppId) => {
+    if (appId === "launchpad") return;
+
     const button = dockButtonRefs.current[appId];
     if (!button) return;
 
@@ -316,7 +296,7 @@ export default function MacSimulator() {
         { transform: "translateY(0) scale(1)", offset: 1, easing: "ease-in" },
       ],
       {
-        duration: 1000,
+        duration: 1100,
         easing: "linear",
       },
     );
@@ -334,7 +314,7 @@ export default function MacSimulator() {
   return (
     <section
       ref={rootRef}
-      className="isolate flex w-full flex-col items-center px-0 select-none lg:px-8"
+      className="isolate mb-8 flex w-full flex-col items-center px-0 select-none sm:mb-10 lg:px-8"
     >
       <div
         ref={imageContainerRef}
@@ -373,8 +353,8 @@ export default function MacSimulator() {
                     draggable={false}
                   />
                   <span
-                    className={`pointer-events-none absolute -bottom-1.5 left-1/2 block h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-stone-900/90 transition duration-300 ${
-                      openApps[app.id]
+                    className={`pointer-events-none absolute -bottom-1 left-1/2 block h-1 w-1 -translate-x-1/2 rounded-full bg-stone-900/90 transition duration-300 ${
+                      app.id !== "launchpad" && openApps[app.id]
                         ? "scale-100 opacity-100"
                         : "scale-50 opacity-0"
                     }`}
@@ -431,10 +411,11 @@ export default function MacSimulator() {
                   ? "translate-y-0 opacity-100"
                   : "translate-y-2 opacity-70"
               }`}
-              style={shimmerTextStyle}
               onClick={handleUnlockClick}
             >
-              Press to unlock
+              <span className="shimmer animate-shine inline-block bg-clip-text text-transparent [-webkit-background-clip:text]">
+                Press to unlock
+              </span>
             </button>
           </div>
         </div>
@@ -467,13 +448,6 @@ export default function MacSimulator() {
           </picture>
           <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-stone-900 to-transparent sm:hidden" />
         </div>
-      </div>
-
-      <div className="mt-4 hidden cursor-default items-center p-4 text-sm font-bold text-stone-700 select-none sm:flex dark:text-orange-25/90">
-        <CursorHintIcon
-          className={`mr-2 h-3.5 w-3.5 fill-current transition duration-500 ${hintActive ? "rotate-45" : ""}`}
-        />
-        Psst&hellip; it's interactive!
       </div>
     </section>
   );
