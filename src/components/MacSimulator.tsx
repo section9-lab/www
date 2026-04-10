@@ -277,7 +277,7 @@ export default function MacSimulator() {
         </div>
       </div>
 
-      <div className="mt-4 hidden cursor-default items-center p-4 text-sm font-bold text-orange-950/40 select-none sm:flex">
+      <div className="mt-4 hidden cursor-default items-center p-4 text-sm font-bold text-stone-700 select-none sm:flex dark:text-orange-25/90">
         <CursorHintIcon
           className={`mr-2 h-3.5 w-3.5 fill-current transition duration-500 ${hintActive ? "rotate-45" : ""}`}
         />
