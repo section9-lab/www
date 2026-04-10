@@ -3,16 +3,17 @@
   <defs>
 <!--天空渐变-->
     <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#0f1b3d"/>
+      <stop offset="0%" stop-color="#1b2b58"/>
 <!--顶部深蓝-->
-      <stop offset="30%" stop-color="#3a1c5d"/>
+      <stop offset="15%" stop-color="#4a2a74"/>
 <!--过渡到紫-->
-      <stop offset="50%" stop-color="#8a2c8a"/>
+      <stop offset="30%" stop-color="#8a2c8a"/>
 <!--中央紫粉色-->
-      <stop offset="70%" stop-color="#c44569"/>
-<!--亮粉色区域-->
-      <stop offset="100%" stop-color="#2d3a5c"/>
-<!--底部普鲁士蓝-->
+      <stop offset="50%" stop-color="#c44569"/>
+<!-- 暖粉/橙过渡 -->
+      <stop offset="70%" stop-color="#ff7a5c"/>
+<!-- 底部橙红（夕阳） -->
+      <stop offset="100%" stop-color="#ffb347"/>
     </linearGradient>
 <!--光源效果-->
     <radialGradient id="lightGlow" cx="50%" cy="30%" r="50%">

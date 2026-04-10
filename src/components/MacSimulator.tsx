@@ -1,10 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import DynamicIsland from "./DynamicIsland";
-import {
-  ContactCardIcon,
-  CursorHintIcon,
-  WeatherSunIcon,
-} from "./icons/react";
+import { ContactCardIcon, CursorHintIcon, WeatherSunIcon } from "./icons/react";
 import { useIslandStore } from "../stores/island";
 import {
   getDateString,
@@ -20,7 +16,17 @@ const shimmerTextStyle = {
   WebkitBackgroundClip: "text",
   backgroundClip: "text",
   color: "transparent",
-} as const
+} as const;
+
+const dockApps = [
+  { id: "finder", label: "Finder", src: "/images/dock/finder.webp" },
+  { id: "launchpad", label: "Launchpad", src: "/images/dock/launchpad.webp" },
+  { id: "dyno", label: "Dyno", src: "/images/dock/dyno_icon.webp" },
+  { id: "music", label: "Music", src: "/images/dock/music.webp" },
+  { id: "settings", label: "Settings", src: "/images/dock/settings.webp" },
+] as const;
+
+type DockAppId = (typeof dockApps)[number]["id"];
 
 function MacSimulatorPoster() {
   const [isVisible, setIsVisible] = useState(false);
@@ -75,7 +81,9 @@ function MacSimulatorPoster() {
 
           <div
             className={`bg-transparent p-6 text-2xl font-bold saturate-150 transition duration-700 sm:text-lg sm:font-semibold lg:p-4 ${
-              isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-70"
+              isVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-2 opacity-70"
             }`}
             style={shimmerTextStyle}
           >
@@ -146,6 +154,13 @@ export default function MacSimulator() {
   const [hintActive, setHintActive] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [openApps, setOpenApps] = useState<Record<DockAppId, boolean>>({
+    finder: false,
+    launchpad: false,
+    dyno: false,
+    music: false,
+    settings: false,
+  });
 
   const rootRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -155,6 +170,13 @@ export default function MacSimulator() {
   const hintIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hintTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
+  const dockButtonRefs = useRef<Record<DockAppId, HTMLButtonElement | null>>({
+    finder: null,
+    launchpad: null,
+    dyno: null,
+    music: null,
+    settings: null,
+  });
 
   const hours = getHours(now);
   const minutes = getMinutes(now);
@@ -208,9 +230,11 @@ export default function MacSimulator() {
       );
     };
 
-    audioContextRef.current = new (window.AudioContext ||
+    audioContextRef.current = new (
+      window.AudioContext ||
       (window as typeof window & { webkitAudioContext?: typeof AudioContext })
-        .webkitAudioContext)();
+        .webkitAudioContext
+    )();
     initialize();
     startTime();
     window.addEventListener("scroll", handleScroll);
@@ -277,6 +301,32 @@ export default function MacSimulator() {
     unlockTimersRef.current.push(notificationTimer);
   };
 
+  const handleDockAppClick = (appId: DockAppId) => {
+    const button = dockButtonRefs.current[appId];
+    if (!button) return;
+
+    button.animate(
+      [
+        { transform: "translateY(0) scale(1)", offset: 0 },
+        {
+          transform: "translateY(-18px) scale(1.04)",
+          offset: 0.5,
+          easing: "ease-out",
+        },
+        { transform: "translateY(0) scale(1)", offset: 1, easing: "ease-in" },
+      ],
+      {
+        duration: 1000,
+        easing: "linear",
+      },
+    );
+
+    setOpenApps((current) => ({
+      ...current,
+      [appId]: true,
+    }));
+  };
+
   if (!hasMounted) {
     return <MacSimulatorPoster />;
   }
@@ -298,43 +348,40 @@ export default function MacSimulator() {
 
         <div className="absolute inset-0">
           <div
-            className={`absolute bottom-6 z-20 flex w-full items-center justify-center transition-all delay-300 duration-500 ${
+            className={`absolute bottom-3 z-20 flex w-full items-center justify-center transition-all delay-300 duration-500 ${
               isLocked
                 ? "pointer-events-none translate-y-2 opacity-0"
                 : "translate-y-0 opacity-100"
             }`}
           >
-            <div className="flex items-center justify-center space-x-2.5 rounded-[24px] bg-black/50 px-4 py-2.5 backdrop-blur-xl">
-              <img
-                className="size-12 object-contain"
-                src="/images/dock/finder.webp"
-                alt="Finder"
-                draggable={false}
-              />
-              <img
-                className="size-12 object-contain"
-                src="/images/dock/launchpad.webp"
-                alt="Launchpad"
-                draggable={false}
-              />
-              <img
-                className="size-12 object-contain"
-                src="/images/dock/dyno_icon.webp"
-                alt="Dyno"
-                draggable={false}
-              />
-              <img
-                className="size-12 object-contain"
-                src="/images/dock/music.webp"
-                alt="Music"
-                draggable={false}
-              />
-              <img
-                className="size-12 object-contain"
-                src="/images/dock/settings.webp"
-                alt="Settings"
-                draggable={false}
-              />
+            <div className="flex items-center justify-center space-x-2 rounded-[18px] bg-white/45 px-2 py-2 backdrop-blur-xl">
+              {dockApps.map((app) => (
+                <button
+                  key={app.id}
+                  ref={(element) => {
+                    dockButtonRefs.current[app.id] = element;
+                  }}
+                  type="button"
+                  className="group relative flex cursor-pointer items-center justify-center rounded-2xl bg-transparent outline-hidden transition duration-200"
+                  onClick={() => handleDockAppClick(app.id)}
+                  aria-label={`Open ${app.label}`}
+                >
+                  <img
+                    className="size-12 object-contain"
+                    src={app.src}
+                    alt={app.label}
+                    draggable={false}
+                  />
+                  <span
+                    className={`pointer-events-none absolute -bottom-1.5 left-1/2 block h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-stone-900/90 transition duration-300 ${
+                      openApps[app.id]
+                        ? "scale-100 opacity-100"
+                        : "scale-50 opacity-0"
+                    }`}
+                    aria-hidden="true"
+                  />
+                </button>
+              ))}
             </div>
           </div>
 
@@ -380,7 +427,9 @@ export default function MacSimulator() {
             <button
               type="button"
               className={`cursor-pointer bg-transparent p-6 text-2xl font-bold saturate-150 transition duration-700 sm:text-lg sm:font-semibold lg:p-4 ${
-                isVisible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-70"
+                isVisible
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-2 opacity-70"
               }`}
               style={shimmerTextStyle}
               onClick={handleUnlockClick}
