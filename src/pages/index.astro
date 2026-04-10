@@ -1,50 +1,54 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import AppHeader from '../components/AppHeader.astro'
-import AppFooter from '../components/AppFooter.astro'
-import AppleWordmark from '../components/AppleWordmark.astro'
-import MacDownloadButton from '../components/buttons/MacDownloadButton.astro'
-import PurchaseButton from '../components/buttons/PurchaseButton.astro'
-import FeatureGrid from '../components/FeatureGrid.astro'
-import MacSimulator from '../components/MacSimulator'
-import { siteConfig } from '../config/site'
-import '../assets/css/main.css'
+import Layout from "../layouts/Layout.astro";
+import AppHeader from "../components/AppHeader.astro";
+import AppFooter from "../components/AppFooter.astro";
+import AppleWordmark from "../components/AppleWordmark.astro";
+import MacDownloadButton from "../components/buttons/MacDownloadButton.astro";
+import PurchaseButton from "../components/buttons/PurchaseButton.astro";
+import FeatureGrid from "../components/FeatureGrid.astro";
+import MacSimulator from "../components/MacSimulator";
+import { siteConfig } from "../config/site";
+import "../assets/css/main.css";
 ---
+
 <Layout>
-  <AppHeader />
-  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
-    <section class="flex w-full max-w-screen-xl flex-col items-center">
-      <!-- Hero Section -->
-      <section class="mb-14 w-full sm:mb-20 xl:w-4/5 xl:max-w-screen-lg">
-        <h1 class="relative text-center text-5xl leading-[1.05] font-bold tracking-tight sm:text-8xl sm:leading-none">
-          Dynamic Island
-          <br />
-          for
-          <AppleWordmark />
-        </h1>
+    <AppHeader />
+    <main
+        class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36"
+    >
+        <section class="flex w-full max-w-screen-xl flex-col items-center">
+            <!-- Hero Section -->
+            <section class="mb-14 w-full sm:mb-20 xl:w-4/5 xl:max-w-screen-lg">
+                <h1
+                    class="relative text-center mb-6 text-6xl font-bold tracking-tight sm:text-8xl animate-fade-in"
+                >
+                    Dynamic Island
+                    <br />
+                    for
+                    <AppleWordmark
+                        class="pl-[55px] sm:pl-21"
+                        iconClass="absolute -bottom-1 -left-1 size-16 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25"
+                    />
+                </h1>
 
-        <!-- CTA Buttons -->
-        <div class="mt-14 flex flex-col items-center justify-center space-y-6 sm:mt-12 sm:flex-row sm:space-y-0 sm:space-x-7">
-          <MacDownloadButton href={siteConfig.downloadUrl} />
-          <PurchaseButton href={siteConfig.purchaseUrl} price={siteConfig.priceLabel} />
-        </div>
-      </section>
+                <!-- CTA Buttons -->
+                <div
+                    class="mt-14 flex flex-col items-center justify-center space-y-6 sm:mt-12 sm:flex-row sm:space-y-0 sm:space-x-7"
+                >
+                    <MacDownloadButton href={siteConfig.downloadUrl} />
+                    <PurchaseButton
+                        href={siteConfig.purchaseUrl}
+                        price={siteConfig.priceLabel}
+                    />
+                </div>
+            </section>
 
-      <!-- Mac Simulator -->
-      <MacSimulator client:load />
+            <!-- Mac Simulator -->
+            <MacSimulator client:load />
 
-      <!-- Features Grid -->
-      <FeatureGrid />
-
-      <!-- Bottom CTA -->
-      <div class="mt-24 flex items-center justify-center">
-        <PurchaseButton
-          href={siteConfig.purchaseUrl}
-          emphasis="primary"
-          label="Purchase"
-        />
-      </div>
-    </section>
-  </main>
-  <AppFooter />
+            <!-- Features Grid -->
+            <FeatureGrid />
+        </section>
+    </main>
+    <AppFooter />
 </Layout>

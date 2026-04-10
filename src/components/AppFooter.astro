@@ -2,12 +2,14 @@
 import SocialLinks from './SocialLinks.astro'
 ---
 <footer
-    class="relative flex flex-col items-center justify-center px-8 pb-20 sm:pb-0 min-h-[400px]"
+    class="relative flex min-h-[400px] flex-col items-center justify-end px-8 pb-0"
 >
-    <SocialLinks />
+    <div class="mb-3 sm:mb-4">
+        <SocialLinks />
+    </div>
     <div
-        class="pointer-events-none -mt-6 overflow-hidden select-none sm:block sm:h-36 md:h-48 md:text-[18rem] lg:h-56 lg:text-[20rem] font-black animate-fade-in whitespace-nowrap"
-        style="background: linear-gradient(to bottom, rgba(234, 88, 12, 0.25), rgba(234, 88, 12, 0.05)); -webkit-background-clip: text; background-clip: text; color: transparent;"
+        class="pointer-events-none -mt-6 -mb-[0.12em] select-none text-[5rem] leading-none font-black animate-fade-in whitespace-nowrap sm:text-[7rem] md:text-[12rem] lg:text-[14rem]"
+        style="background-image: linear-gradient(to bottom, rgba(234, 88, 12, 0.28), rgba(194, 65, 12, 0.08)); -webkit-background-clip: text; background-clip: text; color: transparent;"
     >
         DYNO
     </div>

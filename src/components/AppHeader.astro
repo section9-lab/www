@@ -1,69 +1,95 @@
 ---
-import MacDownloadButton from './buttons/MacDownloadButton.astro'
-import BackTileIcon from './icons/BackTileIcon.astro'
-import FaqBubbleIcon from './icons/FaqBubbleIcon.astro'
-import { uiClasses } from '../config/ui'
+import MacDownloadButton from "./buttons/MacDownloadButton.astro";
+import BackTileIcon from "./icons/BackTileIcon.astro";
+import FaqBubbleIcon from "./icons/FaqBubbleIcon.astro";
+import { uiClasses } from "../config/ui";
 
 interface Props {
-  showDownload?: boolean
+    showDownload?: boolean;
 }
 
-const { showDownload = true } = Astro.props as Props
-const isHome = Astro.url.pathname === '/'
+const { showDownload = true } = Astro.props as Props;
+const isHome = Astro.url.pathname === "/";
 ---
 
 <header
-  id="app-header"
-  class="fixed top-0 z-40 w-full bg-orange-75 transition-all duration-300 dark:bg-stone-900"
-  style="border-bottom: 1px solid transparent; box-shadow: none;"
+    id="app-header"
+    class="fixed top-0 z-40 w-full bg-orange-75 transition-all duration-300 dark:bg-stone-900"
+    style="border-bottom: 1px solid transparent; box-shadow: none;"
 >
-  <div class="flex w-full justify-center px-8 py-5 sm:py-7">
-    <div class="max-w-screen-3xl flex w-full justify-between">
-      <div class="flex items-center">
-        <a href="/" class="group flex items-center outline-hidden" aria-label="Go home">
-          {isHome ? (
-            <div class="mr-3 size-10 overflow-hidden rounded-xl">
-              <img class="size-full object-contain" src="/images/dock/dyno_icon.png" alt="Dyno" draggable="false" />
+    <div class="flex w-full justify-center px-8 py-5 sm:py-7">
+        <div class="max-w-screen-3xl flex w-full justify-between">
+            <div class="flex items-center">
+                <a
+                    href="/"
+                    class="group flex items-center outline-hidden"
+                    aria-label="Go home"
+                >
+                    {
+                        isHome ? (
+                            <div class="relative mr-3 size-10 overflow-hidden rounded-xl border-[2px] border-stone-800 dark:border-orange-100">
+                                <img
+                                    class="size-full scale-115 object-cover"
+                                    src="/images/dock/dyno_icon.png"
+                                    alt="Dyno"
+                                    draggable="false"
+                                />
+                            </div>
+                        ) : (
+                            <div class="relative mr-3 size-10 overflow-hidden rounded-xl border-[2px] border-stone-800 dark:border-orange-100">
+                                <div class="dark:from-orange-75 dark:to-orange-75/5 absolute inset-0.5 origin-center rounded-lg bg-linear-to-t from-stone-950/20 to-stone-950 to-95% transition delay-50 duration-300 ease-out group-hover:-translate-x-full group-hover:scale-x-50 group-hover:scale-y-75 group-hover:opacity-25 group-hover:delay-0 dark:inset-[2.5px] dark:rounded-[0.4375rem] dark:to-100% animate-fade-in" />
+                                <BackTileIcon class="absolute -inset-[0.3125rem] size-[2.8125rem] fill-current" />
+                            </div>
+                        )
+                    }
+                    <div class="text-2xl font-bold">Dyno</div>
+                </a>
             </div>
-          ) : (
-            <div class="relative mr-3 size-10 overflow-hidden rounded-xl border-[2.5px] border-stone-800 dark:border-orange-100">
-              <div class="dark:from-orange-75 dark:to-orange-75/5 absolute inset-0.5 origin-center rounded-lg bg-linear-to-t from-stone-950/20 to-stone-950 to-95% transition delay-50 duration-300 ease-out group-hover:-translate-x-full group-hover:scale-x-50 group-hover:scale-y-75 group-hover:opacity-25 group-hover:delay-0 dark:inset-[2.5px] dark:rounded-[0.4375rem] dark:to-100% animate-fade-in"></div>
-              <BackTileIcon class="absolute -inset-[0.3125rem] size-[2.8125rem] fill-current" />
+            <div class="flex items-center sm:space-x-5">
+                <a
+                    class:list={[
+                        "group inline-flex items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold not-sm:bg-stone-800/5 animate-fade-in-delayed hover:bg-orange-950/5 dark:hover:bg-orange-75/5",
+                        uiClasses.focusRing,
+                    ]}
+                    href="/faqs"
+                    aria-label="Frequently asked questions"
+                >
+                    <FaqBubbleIcon
+                        class="size-[22px] origin-bottom fill-current transition duration-300 group-hover:-rotate-12 sm:mr-2"
+                    />
+                    <span class="hidden sm:block">FAQs</span>
+                </a>
+                {
+                    showDownload && (
+                        <MacDownloadButton
+                            href="/download"
+                            compact={true}
+                            class="not-sm:hidden animate-fade-in-delayed"
+                        />
+                    )
+                }
             </div>
-          )}
-           <div class="text-2xl font-bold">Dyno</div>
-        </a>
-      </div>
-      <div class="flex items-center sm:space-x-5">
-        <a class:list={['group inline-flex items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold not-sm:bg-stone-800/5 animate-fade-in-delayed hover:bg-orange-950/5 dark:hover:bg-orange-75/5', uiClasses.focusRing]} href="/faqs" aria-label="Frequently asked questions">
-          <FaqBubbleIcon class="size-[22px] origin-bottom fill-current transition duration-300 group-hover:-rotate-12 sm:mr-2" />
-          <span class="hidden sm:block">FAQs</span>
-        </a>
-        {showDownload && (
-          <MacDownloadButton href="/download" compact={true} class="not-sm:hidden animate-fade-in-delayed" />
-        )}
-      </div>
+        </div>
     </div>
-  </div>
 </header>
 
 <script>
-  const header = document.getElementById('app-header')
-  if (header) {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        // Scrolled: show border and shadow
-        header.style.borderBottom = '1px solid rgba(251, 146, 60, 0.4)'
-        header.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)'
-      } else {
-        // At top: hide border and shadow
-        header.style.borderBottom = '1px solid transparent'
-        header.style.boxShadow = 'none'
-      }
-    }
+    const header = document.getElementById("app-header");
+    if (header) {
+        const handleScroll = () => {
+            if (window.scrollY > 0) {
+                // Scrolled: show border and shadow
+                header.style.borderBottom = "1px solid rgba(251, 146, 60, 0.4)";
+                header.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.1)";
+            } else {
+                // At top: hide border and shadow
+                header.style.borderBottom = "1px solid transparent";
+                header.style.boxShadow = "none";
+            }
+        };
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    // Check initial scroll position on mount
-    handleScroll()
-  }
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        // Check initial scroll position on mount
+        handleScroll();
+    }
 </script>

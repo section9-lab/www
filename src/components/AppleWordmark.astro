@@ -9,10 +9,10 @@ interface Props {
 }
 
 const {
-  class: className = '',
+  class: className = 'pl-[46px] sm:pl-21',
   iconClass = 'absolute -bottom-0.5 -left-0.5 size-13 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25',
   text = 'Mac',
-  textClass = 'pl-[46px] sm:pl-21',
+  textClass = '',
 } = Astro.props as Props
 ---
 <mark class:list={['relative', className]}>
