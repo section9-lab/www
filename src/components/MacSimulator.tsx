@@ -21,7 +21,7 @@ const shimmerTextStyle = {
 const dockApps = [
   { id: "finder", label: "Finder", src: "/images/dock/finder.webp" },
   { id: "launchpad", label: "Launchpad", src: "/images/dock/launchpad.webp" },
-  { id: "dyno", label: "Dyno", src: "/images/dock/dyno_icon.webp" },
+  { id: "dyno", label: "VibeHUD", src: "/images/dock/dyno_icon.webp" },
   { id: "music", label: "Music", src: "/images/dock/music.webp" },
   { id: "settings", label: "Settings", src: "/images/dock/settings.webp" },
 ] as const;
@@ -67,7 +67,7 @@ function MacSimulatorPoster() {
               Dynamic Island preview
             </div>
             <div className="font-numeric text-8xl font-bold text-purple-300/90 saturate-150">
-              Dyno
+              VibeHUD
             </div>
             <div className="mt-3.5 flex items-center space-x-5 font-semibold text-purple-300/90 saturate-150">
               <div>Native macOS app</div>
@@ -96,7 +96,7 @@ function MacSimulatorPoster() {
             {[
               ["Finder", "/images/dock/finder.webp"],
               ["Launchpad", "/images/dock/launchpad.webp"],
-              ["Dyno", "/images/dock/dyno_icon.webp"],
+              ["VibeHUD", "/images/dock/dyno_icon.webp"],
               ["Music", "/images/dock/music.webp"],
               ["Settings", "/images/dock/settings.webp"],
             ].map(([alt, src]) => (
@@ -116,7 +116,7 @@ function MacSimulatorPoster() {
           <img
             className="aspect-video h-96 w-full object-cover blur-sm sm:h-auto sm:blur-none"
             src="/background.svg"
-            alt="Dyno preview wallpaper"
+            alt="VibeHUD preview wallpaper"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-stone-950/35 via-transparent to-stone-950/20" />
           <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-stone-900 to-transparent sm:hidden" />

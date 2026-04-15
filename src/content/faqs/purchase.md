@@ -4,4 +4,4 @@ title: Are future updates included?
 notes:
   - You only pay once.
 ---
-Yes, Dyno is a one-time purchase, and all future updates are included.
+Yes, VibeHUD is a one-time purchase, and all future updates are included.

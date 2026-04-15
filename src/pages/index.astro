@@ -1,4 +1,5 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import AppHeader from "../components/AppHeader.astro";
 import AppFooter from "../components/AppFooter.astro";
@@ -6,6 +7,7 @@ import AppleWordmark from "../components/AppleWordmark.astro";
 import MacDownloadButton from "../components/buttons/MacDownloadButton.astro";
 import PurchaseButton from "../components/buttons/PurchaseButton.astro";
 import FeatureGrid from "../components/FeatureGrid.astro";
+import FaqsContent from "../components/faq/FaqsContent.astro";
 import MacSimulator from "../components/MacSimulator";
 import { siteConfig } from "../config/site";
 import "../assets/css/main.css";
@@ -71,6 +73,11 @@ const structuredData = {
 
             <!-- Features Grid -->
             <FeatureGrid />
+
+            <!-- FAQs -->
+            <section id="faqs" class="mt-20 w-full max-w-screen-md sm:mt-28">
+                <FaqsContent />
+            </section>
         </section>
     </main>
     <AppFooter />
