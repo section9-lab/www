@@ -22,9 +22,9 @@ export const siteConfig = {
       icon: 'github',
     },
     {
-      href: 'https://discord.bud.dyno.app',
-      label: 'Discord',
-      icon: 'discord',
+      href: 'https://join.slack.com/t/vibehud/shared_invite/zt-3vb1bzdet-EUoXvfbocahzmcbaOg1aSA',
+      label: 'Slack',
+      icon: 'slack',
     },
   ] as const,
 } as const
