@@ -1,8 +1,6 @@
 ---
 import MacDownloadButton from "./buttons/MacDownloadButton.astro";
 import BackTileIcon from "./icons/BackTileIcon.astro";
-import FaqBubbleIcon from "./icons/FaqBubbleIcon.astro";
-import { uiClasses } from "../config/ui";
 
 interface Props {
     showDownload?: boolean;
@@ -45,20 +43,7 @@ const isHome = Astro.url.pathname === "/";
                     <div class="text-2xl font-bold">VibeHUD</div>
                 </a>
             </div>
-            <div class="flex items-center sm:space-x-5">
-                <a
-                    class:list={[
-                        "group inline-flex items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold not-sm:bg-stone-800/5 animate-fade-in-delayed hover:bg-orange-950/5 dark:hover:bg-orange-75/5",
-                        uiClasses.focusRing,
-                    ]}
-                    href="/#faqs"
-                    aria-label="Frequently asked questions"
-                >
-                    <FaqBubbleIcon
-                        class="size-[22px] origin-bottom fill-current transition duration-300 group-hover:-rotate-12 sm:mr-2"
-                    />
-                    <span class="hidden sm:block">FAQs</span>
-                </a>
+            <div class="flex items-center">
                 {
                     showDownload && (
                         <MacDownloadButton
