@@ -5,10 +5,33 @@ import AppFooter from '../components/AppFooter.astro'
 import { siteConfig } from '../config/site'
 import { uiClasses } from '../config/ui'
 import '../assets/css/main.css'
+
+const pageUrl = `${siteConfig.siteUrl}/recover`
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Recover your VibeHUD license',
+  description:
+    'Recover your VibeHUD license by contacting support from your original purchase email and sharing order details for faster help.',
+  url: pageUrl,
+  isPartOf: {
+    '@type': 'WebSite',
+    name: siteConfig.siteName,
+    url: siteConfig.siteUrl,
+  },
+  inLanguage: siteConfig.language,
+}
 ---
 <Layout
   title="Recover Your VibeHUD License | Mac App License Help"
   description="Recover your VibeHUD license by contacting support from your original purchase email and sharing order details for faster help."
+  keywords={[
+    'recover VibeHUD license',
+    'VibeHUD license recovery',
+    'VibeHUD activation help',
+    'Mac app license recovery',
+  ]}
+  structuredData={structuredData}
 >
   <AppHeader showDownload={false} />
   <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
@@ -16,7 +39,7 @@ import '../assets/css/main.css'
       <h1 class="mb-6 text-5xl font-bold tracking-tight sm:text-7xl">Recover your license</h1>
       <div class="space-y-6 text-xl leading-relaxed text-stone-700 dark:text-orange-75/85">
         <p>
-          If you need help recovering your VibeHUD license, email
+          If you lost access to your VibeHUD license, email
           <a
             class:list={[uiClasses.contactLink, 'ml-1']}
             href={`mailto:${siteConfig.supportEmail}?subject=VibeHUD%20License%20Recovery`}
@@ -26,7 +49,19 @@ import '../assets/css/main.css'
           from the email address you used for purchase.
         </p>
         <p>
-          Include any details that will help support find your order quickly, such as your original purchase email, invoice information, or the devices you want removed from your license.
+          Include any details that will help support find your order quickly, such as your
+          original purchase email, invoice information, or the devices you want removed from
+          your license.
+        </p>
+        <p>
+          If you are not sure whether your order details are enough, start with the purchase
+          email address and any receipt information you still have. That is usually the fastest
+          way to recover access.
+        </p>
+        <p>
+          Need related help first? Check the <a class:list={[uiClasses.contactLink, 'ml-1']} href="/faqs">FAQ page</a>
+          for trial, refund, and installation answers, or review the
+          <a class:list={[uiClasses.contactLink, 'ml-1']} href="/privacy">privacy policy</a>.
         </p>
       </div>
     </section>

@@ -10,31 +10,88 @@ import FeatureGrid from "../components/FeatureGrid.astro";
 import FaqsContent from "../components/faq/FaqsContent.astro";
 import MacSimulator from "../components/MacSimulator";
 import { siteConfig } from "../config/site";
+import { featureItems } from "../config/features";
 import "../assets/css/main.css";
 
-const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: siteConfig.siteName,
-    applicationCategory: "MultimediaApplication",
-    applicationSubCategory: "Desktop Enhancement",
-    operatingSystem: "macOS 14 Sonoma or later",
-    description: siteConfig.defaultDescription,
-    url: siteConfig.siteUrl,
-    image: `${siteConfig.siteUrl}${siteConfig.defaultSocialImagePath}`,
-    offers: {
-        "@type": "Offer",
-        price: "14.99",
-        priceCurrency: "USD",
-        availability: "https://schema.org/InStock",
-        url: siteConfig.purchaseUrl,
+const faqs = (await getCollection("faqs")).sort(
+    (a, b) => a.data.order - b.data.order,
+);
+const featureList = featureItems.map(
+    (feature) => `${feature.titleTop} ${feature.titleBottom}`,
+);
+const homepageUrl = siteConfig.siteUrl;
+
+const structuredData = [
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: siteConfig.defaultTitle,
+        description: siteConfig.defaultDescription,
+        url: homepageUrl,
+        isPartOf: {
+            "@type": "WebSite",
+            name: siteConfig.siteName,
+            url: homepageUrl,
+        },
+        about: {
+            "@type": "SoftwareApplication",
+            name: siteConfig.siteName,
+        },
+        inLanguage: siteConfig.language,
     },
-};
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: siteConfig.siteName,
+        applicationCategory: "MultimediaApplication",
+        applicationSubCategory: "Desktop Enhancement",
+        operatingSystem: "macOS 14 Sonoma or later",
+        description: siteConfig.defaultDescription,
+        url: homepageUrl,
+        image: `${siteConfig.siteUrl}${siteConfig.defaultSocialImagePath}`,
+        featureList,
+        downloadUrl: new URL(siteConfig.downloadUrl, siteConfig.siteUrl).toString(),
+        offers: {
+            "@type": "Offer",
+            price: siteConfig.priceUsd,
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+            url: siteConfig.purchaseUrl,
+        },
+        brand: {
+            "@type": "Brand",
+            name: siteConfig.siteName,
+        },
+        publisher: {
+            "@type": "Organization",
+            name: siteConfig.siteName,
+            url: siteConfig.siteUrl,
+        },
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "VibeHUD frequently asked questions",
+        itemListElement: faqs.slice(0, 5).map((entry, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: entry.data.title,
+            url: `${siteConfig.siteUrl}/faqs#${entry.id}`,
+        })),
+    },
+];
 ---
 
 <Layout
     title={siteConfig.defaultTitle}
     description={siteConfig.defaultDescription}
+    keywords={[
+        "VibeHUD for Mac",
+        "Dynamic Island for macOS",
+        "macOS Dynamic Island app",
+        "Mac live activities app",
+        "Mac media controls app",
+    ]}
     structuredData={structuredData}
 >
     <AppHeader />
@@ -56,6 +113,12 @@ const structuredData = {
                     />
                 </h1>
 
+                <p class="mx-auto max-w-2xl text-center text-xl leading-relaxed text-stone-700 dark:text-orange-75/80">
+                    VibeHUD is a Dynamic Island app for macOS that brings live
+                    activities, media controls, notifications, and lightweight
+                    widgets to your Mac with fluid native animations.
+                </p>
+
                 <!-- CTA Buttons -->
                 <div
                     class="mt-14 flex flex-col items-center justify-center space-y-6 sm:mt-12 sm:flex-row sm:space-y-0 sm:space-x-7"
@@ -70,6 +133,14 @@ const structuredData = {
 
             <!-- Mac Simulator -->
             <MacSimulator client:visible />
+
+            <section class="mt-10 max-w-screen-md text-center text-lg leading-relaxed text-stone-600 dark:text-orange-75/70 sm:mt-12">
+                <p>
+                    Built for people who want Dynamic Island style interactions on
+                    Mac, VibeHUD focuses on fast media controls, glanceable status,
+                    and a polished desktop HUD that stays out of the way.
+                </p>
+            </section>
 
             <!-- Features Grid -->
             <FeatureGrid />

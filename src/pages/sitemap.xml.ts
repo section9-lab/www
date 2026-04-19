@@ -1,13 +1,19 @@
 import type { APIRoute } from 'astro'
 import { siteConfig } from '../config/site'
 
-const routes = ['/', '/download', '/faqs', '/privacy', '/recover']
+const routes = [
+  { path: '/', lastmod: '2026-04-19' },
+  { path: '/download', lastmod: '2026-04-19' },
+  { path: '/faqs', lastmod: '2026-04-19' },
+  { path: '/privacy', lastmod: '2026-04-19' },
+  { path: '/recover', lastmod: '2026-04-19' },
+] as const
 
 export const GET: APIRoute = () => {
   const urls = routes
-    .map((route) => {
-      const href = new URL(route, siteConfig.siteUrl).toString()
-      return `<url><loc>${href}</loc></url>`
+    .map(({ path, lastmod }) => {
+      const href = new URL(path, siteConfig.siteUrl).toString()
+      return `<url><loc>${href}</loc><lastmod>${lastmod}</lastmod></url>`
     })
     .join('')
 

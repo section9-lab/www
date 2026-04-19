@@ -7,26 +7,52 @@ import { siteConfig } from "../config/site";
 import { uiClasses } from "../config/ui";
 import "../assets/css/main.css";
 
-const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: siteConfig.siteName,
-    applicationCategory: "MultimediaApplication",
-    operatingSystem: "macOS 14 Sonoma or later",
-    downloadUrl: siteConfig.releaseUrl,
-    url: `${siteConfig.siteUrl}/download`,
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-        category: "trial",
+const pageUrl = `${siteConfig.siteUrl}/download`;
+const structuredData = [
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Download VibeHUD for Mac",
+        description:
+            "Download VibeHUD for Mac and start a limited 72-hour trial with Dynamic Island style media controls, live activities, and notifications.",
+        url: pageUrl,
+        isPartOf: {
+            "@type": "WebSite",
+            name: siteConfig.siteName,
+            url: siteConfig.siteUrl,
+        },
+        inLanguage: siteConfig.language,
     },
-};
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        name: siteConfig.siteName,
+        applicationCategory: "MultimediaApplication",
+        applicationSubCategory: "Desktop Enhancement",
+        operatingSystem: "macOS 14 Sonoma or later",
+        downloadUrl: siteConfig.releaseUrl,
+        url: pageUrl,
+        image: `${siteConfig.siteUrl}${siteConfig.defaultSocialImagePath}`,
+        offers: {
+            "@type": "Offer",
+            price: "0",
+            priceCurrency: "USD",
+            category: "trial",
+        },
+    },
+];
 ---
 
 <Layout
     title="Download VibeHUD for Mac | Dynamic Island App for macOS"
     description="Download VibeHUD for Mac and start a limited 72-hour trial. VibeHUD adds Dynamic Island style media controls, live activities, and notifications to macOS."
+    keywords={[
+        "download VibeHUD",
+        "Dynamic Island app for Mac",
+        "macOS Dynamic Island download",
+        "VibeHUD trial",
+        "Mac media controls app download",
+    ]}
     structuredData={structuredData}
 >
     <AppHeader showDownload={false} />
@@ -44,13 +70,19 @@ const structuredData = {
                 />
             </h1>
 
+            <p class="mx-auto max-w-2xl text-xl leading-relaxed text-stone-700 dark:text-orange-75/80 animate-fade-in-delayed">
+                Download VibeHUD for Mac to try a Dynamic Island experience on
+                macOS with media controls, live activities, notifications, and a
+                lightweight HUD built for macOS 14 Sonoma or later.
+            </p>
+
             <div
                 class="mx-auto flex max-w-120 flex-col items-center justify-center animate-fade-in-delayed"
             >
                 <a
                     class="group my-12 flex w-full max-w-96 flex-col items-center justify-center rounded-3xl border-2 border-orange-950/5 bg-orange-950/5 pt-5 pb-8 outline-hidden sm:my-16"
                     href={siteConfig.releaseUrl}
-                    aria-label="Download for Mac"
+                    aria-label="Download VibeHUD for Mac"
                 >
                     <div class="mb-3 size-37">
                         <picture>
@@ -61,7 +93,7 @@ const structuredData = {
                             <img
                                 class="object-fit size-full select-none"
                                 src="/images/disk-icon.png"
-                                alt="VibeHUD Disk Icon"
+                                alt="VibeHUD disk image used to download the macOS app"
                                 draggable="false"
                             />
                         </picture>
@@ -86,14 +118,27 @@ const structuredData = {
                     </div>
                 </a>
 
-                <p class="max-w-sm text-xl leading-normal">
-                    If you have any issues downloading or installing, please
-                    <a
-                        class={uiClasses.contactLink}
-                        href={`mailto:${siteConfig.supportEmail}`}
-                        aria-label="Contact us">contact us</a
-                    >.
-                </p>
+                <div class="max-w-xl space-y-5 text-lg leading-relaxed text-stone-700 dark:text-orange-75/75">
+                    <p>
+                        The download includes a limited 72-hour trial so you can
+                        test how VibeHUD fits into your Mac workflow before you
+                        buy a license.
+                    </p>
+                    <p>
+                        Looking for installation help, privacy details, or license
+                        recovery? Visit the <a class={uiClasses.contactLink} href="/faqs">FAQ page</a>,
+                        review the <a class={uiClasses.contactLink} href="/privacy">privacy policy</a>,
+                        or open the <a class={uiClasses.contactLink} href="/recover">license recovery page</a>.
+                    </p>
+                    <p>
+                        If you have any issues downloading or installing, please
+                        <a
+                            class={uiClasses.contactLink}
+                            href={`mailto:${siteConfig.supportEmail}`}
+                            aria-label="Contact us">contact us</a
+                        >.
+                    </p>
+                </div>
             </div>
         </div>
     </main>

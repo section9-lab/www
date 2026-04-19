@@ -7,8 +7,10 @@ interface Props {
     title?: string;
     description?: string;
     image?: string;
+    imageAlt?: string;
     type?: "website" | "article";
     noindex?: boolean;
+    keywords?: string[];
     structuredData?: StructuredData | StructuredData[];
 }
 
@@ -16,8 +18,10 @@ const {
     title = siteConfig.defaultTitle,
     description = siteConfig.defaultDescription,
     image = siteConfig.defaultSocialImagePath,
+    imageAlt = siteConfig.defaultSocialImageAlt,
     type = "website",
     noindex = false,
+    keywords = siteConfig.defaultKeywords,
     structuredData = [],
 } = Astro.props;
 
@@ -28,6 +32,7 @@ const robotsContent = noindex ? "noindex, nofollow" : "index, follow";
 const structuredDataItems = Array.isArray(structuredData)
     ? structuredData
     : [structuredData];
+const keywordsContent = keywords.join(", ");
 
 const baseStructuredData = [
     {
@@ -45,6 +50,7 @@ const baseStructuredData = [
         name: siteConfig.siteName,
         url: siteUrl,
         description: siteConfig.defaultDescription,
+        inLanguage: siteConfig.language,
     },
 ];
 
@@ -76,10 +82,10 @@ const structuredDataScripts = allStructuredData.map((item) =>
         <meta name="description" content={description} />
         <meta name="robots" content={robotsContent} />
         <meta name="theme-color" content="#fff0df" />
-        <meta
-            name="keywords"
-            content="macOS app, Dynamic Island for Mac, Dynamic Island macOS, media controls for Mac, live activities Mac, notch app macOS"
-        />
+        <meta name="keywords" content={keywordsContent} />
+        <meta name="author" content={siteConfig.siteName} />
+        <meta name="application-name" content={siteConfig.siteName} />
+        <meta property="og:locale" content={siteConfig.locale} />
         <link rel="canonical" href={canonicalUrl} />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -91,18 +97,21 @@ const structuredDataScripts = allStructuredData.map((item) =>
         <meta property="og:type" content={type} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={socialImageUrl} />
+        <meta property="og:image:alt" content={imageAlt} />
 
         <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content={siteConfig.xHandle} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={socialImageUrl} />
+        <meta name="twitter:image:alt" content={imageAlt} />
 
         {
-            structuredDataScripts.map((script) => (
+            structuredDataScripts.map((structuredDataScript) => (
                 <script
                     type="application/ld+json"
                     is:inline
-                    set:html={script}
+                    set:text={structuredDataScript}
                 />
             ))
         }

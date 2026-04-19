@@ -5,6 +5,7 @@ import AppHeader from '../components/AppHeader.astro'
 import AppFooter from '../components/AppFooter.astro'
 import FaqsContent from '../components/faq/FaqsContent.astro'
 import '../assets/css/main.css'
+import { siteConfig } from '../config/site'
 
 const faqs = (await getCollection('faqs')).sort((a, b) => a.data.order - b.data.order)
 
@@ -15,22 +16,46 @@ const stripMarkdown = (value: string) =>
     .replace(/\s+/g, ' ')
     .trim()
 
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((entry) => ({
-    '@type': 'Question',
-    name: entry.data.title,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: stripMarkdown(entry.body ?? ''),
+const pageUrl = `${siteConfig.siteUrl}/faqs`
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'VibeHUD FAQs',
+    description:
+      'Answers to common questions about VibeHUD for Mac, including trial access, updates, refunds, privacy, supported devices, and license recovery.',
+    url: pageUrl,
+    isPartOf: {
+      '@type': 'WebSite',
+      name: siteConfig.siteName,
+      url: siteConfig.siteUrl,
     },
-  })),
-}
+    inLanguage: siteConfig.language,
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((entry) => ({
+      '@type': 'Question',
+      name: entry.data.title,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: stripMarkdown(entry.body ?? ''),
+      },
+    })),
+  },
+]
 ---
 <Layout
   title="VibeHUD FAQs | Licensing, Trial, Refunds, Privacy, and Support"
   description="Answers to common questions about VibeHUD for Mac, including trial access, updates, refunds, privacy, supported devices, and license recovery."
+  keywords={[
+    'VibeHUD FAQ',
+    'VibeHUD support',
+    'VibeHUD trial questions',
+    'VibeHUD refund policy',
+    'VibeHUD license recovery',
+  ]}
   structuredData={structuredData}
 >
   <AppHeader />
