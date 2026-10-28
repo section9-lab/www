@@ -75,6 +75,17 @@ const allStructuredData = [...baseStructuredData, ...structuredDataItems];
             }
             gtag("js", new Date());
             gtag("config", "G-7V4ZD8VVYD");
+            document.addEventListener("click", (event) => {
+                const target = event.target;
+                if (!(target instanceof Element)) return;
+                const link = target.closest("a[data-analytics-event]");
+                if (!link) return;
+                const eventName = link.getAttribute("data-analytics-event");
+                if (!["download_page_click", "download_release_click", "purchase_link_click"].includes(eventName)) return;
+                gtag("event", eventName, {
+                    link_location: link.getAttribute("data-analytics-location") || "/",
+                });
+            });
         </script>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

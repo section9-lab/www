@@ -4,6 +4,7 @@ import { purchasePolicy } from '../src/config/purchase'
 
 // Run after `pnpm build`: inspect emitted HTML, not component implementation.
 const files = import.meta.glob<string>('/dist/**/*.{html,xml,txt}', { query: '?raw', import: 'default', eager: true })
+const imageFiles = import.meta.glob('/dist/images/guides/*.webp', { query: '?url', import: 'default', eager: true })
 const outputFile = (pathname: string) => `/dist${pathname}index.html`
 const xml = new DOMParser().parseFromString(files['/dist/sitemap.xml'] ?? '', 'application/xml')
 const urls = [...xml.querySelectorAll('loc')].map((node) => new URL(node.textContent ?? ''))
@@ -46,6 +47,37 @@ describe('production SEO output', () => {
         expect(element.getAttribute('aria-label') ?? element.getAttribute('alt') ?? '', page.url.pathname).not.toMatch(/[\u3400-\u9fff]/)
       }
     }
+  })
+
+  it('helps readers find agent guides and identifies illustrative images', () => {
+    const home = pages.find((page) => page.url.pathname === '/')
+    expect(home?.document.title).toContain('Claude Code & Codex')
+    expect(home?.document.querySelector('main')?.textContent).toContain('Claude Code, Codex')
+    for (const slug of ['claude-code', 'codex']) {
+      const guide = pages.find((page) => page.url.pathname === `/docs/${slug}/`)
+      expect(guide?.document.querySelector('main')?.textContent).toContain('sample sessions')
+      const figures = guide?.document.querySelectorAll('main figure') ?? []
+      expect(figures.length).toBeGreaterThanOrEqual(2)
+      for (const figure of figures) {
+        const image = figure.querySelector('img')
+        const src = image?.getAttribute('src') ?? ''
+        expect(src.startsWith('/images/guides/')).toBe(true)
+        expect(imageFiles[`/dist${src}`], src).toBeDefined()
+        expect(image?.getAttribute('alt')?.length).toBeGreaterThan(20)
+        expect(figure.querySelector('figcaption')?.textContent).toMatch(/simulated|sample sessions/i)
+      }
+    }
+  })
+
+  it('labels distinct download and checkout clicks without treating them as purchases', () => {
+    const home = pages.find((page) => page.url.pathname === '/')
+    const download = pages.find((page) => page.url.pathname === '/download/')
+    const pricing = pages.find((page) => page.url.pathname === '/pricing/')
+    const privacy = pages.find((page) => page.url.pathname === '/privacy/')
+    expect(home?.document.querySelector('a[data-analytics-event="download_page_click"]')?.getAttribute('href')).toBe('/download/')
+    expect(download?.document.querySelector('a[data-analytics-event="download_release_click"]')?.getAttribute('href')).toBe(siteConfig.releaseUrl)
+    for (const page of [home, pricing]) expect(page?.document.querySelector('a[data-analytics-event="purchase_link_click"]')?.getAttribute('href')).toBe(siteConfig.purchaseUrl)
+    expect(privacy?.document.querySelector('main')?.textContent).toContain('clicks on download and purchase links')
   })
 
   it('emits parseable JSON-LD in real script elements on every page', () => {

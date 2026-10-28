@@ -18,7 +18,7 @@ const description = 'How vibe hud uses local session history and product analyti
         <p>The macOS app uses Mixpanel. The current implementation records app launches and session starts, along with an app-generated identifier and metadata including app version, build number, macOS version, and Claude Code version.</p>
         <p>The analytics events in the current source do not attach conversation text. Session transcripts are read locally for the HUD and conversation view. The agents and terminal tools you use have their own data handling practices.</p>
         <h2 class="pt-4 text-2xl font-bold text-stone-800">This website</h2>
-        <p>This website uses Google Analytics to understand visits. The interactive product preview runs with sample sessions; it does not connect to your local terminal or submit the replies you enter to an AI agent.</p>
+        <p>This website uses Google Analytics to understand visits and clicks on download and purchase links. A click does not indicate a completed installation or purchase. The interactive product preview runs with sample sessions; it does not connect to your local terminal or submit the replies you enter to an AI agent.</p>
         <p>You can inspect the implementation in the <a class={uiClasses.contactLink} href={siteConfig.repositoryUrl} target="_blank" rel="noopener noreferrer">source repository</a>. For questions or feedback, visit <a class={uiClasses.contactLink} href={siteConfig.supportUrl} target="_blank" rel="noopener noreferrer">GitHub issues</a>.</p>
       </div>
     </section>

@@ -14,7 +14,7 @@ const rootClasses = compact
   ? ['group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold pl-13', uiClasses.focusRing, uiClasses.softSurface]
   : ['group relative inline-flex max-h-15 items-center justify-center rounded-2xl px-5 py-4 text-lg font-bold pl-13', uiClasses.focusRing, uiClasses.primarySurface]
 ---
-<a class:list={[rootClasses, className]} href={href} aria-label="Download for Mac">
+<a class:list={[rootClasses, className]} href={href} aria-label="Download for Mac" data-analytics-event="download_page_click" data-analytics-location={Astro.url.pathname}>
   <div class="ease absolute left-5 translate-x-0 opacity-100 transition duration-300 group-hover:-translate-x-full group-hover:scale-x-50 group-hover:opacity-0 group-hover:blur-sm">
     <AppleIcon class="h-6 w-6 fill-current" />
   </div>

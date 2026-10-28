@@ -3,9 +3,9 @@ const billingSupportEmail = 'section9lab@gmail.com'
 export const siteConfig = {
   siteUrl: 'https://hud.vibevibe.cc',
   siteName: 'vibe hud',
-  defaultTitle: 'vibe hud for Mac | AI agents in your notch',
+  defaultTitle: 'Claude Code & Codex Notch App for Mac | vibe hud',
   defaultDescription:
-    'Keep Claude, Codex, Cursor, and other AI agent sessions in your Mac’s notch. Follow progress, approve tools, review conversations, and reply without switching windows.',
+    'Monitor Claude Code, Codex, and other AI coding sessions in your Mac’s notch. Follow progress, review supported tool requests, and reply from one place.',
   defaultKeywords: [
     'VibeHUD',
     'Claude Code notch',

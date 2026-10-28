@@ -24,7 +24,7 @@ const structuredData = {
         <img class="mb-4 size-28 object-contain" src="/images/icon.webp" alt="Native vibe hud app icon" width="112" height="112" />
         <h2 class="text-2xl font-bold">{siteConfig.siteName}</h2>
         <p class="mt-2 text-sm text-stone-500">Requires macOS {siteConfig.minimumMacOS} or later</p>
-        <a href={siteConfig.releaseUrl} class="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-stone-800 px-5 py-3 font-semibold text-orange-25 outline-none hover:bg-stone-700 focus-visible:ring-3 focus-visible:ring-rose-300" target="_blank" rel="noopener noreferrer"><DownloadIcon className="size-4" aria-hidden="true" />Get the latest release</a>
+        <a href={siteConfig.releaseUrl} data-analytics-event="download_release_click" data-analytics-location={Astro.url.pathname} class="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-stone-800 px-5 py-3 font-semibold text-orange-25 outline-none hover:bg-stone-700 focus-visible:ring-3 focus-visible:ring-rose-300" target="_blank" rel="noopener noreferrer"><DownloadIcon className="size-4" aria-hidden="true" />Get the latest release</a>
       </div>
       <div class="mx-auto max-w-xl space-y-5 text-left text-lg leading-relaxed text-stone-600">
         <p>Download the DMG from GitHub Releases, then move <strong class="font-medium text-stone-800">VibeHUD.app</strong> into Applications. Open Agent Hooks in the notch menu and enable the integration you use, then start a new agent session.</p>
