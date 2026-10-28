@@ -1,13 +1,12 @@
 import { useEffect } from 'react'
 import { motion, useAnimationControls, useReducedMotion } from 'motion/react'
-import { agents } from '../../config/demo'
 import { useTimeStore } from '../../stores/time'
 import { cn } from '../../lib/utils'
 import { Button } from '../ui/button'
 
 export const dockApps = [
   { id: 'finder', label: 'Finder', src: '/images/dock/native/finder.webp' },
-  { id: 'claude', label: 'Claude', src: agents.claude.icon },
+  { id: 'terminal', label: 'Terminal', src: '/images/dock/native/terminal.webp' },
   { id: 'codex', label: 'Codex', src: '/images/dock/native/codex.webp' },
   { id: 'vibehud', label: 'vibe hud', src: '/images/dock/vibehud.webp' },
   { id: 'settings', label: 'Settings', src: '/images/dock/native/settings.webp' },
@@ -21,7 +20,7 @@ const systemApps = [
   ['music', '音乐'], ['keynote', 'Keynote'], ['numbers', 'Numbers'], ['pages', 'Pages'],
   ['appstore', 'App Store'], ['iphone', 'iPhone 镜像'],
 ] as const
-const recentApps = [['terminal', '终端'], ['github', 'GitHub Desktop'], ['wechat', '微信']] as const
+const recentApps = [['github', 'GitHub Desktop']] as const
 
 interface DemoDockProps {
   isReady: boolean
@@ -64,8 +63,8 @@ function DockItem({ app, isReady, active, running, launchSequence, onOpen }: {
       className="demo-dock-item group/dock relative flex cursor-pointer items-start rounded-xl hover:bg-transparent aria-pressed:bg-transparent"
       onClick={() => onOpen(app.id)} disabled={!isReady} aria-label={`Open ${app.label}`} aria-pressed={active}>
       <span className="demo-dock-tooltip pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 rounded-md border border-white/30 bg-zinc-800/90 text-white opacity-0 group-hover/dock:opacity-100 group-focus-visible/dock:opacity-100" aria-hidden="true">{app.label}</span>
-      <motion.span initial={false} animate={controls} className={cn('demo-dock-icon flex shrink-0 items-center justify-center overflow-hidden', app.id === 'claude' && 'bg-orange-100')}>
-        <img className={cn('size-full object-contain', app.id === 'claude' && 'size-3/5')} src={app.src} alt="" draggable={false} />
+      <motion.span initial={false} animate={controls} className="demo-dock-icon flex shrink-0 items-center justify-center overflow-hidden">
+        <img className="size-full object-contain" src={app.src} alt="" draggable={false} />
       </motion.span>
       <span className={cn('demo-dock-dot pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full bg-stone-900', !running && 'invisible')} aria-hidden="true" />
     </Button>
@@ -73,17 +72,20 @@ function DockItem({ app, isReady, active, running, launchSequence, onOpen }: {
 }
 
 export default function DemoDock({ isReady, activeApp, openApps, launch, onOpen }: DemoDockProps) {
-  const launcher = (app: (typeof dockApps)[number]) => <DockItem key={app.id} app={app} isReady={isReady} active={activeApp === app.id} running={openApps.has(app.id)} launchSequence={launch?.app === app.id ? launch.sequence : 0} onOpen={onOpen} />
+  const launcher = (id: DockAppId) => {
+    const app = dockApps.find((item) => item.id === id)
+    return app ? <DockItem key={app.id} app={app} isReady={isReady} active={activeApp === app.id} running={openApps.has(app.id)} launchSequence={launch?.app === app.id ? launch.sequence : 0} onOpen={onOpen} /> : null
+  }
   return (
     <div className="demo-dock-position absolute inset-x-0 z-10 flex justify-center">
       <div role="group" aria-label="Demo Dock" aria-busy={!isReady} className="demo-dock flex items-center border border-white/30 bg-white/15 backdrop-blur-xl">
-        {launcher(dockApps[0])}
+        {launcher('finder')}
         {systemApps.map(([id, label]) => <SystemDockItem key={id} id={id} label={label} />)}
-        {launcher(dockApps[4])}
-        {launcher(dockApps[2])}
+        {launcher('settings')}
+        {launcher('codex')}
+        {launcher('terminal')}
         {recentApps.map(([id, label]) => <SystemDockItem key={id} id={id} label={label} />)}
-        {launcher(dockApps[1])}
-        {launcher(dockApps[3])}
+        {launcher('vibehud')}
         <span className="demo-dock-separator" aria-hidden="true" />
         <SystemDockItem id="folder" label="下载" />
         <SystemDockItem id="trash" label="废纸篓" />

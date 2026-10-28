@@ -54,6 +54,7 @@ export default function SessionChat({ session }: { session: DemoSession }) {
       {waitingForApproval ? (
         <div className="shrink-0 space-y-2 border-t border-white/10 px-3 py-3">
           <p className="break-words font-mono text-[11px] text-hud-amber">{session.tool?.name} · {session.tool?.input}</p>
+          {session.tool?.details && <pre className="max-h-24 overflow-y-auto break-words whitespace-pre-wrap font-mono text-[11px] text-white/65">{session.tool.details}</pre>}
           <div className="flex items-center justify-between gap-2"><span className="text-[11px] text-white/50">Waiting for approval</span><div className="flex gap-1"><ApprovalActions id={session.id} title={session.title} /></div></div>
         </div>
       ) : (

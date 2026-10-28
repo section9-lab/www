@@ -23,7 +23,7 @@ export default function SessionList() {
   if (!sessions.length) return (
     <div className="px-4 py-8 text-center">
       <p className="text-sm font-medium text-white/50">No sessions</p>
-      <p className="mt-2 text-xs text-white/40">Run claudecode, codex, or opencode in terminal.</p>
+      <p className="mt-2 text-xs text-white/40">Run claude, codex, or opencode in Terminal.</p>
     </div>
   )
 

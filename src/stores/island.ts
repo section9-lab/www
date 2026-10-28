@@ -2,8 +2,11 @@ import { create } from 'zustand'
 import { createDemoSessions } from '../config/demo'
 import { createWalkthroughSnapshot, type DemoAgent } from '../config/walkthrough'
 import { canArchive, type DemoSession, type DemoView } from '../types/demo'
+import { createTerminalState } from '../config/terminal'
+import { clearTimers, schedule } from '../lib/demo-scheduler'
+import { createTerminalSlice, terminalForSession, type TerminalSlice } from './terminal'
 
-interface IslandState {
+export interface IslandState extends TerminalSlice {
   sessions: DemoSession[]
   isOpen: boolean
   view: DemoView
@@ -25,31 +28,27 @@ interface IslandState {
   dispose: () => void
 }
 
-const timers = new Set<ReturnType<typeof setTimeout>>()
-function schedule(callback: () => void, delay: number) {
-  const timer = setTimeout(() => { timers.delete(timer); callback() }, delay)
-  timers.add(timer)
-}
-function clearTimers() {
-  timers.forEach(clearTimeout)
-  timers.clear()
-}
-
 function nextActivity(sessions: DemoSession[]) {
   return Math.max(0, ...sessions.map((session) => session.lastActivity)) + 1
 }
 
-export const useIslandStore = create<IslandState>((set, get) => ({
+export const useIslandStore = create<IslandState>((set, get, api) => ({
+  ...createTerminalSlice(set, get, api),
   sessions: createDemoSessions(), isOpen: true, view: 'sessions',
   selectedSessionId: null, pendingReplyId: null, announcement: '',
 
   initialize: () => {
     clearTimers()
-    set({ sessions: createDemoSessions(), isOpen: true, view: 'sessions', selectedSessionId: null, pendingReplyId: null, announcement: 'Sample sessions loaded.' })
+    set({ sessions: createDemoSessions(), terminal: createTerminalState(), isOpen: true, view: 'sessions', selectedSessionId: null, pendingReplyId: null, announcement: 'Sample sessions loaded.' })
   },
   presentStep: (index) => {
     clearTimers()
-    set({ ...createWalkthroughSnapshot(index), pendingReplyId: null })
+    const snapshot = createWalkthroughSnapshot(index)
+    const terminal = terminalForSession(snapshot.sessions.find((session) => session.source === 'claude'))
+    set({ ...snapshot, terminal: index === 1 ? { ...terminal, mode: 'shell', entries: terminal.entries.slice(0, 1) } : terminal, pendingReplyId: null })
+    if (index === 1) schedule(() => {
+      if (!get().terminal.interactive) set({ terminal })
+    }, 450, 'terminal')
   },
   launchAgent: (agent) => {
     if (get().sessions.some((session) => session.source === agent)) return
@@ -64,6 +63,7 @@ export const useIslandStore = create<IslandState>((set, get) => ({
     if (get().sessions.some((session) => session.id === id)) set({ isOpen: true, view: 'chat', selectedSessionId: id })
   },
   approve: (id) => {
+    if (id === 'claude-session' && get().terminal.job?.awaitingApproval) { get().resolveTerminalApproval(true); return }
     const session = get().sessions.find((item) => item.id === id)
     if (session?.phase !== 'waitingForApproval') return
     set((state) => ({
@@ -82,6 +82,7 @@ export const useIslandStore = create<IslandState>((set, get) => ({
     })), 2500)
   },
   deny: (id) => {
+    if (id === 'claude-session' && get().terminal.job?.awaitingApproval) { get().resolveTerminalApproval(false); return }
     const session = get().sessions.find((item) => item.id === id)
     if (session?.phase !== 'waitingForApproval') return
     set((state) => ({
@@ -105,6 +106,7 @@ export const useIslandStore = create<IslandState>((set, get) => ({
     const content = text.trim()
     const session = get().sessions.find((item) => item.id === id)
     if (!session || get().pendingReplyId || session.phase === 'waitingForApproval' || !content || content.length > 500) return
+    if (session.source === 'claude' && get().terminal.mode === 'claude') { get().submitClaudeTask(content); return }
     set((state) => ({
       pendingReplyId: id, announcement: 'Reply sent in the preview.',
       sessions: state.sessions.map((item) => item.id === id ? {
@@ -120,5 +122,5 @@ export const useIslandStore = create<IslandState>((set, get) => ({
       } : item),
     })), 1200)
   },
-  dispose: () => { clearTimers(); set({ pendingReplyId: null }) },
+  dispose: () => { clearTimers(); set((state) => ({ pendingReplyId: null, terminal: { ...state.terminal, job: null } })) },
 }))

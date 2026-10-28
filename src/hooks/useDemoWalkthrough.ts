@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useMotionValueEvent, useScroll } from 'motion/react'
 import { walkthroughIndex } from '../config/walkthrough'
 
-export function useDemoWalkthrough() {
+export function useDemoWalkthrough(locked = false) {
   const sceneRef = useRef<HTMLDivElement>(null)
   const [startOffset, setStartOffset] = useState(0)
   const [step, setStep] = useState(0)
@@ -12,6 +12,7 @@ export function useDemoWalkthrough() {
   const { scrollYProgress } = useScroll({ target: sceneRef, offset: [`start ${startOffset}px`, 'end end'] })
 
   useMotionValueEvent(scrollYProgress, 'change', (progress) => {
+    if (locked) return
     const next = walkthroughIndex(progress)
     if (exploringRef.current && next === exploredStepRef.current) return
     exploringRef.current = false

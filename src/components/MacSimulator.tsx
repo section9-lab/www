@@ -3,6 +3,7 @@ import DynamicIsland from './DynamicIsland'
 import AgentWindows from './demo/AgentWindows'
 import DemoDock, { dockApps, type DockAppId } from './demo/DemoDock'
 import MacMenuBar from './demo/MacMenuBar'
+import TerminalDialog from './demo/TerminalDialog'
 import { walkthroughSteps, type DemoAgent } from '../config/walkthrough'
 import { useDemoWalkthrough } from '../hooks/useDemoWalkthrough'
 import { useIslandStore } from '../stores/island'
@@ -41,14 +42,20 @@ export default function MacSimulator() {
   const showSessions = useIslandStore((state) => state.showSessions)
   const showSettings = useIslandStore((state) => state.showSettings)
   const disposeIsland = useIslandStore((state) => state.dispose)
-  const { sceneRef, step, isExploring, explore } = useDemoWalkthrough()
+  const closeTerminal = useIslandStore((state) => state.closeTerminal)
+  const terminalBusy = useIslandStore((state) => state.terminal.job !== null)
+  const terminalInteractive = useIslandStore((state) => state.terminal.interactive)
+  const [terminalExpanded, setTerminalExpanded] = useState(false)
+  const [terminalFocused, setTerminalFocused] = useState(false)
+  const [terminalDraft, setTerminalDraft] = useState('')
+  const { sceneRef, step, isExploring, explore } = useDemoWalkthrough(terminalInteractive || terminalExpanded || terminalFocused || terminalBusy)
   const [isReady, setIsReady] = useState(false)
   const [activeApp, setActiveApp] = useState<DockAppId>('finder')
   const [launch, setLaunch] = useState<{ app: DockAppId; sequence: number } | null>(null)
   const [openApps, setOpenApps] = useState<ReadonlySet<DockAppId>>(() => new Set(['finder', 'vibehud']))
   const currentStep = walkthroughSteps[step]
   const openAgents = new Set<DemoAgent>(
-    (['claude', 'codex'] as const).filter((agent) => openApps.has(agent)),
+    (['claude', 'codex'] as const).filter((agent) => openApps.has(agent === 'claude' ? 'terminal' : agent)),
   )
 
   useEffect(() => {
@@ -61,14 +68,16 @@ export default function MacSimulator() {
 
   useEffect(() => {
     if (!isReady || isExploring) return
+    setTerminalDraft('')
     presentStep(step)
     const running = new Set<DockAppId>(['finder', 'vibehud'])
-    if (step >= 1) running.add('claude')
+    if (step >= 1) running.add('terminal')
     if (step >= 2) running.add('codex')
     setOpenApps(running)
-    setActiveApp(walkthroughSteps[step].agent ?? 'finder')
+    const agent = walkthroughSteps[step].agent
+    setActiveApp(agent === 'claude' ? 'terminal' : agent ?? 'finder')
     if (step === 1 || step === 2) {
-      const app = step === 1 ? 'claude' : 'codex'
+      const app = step === 1 ? 'terminal' : 'codex'
       setLaunch((current) => ({ app, sequence: (current?.sequence ?? 0) + 1 }))
     }
   }, [step, isReady, isExploring, presentStep])
@@ -77,15 +86,20 @@ export default function MacSimulator() {
     explore()
     setActiveApp(appId)
     setOpenApps((current) => new Set([...current, appId]))
-    if (appId === 'claude' || appId === 'codex') {
-      launchAgent(appId)
+    if (appId === 'terminal' || appId === 'codex') {
+      if (appId === 'codex') launchAgent('codex')
       setLaunch((current) => ({ app: appId, sequence: (current?.sequence ?? 0) + 1 }))
+      if (appId === 'terminal') {
+        if (window.matchMedia('(max-width: 639px)').matches) setTerminalExpanded(true)
+        else requestAnimationFrame(() => sceneRef.current?.querySelector<HTMLTextAreaElement>('.demo-terminal-field')?.focus({ preventScroll: true }))
+      }
     }
     if (appId === 'vibehud') showSessions()
     if (appId === 'settings') showSettings()
   }
 
   return (
+    <>
     <section
       aria-label="Interactive MacBook preview"
       className="relative isolate mb-8 w-full select-none sm:mb-10 lg:px-8"
@@ -97,6 +111,8 @@ export default function MacSimulator() {
           <div
             className="demo-display"
             onPointerDownCapture={explore}
+            onFocusCapture={(event) => { if (event.target instanceof HTMLTextAreaElement) setTerminalFocused(true) }}
+            onBlurCapture={(event) => { if (!(event.relatedTarget instanceof HTMLTextAreaElement)) setTerminalFocused(false) }}
             onKeyDownCapture={(event) => {
               if (event.key !== 'Tab' && !['Shift', 'Control', 'Alt', 'Meta'].includes(event.key)) explore()
             }}
@@ -104,7 +120,15 @@ export default function MacSimulator() {
             <MacBookFrame>
               <MacMenuBar appName={dockApps.find((app) => app.id === activeApp)?.label ?? 'Finder'} isReady={isReady} />
 
-              <AgentWindows openAgents={openAgents} activeAgent={activeApp === 'claude' || activeApp === 'codex' ? activeApp : null} sessions={sessions} onActivate={setActiveApp} />
+              <AgentWindows openAgents={openAgents} activeAgent={activeApp === 'terminal' ? 'claude' : activeApp === 'codex' ? 'codex' : null} sessions={sessions}
+                terminalExpanded={terminalExpanded} onExpandTerminal={() => setTerminalExpanded(true)} terminalDraft={terminalDraft} onDraftChange={setTerminalDraft}
+                onClose={(agent) => {
+                  const app = agent === 'claude' ? 'terminal' : 'codex'
+                  setOpenApps((current) => new Set([...current].filter((item) => item !== app)))
+                  setActiveApp('finder')
+                  if (agent === 'claude') { closeTerminal(); setTerminalDraft('') }
+                }}
+                onActivate={(agent) => setActiveApp(agent === 'claude' ? 'terminal' : agent)} />
 
               <div className="absolute inset-x-0 top-0 z-20 flex justify-center"><DynamicIsland isReady={isReady} /></div>
 
@@ -115,5 +139,7 @@ export default function MacSimulator() {
         </div>
       </div>
     </section>
+    {terminalExpanded && <TerminalDialog session={sessions.find((session) => session.source === 'claude')} initialInput={terminalDraft} onDraftChange={setTerminalDraft} onClose={() => setTerminalExpanded(false)} />}
+    </>
   )
 }

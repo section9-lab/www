@@ -18,7 +18,7 @@ export interface DemoSession {
   tokens: string
   lastUserAt: number
   lastActivity: number
-  tool?: { name: string; input: string }
+  tool?: { name: string; input: string; details?: string }
   messages: DemoMessage[]
 }
 

@@ -3,8 +3,8 @@ import type { DemoSession, DemoView } from '../types/demo'
 
 export type DemoAgent = 'claude' | 'codex'
 export const walkthroughSteps = [
-  { id: 'desktop', title: 'Your workflow starts here.', description: 'Scroll down to launch Claude and Codex from the Dock.', agent: null },
-  { id: 'claude', title: 'Launch Claude. Get to work.', description: 'A new Claude Code session appears in your Mac’s notch.', agent: 'claude' },
+  { id: 'desktop', title: 'Your workflow starts here.', description: 'Open Terminal and run claude, then bring Codex into the flow.', agent: null },
+  { id: 'claude', title: 'Run Claude Code in Terminal.', description: 'The claude command starts a session in your Mac’s notch.', agent: 'claude' },
   { id: 'codex', title: 'Bring Codex into the flow.', description: 'Run a second task. Keep both agents in view.', agent: 'codex' },
   { id: 'sessions', title: 'Every session, one glance.', description: 'Open the notch to follow both agents without switching windows.', agent: 'codex' },
   { id: 'approval', title: 'An approval, right on time.', description: 'Review the tool request and allow or deny it from the notch.', agent: 'codex' },
