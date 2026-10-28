@@ -14,5 +14,6 @@ export const footerNavigation = [
     { label: 'FAQs', href: '/faqs/' },
     { label: 'Installation help', href: '/recover/' },
     { label: 'Privacy', href: '/privacy/' },
+    { label: 'Purchase terms', href: '/terms/' },
   ] },
 ] as const

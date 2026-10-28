@@ -2,7 +2,7 @@ import type { APIRoute } from 'astro'
 import { getCollection } from 'astro:content'
 import { siteConfig } from '../config/site'
 
-const routes = ['/', '/download/', '/faqs/', '/privacy/', '/recover/', '/docs/', '/pricing/'] as const
+const routes = ['/', '/download/', '/faqs/', '/privacy/', '/recover/', '/docs/', '/pricing/', '/terms/'] as const
 const siteUpdated = '2026-10-28'
 
 export const GET: APIRoute = async () => {

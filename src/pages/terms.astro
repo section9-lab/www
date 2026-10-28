@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro'
+import AppHeader from '../components/AppHeader.astro'
+import AppFooter from '../components/AppFooter.astro'
+import { siteConfig } from '../config/site'
+import { purchasePolicy } from '../config/purchase'
+import { uiClasses } from '../config/ui'
+import '../assets/css/main.css'
+
+const description = `vibe hud purchase terms: ${siteConfig.priceLabel} once for your Macs, ongoing use of your purchased version, included minor updates, and ${purchasePolicy.refundDays}-day refunds.`
+const structuredData = {
+  '@context': 'https://schema.org', '@type': 'WebPage',
+  '@id': `${siteConfig.siteUrl}/terms/#policy`, name: 'vibe hud purchase terms',
+  description, url: `${siteConfig.siteUrl}/terms/`, dateModified: purchasePolicy.updatedAt,
+  about: { '@id': `${siteConfig.siteUrl}/#app` },
+  isPartOf: { '@id': `${siteConfig.siteUrl}/#website` },
+}
+const sectionClasses = 'scroll-mt-40 space-y-4 border-t border-orange-950/10 pt-8'
+const headingClasses = 'text-2xl font-bold tracking-tight text-stone-800'
+---
+<Layout title="Purchase terms | vibe hud devices, updates, and refunds" description={description} structuredData={structuredData}>
+  <AppHeader />
+  <main class="mx-auto w-full max-w-4xl flex-1 px-8 pt-32 pb-16 sm:pt-44 sm:pb-24">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">Purchase terms</h1>
+    <p class="mt-6 text-xl leading-relaxed text-stone-600">One payment for vibe hud. Clear terms for your Macs, app updates, and refunds.</p>
+    <p class="mt-4 text-sm text-stone-500">Updated <time datetime={purchasePolicy.updatedAt}>{purchasePolicy.updatedAt}</time></p>
+    <div class="mt-10 space-y-10 text-lg leading-relaxed text-stone-600">
+      <section id="payment" class={sectionClasses} aria-labelledby="payment-title">
+        <h2 id="payment-title" class={headingClasses}>One-time payment</h2>
+        <p>vibe hud costs {siteConfig.priceLabel} USD as a one-time app purchase. There is no recurring vibe hud subscription or automatic renewal. Any applicable taxes and the final amount are shown at checkout before payment.</p>
+        <p>Your purchase does not expire. You can continue using the version you purchased on a compatible Mac without paying a recurring fee.</p>
+      </section>
+      <section id="devices" class={sectionClasses} aria-labelledby="devices-title">
+        <h2 id="devices-title" class={headingClasses}>Your Macs, covered</h2>
+        <p>{purchasePolicy.deviceSummary} There is no per-device purchase limit for the same buyer. Personal and work use are both covered.</p>
+        <p>If a team wants to purchase copies for several people, email <a class={uiClasses.contactLink} href={siteConfig.billingSupportUrl}>{siteConfig.billingSupportEmail}</a> to arrange the order.</p>
+        <p>These purchase terms describe the paid app offer. They do not replace or restrict permissions granted under the software licenses included with the <a class={uiClasses.contactLink} href={siteConfig.repositoryUrl} target="_blank" rel="noopener noreferrer">source code</a> or its dependencies.</p>
+      </section>
+      <section id="updates" class={sectionClasses} aria-labelledby="updates-title">
+        <h2 id="updates-title" class={headingClasses}>App updates</h2>
+        <p>{purchasePolicy.updateSummary}</p>
+        <p>If we offer a separately priced major upgrade in the future, its price and terms will be stated separately. Upgrading will be optional; declining an upgrade will not create a subscription charge.</p>
+        <p>Compatibility can change as macOS, coding agents, and terminal tools evolve. Check the <a class={uiClasses.contactLink} href="/docs/compatibility/">compatibility guide</a> before purchasing. Ongoing use does not guarantee compatibility with every future macOS or agent release.</p>
+      </section>
+      <section id="preview" class={sectionClasses} aria-labelledby="preview-title">
+        <h2 id="preview-title" class={headingClasses}>Evaluate your setup</h2>
+        <p>There is no time-limited native app trial. Try the website’s <a class={uiClasses.contactLink} href="/">interactive preview</a> and read the <a class={uiClasses.contactLink} href="/docs/">setup guides</a> before buying. The preview uses sample sessions.</p>
+        <p>After purchasing, the refund window below gives you time to evaluate the app with your own agents and terminal setup.</p>
+      </section>
+      <section id="refunds" class={sectionClasses} aria-labelledby="refunds-title">
+        <h2 id="refunds-title" class={headingClasses}>{purchasePolicy.refundDays}-day refunds</h2>
+        <p>If vibe hud is not right for you, request a full refund within <strong class="font-semibold text-stone-800">{purchasePolicy.refundDays} calendar days of purchase</strong>. You do not need to provide a reason.</p>
+        <p>Email <a class={uiClasses.contactLink} href={siteConfig.billingSupportUrl}>{siteConfig.billingSupportEmail}</a> with your order reference and purchase date. We will manually verify the purchase and submit the refund to the original payment method.</p>
+        <p>Payment-provider and bank processing times determine when the refund appears in your account. Do not send card numbers or payment credentials, and keep order information out of public GitHub issues.</p>
+      </section>
+      <section id="support" class={sectionClasses} aria-labelledby="support-title">
+        <h2 id="support-title" class={headingClasses}>What the purchase includes</h2>
+        <p>The purchase is for the vibe hud Mac app and the update policy described above. You install and use your own coding agents. AI model subscriptions, API credits, terminal software, and other third-party services are not included.</p>
+        <p>We provide installation and compatibility help on a best-effort basis. The purchase does not include a guaranteed response time, custom development, or support for every third-party configuration.</p>
+        <p>For orders and refunds, email <a class={uiClasses.contactLink} href={siteConfig.billingSupportUrl}>{siteConfig.billingSupportEmail}</a>. For technical questions without private order details, visit <a class={uiClasses.contactLink} href={siteConfig.supportUrl} target="_blank" rel="noopener noreferrer">GitHub issues</a>. See the <a class={uiClasses.contactLink} href="/privacy/">privacy page</a> for app and website data use.</p>
+      </section>
+    </div>
+    <p class="mt-10 text-lg"><a class={uiClasses.contactLink} href="/pricing/">Back to pricing</a></p>
+  </main>
+  <AppFooter />
+</Layout>

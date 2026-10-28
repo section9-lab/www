@@ -4,13 +4,24 @@ import AppHeader from '../components/AppHeader.astro'
 import AppFooter from '../components/AppFooter.astro'
 import PurchaseButton from '../components/buttons/PurchaseButton.astro'
 import { siteConfig } from '../config/site'
+import { purchasePolicy } from '../config/purchase'
 import { uiClasses } from '../config/ui'
 import '../assets/css/main.css'
-const description = `Get vibe hud for ${siteConfig.priceLabel} as a one-time purchase. Follow AI coding sessions, review supported tool requests, and reply from your Mac’s notch.`
+
+const description = `Get vibe hud for ${siteConfig.priceLabel} as a one-time purchase for your Macs, with ${purchasePolicy.refundDays}-day refunds and minor updates within your purchased major version.`
 const structuredData = {
-  '@context': 'https://schema.org', '@type': 'WebPage', name: 'vibe hud pricing', description,
-  url: `${siteConfig.siteUrl}/pricing/`, about: { '@id': `${siteConfig.siteUrl}/#app` },
-  mainEntity: { '@type': 'Offer', price: siteConfig.priceUsd, priceCurrency: 'USD', url: siteConfig.purchaseUrl, itemOffered: { '@id': `${siteConfig.siteUrl}/#app` } },
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'vibe hud pricing',
+  description,
+  url: `${siteConfig.siteUrl}/pricing/`,
+  about: { '@id': `${siteConfig.siteUrl}/#app` },
+  mainEntity: {
+    '@type': 'Offer', price: siteConfig.priceUsd, priceCurrency: 'USD',
+    url: siteConfig.purchaseUrl, description,
+    itemOffered: { '@id': `${siteConfig.siteUrl}/#app` },
+    subjectOf: { '@type': 'WebPage', url: `${siteConfig.siteUrl}/terms/`, name: 'vibe hud purchase terms' },
+  },
 }
 ---
 <Layout title={`${siteConfig.priceLabel} one-time purchase | vibe hud pricing`} description={description} structuredData={structuredData}>
@@ -18,9 +29,38 @@ const structuredData = {
   <main class="mx-auto w-full max-w-4xl flex-1 px-8 pt-32 pb-16 sm:pt-44 sm:pb-24">
     <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">One purchase.<br />Your agents within reach.</h1>
     <p class="mt-6 text-xl leading-relaxed text-stone-600">vibe hud is a native macOS app for following AI coding sessions from your Mac’s notch.</p>
-    <section class="mt-10 rounded-3xl border border-orange-950/10 bg-orange-950/5 p-7 sm:p-10" aria-labelledby="price-title"><h2 id="price-title" class="text-lg font-semibold">vibe hud for Mac</h2><p class="mt-4 text-5xl font-bold tracking-tight">{siteConfig.priceLabel}</p><p class="mt-3 text-base text-stone-500">USD · one-time purchase</p><p class="mt-4 max-w-xl leading-relaxed text-stone-600">Pay once for the app. The purchase is not a recurring vibe hud subscription.</p><div class="mt-7"><PurchaseButton href={siteConfig.purchaseUrl} price={siteConfig.priceLabel} /></div></section>
-    <section class="mt-10 space-y-4 text-lg leading-relaxed text-stone-600"><h2 class="text-2xl font-bold text-stone-800">What the app does</h2><ul class="list-disc space-y-2 pl-6"><li>Follow local AI coding sessions and their current state.</li><li>Review conversation history and tool activity in the HUD.</li><li>Handle supported tool requests and send replies through your terminal environment.</li><li>Configure agent hooks, display preferences, notification sound, and startup behavior.</li></ul><p>Requires macOS {siteConfig.minimumMacOS} or later. You install and use your own coding agents; this purchase does not include an AI model subscription or API credits. See <a class={uiClasses.contactLink} href="/docs/compatibility/">compatibility</a> for integration differences.</p></section>
-    <section class="mt-10 space-y-4 text-lg leading-relaxed text-stone-600"><h2 class="text-2xl font-bold text-stone-800">Purchase details</h2><p>Review the checkout page for the final total and the purchase terms, including any applicable taxes, device limits, trial availability, and refund policy.</p><p>For purchase questions, <a class={uiClasses.contactLink} href={siteConfig.supportUrl} target="_blank" rel="noopener noreferrer">contact the project</a> before placing an order. Source code and license files are available in the <a class={uiClasses.contactLink} href={siteConfig.repositoryUrl} target="_blank" rel="noopener noreferrer">GitHub repository</a>.</p><p>For installation instructions, read the <a class={uiClasses.contactLink} href="/docs/">setup guide</a>.</p></section>
+    <section class="mt-10 rounded-3xl border border-orange-950/10 bg-orange-950/5 p-7 sm:p-10" aria-labelledby="price-title">
+      <h2 id="price-title" class="text-lg font-semibold">vibe hud for Mac</h2>
+      <p class="mt-4 text-5xl font-bold tracking-tight">{siteConfig.priceLabel}</p>
+      <p class="mt-3 text-base text-stone-500">USD · one-time purchase</p>
+      <p class="mt-4 max-w-xl leading-relaxed text-stone-600">Pay once for the app. Your purchase does not expire and is not a recurring vibe hud subscription.</p>
+      <ul class="mt-6 list-disc space-y-3 pl-5 leading-relaxed text-stone-600">
+        <li>{purchasePolicy.deviceSummary}</li>
+        <li>{purchasePolicy.updateSummary}</li>
+        <li>Request a full refund within {purchasePolicy.refundDays} calendar days of purchase. No reason required.</li>
+      </ul>
+      <div class="mt-7"><PurchaseButton href={siteConfig.purchaseUrl} price={siteConfig.priceLabel} /></div>
+      <p class="mt-5 text-sm leading-relaxed text-stone-500">Any applicable taxes and the final total are shown at checkout. Read the <a class={uiClasses.contactLink} href="/terms/">purchase terms</a>.</p>
+    </section>
+    <section class="mt-10 space-y-4 text-lg leading-relaxed text-stone-600" aria-labelledby="features-title">
+      <h2 id="features-title" class="text-2xl font-bold text-stone-800">What the app does</h2>
+      <ul class="list-disc space-y-2 pl-6">
+        <li>Follow local AI coding sessions and their current state.</li>
+        <li>Review conversation history and tool activity in the HUD.</li>
+        <li>Handle supported tool requests and send replies through your terminal environment.</li>
+        <li>Configure agent hooks, display preferences, notification sound, and startup behavior.</li>
+      </ul>
+      <p>Requires macOS {siteConfig.minimumMacOS} or later. You install and use your own coding agents; this purchase does not include an AI model subscription or API credits. See <a class={uiClasses.contactLink} href="/docs/compatibility/">compatibility</a> for integration differences.</p>
+    </section>
+    <section class="mt-10 space-y-4 text-lg leading-relaxed text-stone-600" aria-labelledby="preview-title">
+      <h2 id="preview-title" class="text-2xl font-bold text-stone-800">Explore before you buy</h2>
+      <p>There is no time-limited native app trial. Explore the <a class={uiClasses.contactLink} href="/">interactive preview</a> with sample sessions and read the <a class={uiClasses.contactLink} href="/docs/">setup guide</a> to check your workflow. The {purchasePolicy.refundDays}-day refund policy gives you time to evaluate your own setup after purchasing.</p>
+    </section>
+    <section class="mt-10 space-y-4 text-lg leading-relaxed text-stone-600" aria-labelledby="orders-title">
+      <h2 id="orders-title" class="text-2xl font-bold text-stone-800">Orders and refunds</h2>
+      <p>Email <a class={uiClasses.contactLink} href={siteConfig.billingSupportUrl}>{siteConfig.billingSupportEmail}</a> with your order reference and purchase date. Refund requests are reviewed manually and returned to the original payment method. Bank and payment-provider processing times apply.</p>
+      <p>For device coverage, updates, and support details, read the <a class={uiClasses.contactLink} href="/terms/">full purchase terms</a>. Source code and its license files are available on <a class={uiClasses.contactLink} href={siteConfig.repositoryUrl} target="_blank" rel="noopener noreferrer">GitHub</a>.</p>
+    </section>
   </main>
   <AppFooter />
 </Layout>

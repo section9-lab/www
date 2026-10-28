@@ -1,3 +1,5 @@
+const billingSupportEmail = 'section9lab@gmail.com'
+
 export const siteConfig = {
   siteUrl: 'https://hud.vibevibe.cc',
   siteName: 'vibe hud',
@@ -24,6 +26,8 @@ export const siteConfig = {
   downloadUrl: '/download/',
   releaseUrl: 'https://github.com/section9-lab/vibe-hud/releases/latest',
   supportUrl: 'https://github.com/section9-lab/vibe-hud/issues',
+  billingSupportEmail,
+  billingSupportUrl: `mailto:${billingSupportEmail}?subject=vibe%20hud%20order%20support`,
   minimumMacOS: '15.6',
   socialLinks: [
     {

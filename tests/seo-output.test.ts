@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { siteConfig } from '../src/config/site'
+import { purchasePolicy } from '../src/config/purchase'
 
 // Run after `pnpm build`: inspect emitted HTML, not component implementation.
 const files = import.meta.glob<string>('/dist/**/*.{html,xml,txt}', { query: '?raw', import: 'default', eager: true })
@@ -13,7 +14,7 @@ const pages = urls.map((url) => {
 
 describe('production SEO output', () => {
   it('publishes each sitemap page with one canonical, H1, and unique metadata', () => {
-    expect(pages.length).toBeGreaterThanOrEqual(10)
+    expect(pages.length).toBeGreaterThanOrEqual(11)
     const titles = new Set<string>()
     const descriptions = new Set<string>()
     for (const page of pages) {
@@ -74,7 +75,7 @@ describe('production SEO output', () => {
   })
 
   it('exposes guides, support, and pricing through crawlable footer navigation', () => {
-    const required = ['/docs/', '/docs/claude-code/', '/docs/codex/', '/docs/compatibility/', '/pricing/', '/faqs/', '/privacy/', '/recover/']
+    const required = ['/docs/', '/docs/claude-code/', '/docs/codex/', '/docs/compatibility/', '/pricing/', '/faqs/', '/privacy/', '/recover/', '/terms/']
     for (const page of pages) {
       const links = [...page.document.querySelectorAll('footer nav a')].map((link) => link.getAttribute('href'))
       for (const href of required) expect(links).toContain(href)
@@ -83,6 +84,22 @@ describe('production SEO output', () => {
     expect(pricing?.document.querySelector('main')?.textContent).toContain(siteConfig.priceLabel)
     expect(pricing?.document.querySelector('main')?.textContent).toContain('one-time purchase')
     expect(pricing?.document.querySelector('main')?.textContent).toContain('not a recurring')
+  })
+
+  it('connects purchase promises to a complete policy and private order contact', () => {
+    const terms = pages.find((page) => page.url.pathname === '/terms/')
+    const pricing = pages.find((page) => page.url.pathname === '/pricing/')
+    const faq = pages.find((page) => page.url.pathname === '/faqs/')
+    expect(terms).toBeDefined()
+    expect(terms?.document.getElementById('refunds')?.textContent).toContain(`${purchasePolicy.refundDays} calendar days`)
+    expect(terms?.document.getElementById('devices')?.textContent).toContain(purchasePolicy.deviceSummary)
+    expect(terms?.document.getElementById('updates')?.textContent).toContain(purchasePolicy.updateSummary)
+    expect(terms?.document.getElementById('refunds')?.querySelector('a')?.getAttribute('href')).toBe(siteConfig.billingSupportUrl)
+    expect(pricing?.document.querySelector('main')?.textContent).toContain(`${purchasePolicy.refundDays} calendar days`)
+    expect(pricing?.document.querySelector(`a[href="${siteConfig.billingSupportUrl}"]`)?.textContent).toBe(siteConfig.billingSupportEmail)
+    expect(faq?.document.getElementById('refunds')?.textContent).toContain(`${purchasePolicy.refundDays} calendar days`)
+    expect(faq?.document.querySelector('#refunds a')?.getAttribute('href')).toBe('/terms/#refunds')
+    expect(terms?.document.getElementById('preview')?.textContent).toContain('no time-limited native app trial')
   })
 
   it('points crawler discovery at the same canonical sitemap', () => {
