@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import FaqAccordion from './FaqAccordion'
-import FaqDocumentIcon from '../icons/FaqDocumentIcon.astro'
+import { FileText } from 'lucide-react'
 import { siteConfig } from '../../config/site'
 import { uiClasses } from '../../config/ui'
 
@@ -15,15 +15,15 @@ const faqs = (await getCollection('faqs'))
     body: entry.body ?? '',
   }))
 
-const lastUpdated = 'April 2026'
+const lastUpdated = 'October 2026'
 ---
 
 <div class="mb-0 w-full max-w-screen-md sm:mb-6">
-  <h1 class="mb-3 text-6xl font-bold sm:text-8xl">FAQs</h1>
+  <h2 class="mb-3 text-6xl font-bold sm:text-8xl">FAQs</h2>
 
   <div>
     <p class="group dark:text-orange-75/50 flex items-center text-xl text-stone-500">
-      <FaqDocumentIcon class="mr-2 size-[22px] fill-current" />
+      <FileText className="mr-2 size-5" aria-hidden="true" />
       <span>Updated {lastUpdated}</span>
     </p>
   </div>
@@ -33,13 +33,13 @@ const lastUpdated = 'April 2026'
   <div class="mt-12 pt-6">
     <h3 class="mb-3 text-2xl font-bold">Have more questions?</h3>
     <p class="text-xl">
-      If you have any additional questions, do not hesitate to
+      For setup help or feedback,
       <a
         class:list={[uiClasses.contactLink, 'ml-1']}
-        href={`mailto:${siteConfig.supportEmail}`}
-        aria-label="Contact us"
+        href={siteConfig.supportUrl}
+        target="_blank" rel="noopener noreferrer" aria-label="Open GitHub issues"
       >
-        contact us
+        visit GitHub issues
       </a>.
     </p>
   </div>

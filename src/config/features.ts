@@ -1,44 +1,12 @@
 export const featureItems = [
-  {
-    id: 'fluid-transitions',
-    titleTop: 'Fluid',
-    titleBottom: 'transitions',
-  },
-  {
-    id: 'instant-notifications',
-    titleTop: 'Instant',
-    titleBottom: 'Notifications',
-  },
-  {
-    id: 'live-activities',
-    titleTop: 'Live',
-    titleBottom: 'Activities',
-  },
-  {
-    id: 'swipe-gestures',
-    titleTop: 'Swipe',
-    titleBottom: 'gestures',
-  },
-  {
-    id: 'packed-with-surprises',
-    titleTop: 'Packed with',
-    titleBottom: 'surprises',
-  },
-  {
-    id: 'customizable-huds',
-    titleTop: 'Customizable',
-    titleBottom: 'HUDs',
-  },
-  {
-    id: 'lock-screen-widgets',
-    titleTop: 'Lock Screen',
-    titleBottom: 'Widgets',
-  },
-  {
-    id: 'blazing-fast-native-app',
-    titleTop: 'Blazing fast',
-    titleBottom: 'native app',
-  },
+  { id: 'sessions', titleTop: 'Multi-agent', titleBottom: 'sessions', description: 'See running work, waiting input, and approvals across your agents.' },
+  { id: 'approvals', titleTop: 'Inline', titleBottom: 'approvals', description: 'Allow or deny tool requests directly from the notch.' },
+  { id: 'history', titleTop: 'Conversation', titleBottom: 'history', description: 'Open a session to review messages, tool calls, and progress.' },
+  { id: 'replies', titleTop: 'Quick', titleBottom: 'replies', description: 'Answer prompts and send instructions back to your session.' },
+  { id: 'terminals', titleTop: 'Your terminal', titleBottom: 'workflow', description: 'Works with tmux, Terminal, iTerm2, and Ghostty.' },
+  { id: 'preferences', titleTop: 'Make it', titleBottom: 'yours', description: 'Choose a display, notification sound, and startup behavior.' },
+  { id: 'updates', titleTop: 'Native', titleBottom: 'updates', description: 'Check for and install app updates through Sparkle.' },
+  { id: 'hooks', titleTop: 'Agent', titleBottom: 'hooks', description: 'Manage integrations for Claude, Codex, Cursor, and more.' },
 ] as const
 
 export type FeatureItemId = (typeof featureItems)[number]['id']

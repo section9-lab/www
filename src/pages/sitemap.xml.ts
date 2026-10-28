@@ -2,11 +2,11 @@ import type { APIRoute } from 'astro'
 import { siteConfig } from '../config/site'
 
 const routes = [
-  { path: '/', lastmod: '2026-04-19' },
-  { path: '/download', lastmod: '2026-04-19' },
-  { path: '/faqs', lastmod: '2026-04-19' },
-  { path: '/privacy', lastmod: '2026-04-19' },
-  { path: '/recover', lastmod: '2026-04-19' },
+  { path: '/', lastmod: '2026-10-28' },
+  { path: '/download', lastmod: '2026-10-28' },
+  { path: '/faqs', lastmod: '2026-10-28' },
+  { path: '/privacy', lastmod: '2026-10-28' },
+  { path: '/recover', lastmod: '2026-10-28' },
 ] as const
 
 export const GET: APIRoute = () => {

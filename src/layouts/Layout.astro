@@ -40,7 +40,6 @@ const baseStructuredData = [
         "@type": "Organization",
         name: siteConfig.siteName,
         url: siteUrl,
-        email: siteConfig.supportEmail,
         logo: new URL(siteConfig.defaultSocialImagePath, siteUrl).toString(),
         sameAs: siteConfig.socialLinks.map((link) => link.href),
     },
@@ -87,8 +86,7 @@ const structuredDataScripts = allStructuredData.map((item) =>
         <meta name="application-name" content={siteConfig.siteName} />
         <meta property="og:locale" content={siteConfig.locale} />
         <link rel="canonical" href={canonicalUrl} />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/images/icon.png" />
 
         <meta property="og:site_name" content={siteConfig.siteName} />

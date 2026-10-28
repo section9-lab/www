@@ -1,146 +1,39 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import AppHeader from "../components/AppHeader.astro";
-import AppFooter from "../components/AppFooter.astro";
-import AppleWordmark from "../components/AppleWordmark.astro";
-import { siteConfig } from "../config/site";
-import { uiClasses } from "../config/ui";
-import "../assets/css/main.css";
-
-const pageUrl = `${siteConfig.siteUrl}/download`;
-const structuredData = [
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: "Download VibeHUD for Mac",
-        description:
-            "Download VibeHUD for Mac and start a limited 72-hour trial with Dynamic Island style media controls, live activities, and notifications.",
-        url: pageUrl,
-        isPartOf: {
-            "@type": "WebSite",
-            name: siteConfig.siteName,
-            url: siteConfig.siteUrl,
-        },
-        inLanguage: siteConfig.language,
-    },
-    {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        name: siteConfig.siteName,
-        applicationCategory: "MultimediaApplication",
-        applicationSubCategory: "Desktop Enhancement",
-        operatingSystem: "macOS 14 Sonoma or later",
-        downloadUrl: siteConfig.releaseUrl,
-        url: pageUrl,
-        image: `${siteConfig.siteUrl}${siteConfig.defaultSocialImagePath}`,
-        offers: {
-            "@type": "Offer",
-            price: "0",
-            priceCurrency: "USD",
-            category: "trial",
-        },
-    },
-];
+import { Download as DownloadIcon, CodeXml } from 'lucide-react'
+import Layout from '../layouts/Layout.astro'
+import AppHeader from '../components/AppHeader.astro'
+import AppFooter from '../components/AppFooter.astro'
+import { siteConfig } from '../config/site'
+import { uiClasses } from '../config/ui'
+import '../assets/css/main.css'
+const pageUrl = `${siteConfig.siteUrl}/download`
+const description = 'Download vibe hud for macOS 15.6 or later. Follow AI agent sessions, handle tool approvals, and reply from your Mac’s notch.'
+const structuredData = {
+  '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: siteConfig.siteName,
+  applicationCategory: 'DeveloperApplication', operatingSystem: `macOS ${siteConfig.minimumMacOS} or later`,
+  downloadUrl: siteConfig.releaseUrl, url: pageUrl, description,
+}
 ---
-
-<Layout
-    title="Download VibeHUD for Mac | Dynamic Island App for macOS"
-    description="Download VibeHUD for Mac and start a limited 72-hour trial. VibeHUD adds Dynamic Island style media controls, live activities, and notifications to macOS."
-    keywords={[
-        "download VibeHUD",
-        "Dynamic Island app for Mac",
-        "macOS Dynamic Island download",
-        "VibeHUD trial",
-        "Mac media controls app download",
-    ]}
-    structuredData={structuredData}
->
-    <AppHeader showDownload={false} />
-    <main
-        class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36"
-    >
-        <div class="w-full max-w-screen-md text-center">
-            <h1
-                class="mb-6 text-6xl font-bold tracking-tight sm:text-8xl animate-fade-in"
-            >
-                Download for
-                <AppleWordmark
-                    class="pl-[55px] sm:pl-21"
-                    iconClass="absolute -bottom-1 -left-1 size-16 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25"
-                />
-            </h1>
-
-            <p class="mx-auto max-w-2xl text-xl leading-relaxed text-stone-700 dark:text-orange-75/80 animate-fade-in-delayed">
-                Download VibeHUD for Mac to try a Dynamic Island experience on
-                macOS with media controls, live activities, notifications, and a
-                lightweight HUD built for macOS 14 Sonoma or later.
-            </p>
-
-            <div
-                class="mx-auto flex max-w-120 flex-col items-center justify-center animate-fade-in-delayed"
-            >
-                <a
-                    class="group my-12 flex w-full max-w-96 flex-col items-center justify-center rounded-3xl border-2 border-orange-950/5 bg-orange-950/5 pt-5 pb-8 outline-hidden sm:my-16"
-                    href={siteConfig.releaseUrl}
-                    aria-label="Download VibeHUD for Mac"
-                >
-                    <div class="mb-3 size-37">
-                        <picture>
-                            <source
-                                srcset="/images/disk-icon.webp"
-                                type="image/webp"
-                            />
-                            <img
-                                class="object-fit size-full select-none"
-                                src="/images/disk-icon.png"
-                                alt="VibeHUD disk image used to download the macOS app"
-                                draggable="false"
-                            />
-                        </picture>
-                    </div>
-                    <p class="text-2xl font-bold">VibeHUD</p>
-                    <p class="text-lg font-semibold text-orange-950/60">
-                        Minimum macOS 14 Sonoma
-                    </p>
-                    <p
-                        class="inline-flex min-h-6 items-center font-semibold text-orange-950/40"
-                    >
-                        21.5MB
-                        <span
-                            class="mx-1.5 mt-px inline-block size-[3px] rounded-full bg-orange-950/40"
-                        ></span>
-                        v1.3
-                    </p>
-                    <div
-                        class="group-hover:text-orange-75 mt-6 rounded-[0.875rem] border-2 border-orange-950/5 px-5 py-2 text-lg font-bold text-orange-950/65 transition duration-200 group-hover:bg-stone-800"
-                    >
-                        Download
-                    </div>
-                </a>
-
-                <div class="max-w-xl space-y-5 text-lg leading-relaxed text-stone-700 dark:text-orange-75/75">
-                    <p>
-                        The download includes a limited 72-hour trial so you can
-                        test how VibeHUD fits into your Mac workflow before you
-                        buy a license.
-                    </p>
-                    <p>
-                        Looking for installation help, privacy details, or license
-                        recovery? Visit the <a class={uiClasses.contactLink} href="/faqs">FAQ page</a>,
-                        review the <a class={uiClasses.contactLink} href="/privacy">privacy policy</a>,
-                        or open the <a class={uiClasses.contactLink} href="/recover">license recovery page</a>.
-                    </p>
-                    <p>
-                        If you have any issues downloading or installing, please
-                        <a
-                            class={uiClasses.contactLink}
-                            href={`mailto:${siteConfig.supportEmail}`}
-                            aria-label="Contact us">contact us</a
-                        >.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </main>
-    <AppFooter />
+<Layout title="Download vibe hud for Mac" description={description} structuredData={structuredData}>
+  <AppHeader showDownload={false} />
+  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28">
+    <section class="w-full max-w-screen-md text-center">
+      <h1 class="mb-6 text-5xl font-bold tracking-tight sm:text-7xl">Your agents.<br />One notch away.</h1>
+      <p class="mx-auto max-w-xl text-xl leading-relaxed text-stone-600">Download vibe hud for Mac to follow sessions, approve tools, and keep conversations moving.</p>
+      <div class="mx-auto my-12 flex max-w-sm flex-col items-center rounded-3xl border border-orange-950/10 bg-orange-950/5 px-6 py-8 sm:my-16">
+        <img class="mb-4 size-28 object-contain" src="/images/icon.webp" alt="Native vibe hud app icon" width="112" height="112" />
+        <h2 class="text-2xl font-bold">{siteConfig.siteName}</h2>
+        <p class="mt-2 text-sm text-stone-500">Requires macOS {siteConfig.minimumMacOS} or later</p>
+        <a href={siteConfig.releaseUrl} class="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-stone-800 px-5 py-3 font-semibold text-orange-25 outline-none hover:bg-stone-700 focus-visible:ring-3 focus-visible:ring-rose-300" target="_blank" rel="noopener noreferrer"><DownloadIcon className="size-4" aria-hidden="true" />Get the latest release</a>
+      </div>
+      <div class="mx-auto max-w-xl space-y-5 text-left text-lg leading-relaxed text-stone-600">
+        <p>Download the DMG from GitHub Releases, then move <strong class="font-medium text-stone-800">VibeHUD.app</strong> into Applications. On first launch, vibe hud installs its Claude Code hooks automatically.</p>
+        <p>Open your coding agent in a terminal to start a session. Use the notch menu to manage agent hooks, choose your display and notification sound, or enable Launch at Login.</p>
+        <p>Already installed? Check for updates from the app’s notch menu.</p>
+        <p>For setup and compatibility details, visit the <a class={uiClasses.contactLink} href="/faqs">FAQ page</a> or <a class={uiClasses.contactLink} href={siteConfig.supportUrl} target="_blank" rel="noopener noreferrer">get help on GitHub</a>.</p>
+      </div>
+      <a class="mt-8 inline-flex items-center gap-2 text-sm font-medium text-stone-500 hover:text-stone-800 focus-visible:ring-2 focus-visible:ring-rose-300" href={siteConfig.repositoryUrl} target="_blank" rel="noopener noreferrer"><CodeXml className="size-4" aria-hidden="true" />View source</a>
+    </section>
+  </main>
+  <AppFooter />
 </Layout>

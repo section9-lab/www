@@ -1,13 +1,12 @@
 ---
 import MacDownloadButton from "./buttons/MacDownloadButton.astro";
-import BackTileIcon from "./icons/BackTileIcon.astro";
+import { siteConfig } from "../config/site";
 
 interface Props {
     showDownload?: boolean;
 }
 
 const { showDownload = true } = Astro.props as Props;
-const isHome = Astro.url.pathname === "/";
 ---
 
 <header
@@ -23,24 +22,8 @@ const isHome = Astro.url.pathname === "/";
                     class="group flex items-center outline-hidden"
                     aria-label="Go home"
                 >
-                    {
-                        isHome ? (
-                            <div class="relative mr-3 size-10 overflow-hidden rounded-xl border-[2px] border-stone-800 dark:border-orange-100">
-                                <img
-                                    class="size-full scale-115 object-cover"
-                                    src="/images/dock/dyno_icon.webp"
-                                    alt=""
-                                    draggable="false"
-                                />
-                            </div>
-                        ) : (
-                            <div class="relative mr-3 size-10 overflow-hidden rounded-xl border-[2px] border-stone-800 dark:border-orange-100">
-                                <div class="dark:from-orange-75 dark:to-orange-75/5 absolute inset-0.5 origin-center rounded-lg bg-linear-to-t from-stone-950/20 to-stone-950 to-95% transition delay-50 duration-300 ease-out group-hover:-translate-x-full group-hover:scale-x-50 group-hover:scale-y-75 group-hover:opacity-25 group-hover:delay-0 dark:inset-[2.5px] dark:rounded-[0.4375rem] dark:to-100% animate-fade-in" />
-                                <BackTileIcon class="absolute -inset-[0.3125rem] size-[2.8125rem] fill-current" />
-                            </div>
-                        )
-                    }
-                    <div class="text-2xl font-bold">VibeHUD</div>
+                    <img class="mr-3 size-10 object-contain" src="/images/icon.webp" alt="" width="40" height="40" draggable="false" />
+                    <div class="text-2xl font-bold">{siteConfig.siteName}</div>
                 </a>
             </div>
             <div class="flex items-center">

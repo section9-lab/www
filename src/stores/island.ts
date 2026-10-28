@@ -1,229 +1,124 @@
 import { create } from 'zustand'
-
-export interface Track {
-  name: string
-  artist: string
-  album_art: string
-  preview_url: string
-  url: string
-  colors: [string, string]
-}
-
-export type LiveActivityType = 'isLocked' | 'isPlaying' | null
-export type NotificationType = 'didConnectAirPods' | null
-
-const TRACKS: Track[] = [
-  {
-    name: 'Emagination (B - Side)',
-    artist: 'Miami Horror',
-    album_art:
-      'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/ee/5e/9b/ee5e9b85-e222-e5a0-15e5-880f5b165932/067003168366.png/168x168bb.jpg',
-    preview_url: '',
-    url: 'https://music.apple.com/us/album/emagination-b-side/1615142779?i=1615143055',
-    colors: ['#d39da0', '#6b596a'],
-  },
-  {
-    name: 'Shiny Tune',
-    artist: 'Patrick Holland',
-    album_art:
-      'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/d7/c5/60/d7c560ee-b05d-75e1-b4ae-039f8deb0f32/69499.jpg/168x168bb.jpg',
-    preview_url: '',
-    url: 'https://music.apple.com/us/album/shiny-tune/1693032577?i=1693032727',
-    colors: ['#7273d6', '#1a203b'],
-  },
-  {
-    name: 'Ocean City',
-    artist: 'Pacific Coliseum',
-    album_art:
-      'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3b/ff/18/3bff180a-3204-9657-9bd8-fdcb79a4b9eb/5054526057630_cover.jpg/168x168bb.jpg',
-    preview_url: '',
-    url: 'https://music.apple.com/us/album/ocean-city/1819148323?i=1819148325',
-    colors: ['#e27f93', '#4b215c'],
-  },
-]
+import { createDemoSessions } from '../config/demo'
+import { createWalkthroughSnapshot, type DemoAgent } from '../config/walkthrough'
+import { canArchive, type DemoSession, type DemoView } from '../types/demo'
 
 interface IslandState {
-  index: number
-  tracks: Track[]
-  isFlipped: boolean
-  isPlaying: boolean
-  hasQuickPeek: boolean
-  isUnlocked: boolean
-  liveActivityType: LiveActivityType
-  notificationType: NotificationType
-  autoTimer: ReturnType<typeof setTimeout> | null
-  quickPeekTimer: ReturnType<typeof setTimeout> | null
-  liveActivityTimer: ReturnType<typeof setTimeout> | null
-  notificationTimer: ReturnType<typeof setTimeout> | null
+  sessions: DemoSession[]
+  isOpen: boolean
+  view: DemoView
+  selectedSessionId: string | null
+  pendingReplyId: string | null
+  announcement: string
   initialize: () => void
-  getTrack: () => Track | null
-  preloadTrackArt: (idx?: number) => void
-  toggleQuickPeek: (state: boolean, duration?: number) => void
-  toggleNotification: (
-    state: boolean,
-    type: Exclude<NotificationType, null>,
-    duration?: number
-  ) => void
-  toggleLiveActivity: (state: boolean, type: Exclude<LiveActivityType, null>) => void
-  play: () => void
-  next: () => void
-  toggle: () => void
+  presentStep: (index: number) => void
+  launchAgent: (agent: DemoAgent) => void
+  open: () => void
+  close: () => void
+  showSessions: () => void
+  showSettings: () => void
+  showChat: (id: string) => void
+  approve: (id: string) => void
+  deny: (id: string) => void
+  archive: (id: string) => void
+  reply: (id: string, text: string) => void
   dispose: () => void
 }
 
-function clearTimer(timer: ReturnType<typeof setTimeout> | null) {
-  if (timer) clearTimeout(timer)
-  return null
+const timers = new Set<ReturnType<typeof setTimeout>>()
+function schedule(callback: () => void, delay: number) {
+  const timer = setTimeout(() => { timers.delete(timer); callback() }, delay)
+  timers.add(timer)
+}
+function clearTimers() {
+  timers.forEach(clearTimeout)
+  timers.clear()
+}
+
+function nextActivity(sessions: DemoSession[]) {
+  return Math.max(0, ...sessions.map((session) => session.lastActivity)) + 1
 }
 
 export const useIslandStore = create<IslandState>((set, get) => ({
-  index: 0,
-  tracks: TRACKS,
-  isFlipped: false,
-  isPlaying: false,
-  hasQuickPeek: false,
-  isUnlocked: false,
-  liveActivityType: 'isLocked',
-  notificationType: null,
-  autoTimer: null,
-  quickPeekTimer: null,
-  liveActivityTimer: null,
-  notificationTimer: null,
+  sessions: createDemoSessions(), isOpen: true, view: 'sessions',
+  selectedSessionId: null, pendingReplyId: null, announcement: '',
 
   initialize: () => {
-    const state = get()
-    clearTimer(state.autoTimer)
-    clearTimer(state.quickPeekTimer)
-    clearTimer(state.liveActivityTimer)
-    clearTimer(state.notificationTimer)
-    set({
-      index: 0,
-      isFlipped: false,
-      isPlaying: false,
-      hasQuickPeek: false,
-      isUnlocked: false,
-      liveActivityType: 'isLocked',
-      notificationType: null,
-      autoTimer: null,
-      quickPeekTimer: null,
-      liveActivityTimer: null,
-      notificationTimer: null,
-    })
+    clearTimers()
+    set({ sessions: createDemoSessions(), isOpen: true, view: 'sessions', selectedSessionId: null, pendingReplyId: null, announcement: 'Sample sessions loaded.' })
   },
-
-  getTrack: () => {
-    const { tracks, index } = get()
-    return tracks[index] ?? null
+  presentStep: (index) => {
+    clearTimers()
+    set({ ...createWalkthroughSnapshot(index), pendingReplyId: null })
   },
-
-  preloadTrackArt: (idx) => {
-    const { tracks, index } = get()
-    const track = tracks[idx ?? index]
-    if (!track) return
-    const img = new Image()
-    img.src = track.album_art
+  launchAgent: (agent) => {
+    if (get().sessions.some((session) => session.source === agent)) return
+    const session = createWalkthroughSnapshot(2).sessions.find((item) => item.source === agent)
+    if (session) set((state) => ({ sessions: [...state.sessions, session], announcement: `${agent === 'claude' ? 'Claude Code' : 'Codex'} session started.` }))
   },
-
-  toggleQuickPeek: (state, duration = 0) => {
-    const current = get()
-    clearTimer(current.quickPeekTimer)
-    set({ hasQuickPeek: state, quickPeekTimer: null })
-
-    if (state && duration > 0) {
-      const timer = setTimeout(() => {
-        get().toggleQuickPeek(false)
-      }, duration)
-      set({ quickPeekTimer: timer })
-    }
+  open: () => set({ isOpen: true }),
+  close: () => set({ isOpen: false }),
+  showSessions: () => set({ isOpen: true, view: 'sessions', selectedSessionId: null }),
+  showSettings: () => set({ isOpen: true, view: 'settings' }),
+  showChat: (id) => {
+    if (get().sessions.some((session) => session.id === id)) set({ isOpen: true, view: 'chat', selectedSessionId: id })
   },
-
-  toggleNotification: (state, type, duration = 0) => {
-    const current = get()
-    clearTimer(current.notificationTimer)
-    set({
-      notificationType: state ? type : null,
-      notificationTimer: null,
-    })
-
-    if (state && duration > 0) {
-      const timer = setTimeout(() => {
-        set({ notificationType: null, notificationTimer: null })
-      }, duration)
-      set({ notificationTimer: timer })
-    }
+  approve: (id) => {
+    const session = get().sessions.find((item) => item.id === id)
+    if (session?.phase !== 'waitingForApproval') return
+    set((state) => ({
+      announcement: `${session.title}: tool request allowed.`,
+      sessions: state.sessions.map((item) => item.id === id ? {
+        ...item, phase: 'processing', summary: 'Running pnpm test…', tool: undefined, lastActivity: nextActivity(state.sessions),
+        messages: [...item.messages, { id: `${id}-allowed`, role: 'tool', content: 'Allowed · pnpm test is running.' }],
+      } : item),
+    }))
+    schedule(() => set((state) => ({
+      announcement: `${session.title}: ready for review.`,
+      sessions: state.sessions.map((item) => item.id === id && item.phase === 'processing' ? {
+        ...item, phase: 'waitingForInput', summary: 'Checks passed. Ready for review.', lastActivity: nextActivity(state.sessions),
+        messages: [...item.messages, { id: `${id}-complete`, role: 'assistant', content: 'All checks passed. The integration tests are ready for your review.' }],
+      } : item),
+    })), 2500)
   },
-
-  toggleLiveActivity: (state, type) => {
-    const current = get()
-    clearTimer(current.liveActivityTimer)
-    set({ liveActivityTimer: null })
-
-    if (state) {
-      set({ liveActivityType: type })
-      return
-    }
-
-    let delay = 0
-    if (type === 'isLocked') {
-      set({ isUnlocked: true })
-      delay = 475
-    }
-
-    const timer = setTimeout(() => {
-      set({ liveActivityType: null, liveActivityTimer: null })
-    }, delay)
-    set({ liveActivityTimer: timer })
+  deny: (id) => {
+    const session = get().sessions.find((item) => item.id === id)
+    if (session?.phase !== 'waitingForApproval') return
+    set((state) => ({
+      announcement: `${session.title}: tool request denied.`,
+      sessions: state.sessions.map((item) => item.id === id ? {
+        ...item, phase: 'waitingForInput', summary: 'Tool request denied. Waiting for your reply.', tool: undefined, lastActivity: nextActivity(state.sessions),
+        messages: [...item.messages, { id: `${id}-denied`, role: 'assistant', content: 'The command was denied. I’ll wait for your next instruction.' }],
+      } : item),
+    }))
   },
-
-  play: () => {
-    const state = get()
-    clearTimer(state.autoTimer)
-    set({ isPlaying: true, autoTimer: null })
-    get().toggleLiveActivity(true, 'isPlaying')
-    get().toggleQuickPeek(true, 2000)
-
-    const timer = setTimeout(() => {
-      get().next()
-    }, 20000)
-    set({ autoTimer: timer })
+  archive: (id) => {
+    const session = get().sessions.find((item) => item.id === id)
+    if (!session || !canArchive(session.phase)) return
+    set((state) => ({
+      sessions: state.sessions.filter((item) => item.id !== id),
+      ...(state.selectedSessionId === id ? { view: 'sessions' as const, selectedSessionId: null } : {}),
+      announcement: `${session.title} archived.`,
+    }))
   },
-
-  next: () => {
-    const state = get()
-    const nextIndex = state.index + 1 < state.tracks.length ? state.index + 1 : 0
-    set({ index: nextIndex, isFlipped: !state.isFlipped })
-    get().toggleQuickPeek(true, 2000)
-    get().play()
+  reply: (id, text) => {
+    const content = text.trim()
+    const session = get().sessions.find((item) => item.id === id)
+    if (!session || get().pendingReplyId || session.phase === 'waitingForApproval' || !content || content.length > 500) return
+    set((state) => ({
+      pendingReplyId: id, announcement: 'Reply sent in the preview.',
+      sessions: state.sessions.map((item) => item.id === id ? {
+        ...item, phase: 'processing', summary: content, lastActivity: nextActivity(state.sessions), lastUserAt: nextActivity(state.sessions),
+        messages: [...item.messages, { id: `${id}-reply-${item.messages.length}`, role: 'user', content }],
+      } : item),
+    }))
+    schedule(() => set((state) => ({
+      pendingReplyId: null, announcement: 'The sample agent has replied.',
+      sessions: state.sessions.map((item) => item.id === id ? {
+        ...item, phase: 'waitingForInput', summary: 'Ready for your next instruction', lastActivity: nextActivity(state.sessions),
+        messages: [...item.messages, { id: `${id}-answer-${item.messages.length}`, role: 'assistant', content: 'I’ll follow that direction. The updated session is ready for your review.' }],
+      } : item),
+    })), 1200)
   },
-
-  toggle: () => {
-    const state = get()
-    clearTimer(state.autoTimer)
-
-    if (state.isPlaying) {
-      set({ isPlaying: false, autoTimer: null })
-      return
-    }
-
-    set({ isPlaying: true, autoTimer: null })
-    get().toggleQuickPeek(true, 2000)
-    const timer = setTimeout(() => {
-      get().next()
-    }, 20000)
-    set({ autoTimer: timer })
-  },
-
-  dispose: () => {
-    const state = get()
-    clearTimer(state.autoTimer)
-    clearTimer(state.quickPeekTimer)
-    clearTimer(state.liveActivityTimer)
-    clearTimer(state.notificationTimer)
-    set({
-      autoTimer: null,
-      quickPeekTimer: null,
-      liveActivityTimer: null,
-      notificationTimer: null,
-    })
-  },
+  dispose: () => { clearTimers(); set({ pendingReplyId: null }) },
 }))

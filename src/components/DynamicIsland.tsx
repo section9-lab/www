@@ -1,217 +1,88 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import {
-  IslandLockIcon,
-  MusicNoteIcon,
-  PauseIcon,
-  PlayIcon,
-  StatusRingIcon,
-} from './icons/react'
+import { useEffect, useId, useRef } from 'react'
+import { CircleHelp, Menu, X } from 'lucide-react'
+import { motion, useReducedMotion } from 'motion/react'
+import { Button } from './ui/button'
+import { AgentActivity } from './demo/AgentActivity'
+import SessionList from './demo/SessionList'
+import SessionChat from './demo/SessionChat'
+import DemoSettings from './demo/DemoSettings'
 import { useIslandStore } from '../stores/island'
 
-interface DynamicIslandProps {
-  notchWidth?: number
-  notchHeight?: number
-}
-
-interface MarqueeTrackInfoProps {
-  name?: string
-  artist?: string
-}
-
-function MarqueeTrackInfo({ name, artist }: MarqueeTrackInfoProps) {
-  return (
-    <>
-      <MusicNoteIcon className="mr-0.5 size-[15px] fill-current text-stone-600" />
-      <span>{name}</span>
-      <span className="mx-0.5 text-stone-600">&middot;</span>
-      <span>{artist}</span>
-    </>
-  )
-}
-
-export default function DynamicIsland({
-  notchWidth = 136,
-  notchHeight = 40,
-}: DynamicIslandProps) {
-  const track = useIslandStore((state) => state.getTrack())
-  const tracks = useIslandStore((state) => state.tracks)
-  const isFlipped = useIslandStore((state) => state.isFlipped)
-  const isPlaying = useIslandStore((state) => state.isPlaying)
-  const hasQuickPeek = useIslandStore((state) => state.hasQuickPeek)
-  const isUnlocked = useIslandStore((state) => state.isUnlocked)
-  const liveActivityType = useIslandStore((state) => state.liveActivityType)
-  const notificationType = useIslandStore((state) => state.notificationType)
-  const toggle = useIslandStore((state) => state.toggle)
-  const toggleQuickPeek = useIslandStore((state) => state.toggleQuickPeek)
-
-  const [isElevated, setIsElevated] = useState(false)
-  const marqueeRef = useRef<HTMLDivElement>(null)
-  const [marqueeDuration, setMarqueeDuration] = useState('8s')
+export default function DynamicIsland({ isReady }: { isReady: boolean }) {
+  const sessions = useIslandStore((state) => state.sessions)
+  const isOpen = useIslandStore((state) => state.isOpen)
+  const view = useIslandStore((state) => state.view)
+  const selectedSessionId = useIslandStore((state) => state.selectedSessionId)
+  const announcement = useIslandStore((state) => state.announcement)
+  const open = useIslandStore((state) => state.open)
+  const close = useIslandStore((state) => state.close)
+  const showSessions = useIslandStore((state) => state.showSessions)
+  const showSettings = useIslandStore((state) => state.showSettings)
+  const reduceMotion = useReducedMotion()
+  const rootRef = useRef<HTMLDivElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const contentId = useId()
+  const selected = sessions.find((session) => session.id === selectedSessionId)
+  const hasPendingApproval = sessions.some((session) => session.phase === 'waitingForApproval')
 
   useEffect(() => {
-    if (!hasQuickPeek || !marqueeRef.current) return
-    const frame = requestAnimationFrame(() => {
-      const firstChild = marqueeRef.current?.children[0] as HTMLElement | undefined
-      if (!firstChild) return
-      setMarqueeDuration(`${firstChild.scrollWidth / 30}s`)
-    })
-    return () => cancelAnimationFrame(frame)
-  }, [hasQuickPeek, track?.name, track?.artist])
-
-  const barStyle = useMemo(() => {
-    if (!track) return {}
-    return {
-      backgroundImage: `linear-gradient(to bottom, ${track.colors[0]}, ${track.colors[1]})`,
+    const clickOutside = (event: PointerEvent) => {
+      if (event.target instanceof Node && !rootRef.current?.contains(event.target)) close()
     }
-  }, [track])
-
-  const notchStyle = {
-    width: notificationType || liveActivityType ? notchWidth + 74 : notchWidth,
-    height: hasQuickPeek ? notchHeight + 32 : notchHeight,
-    borderRadius: hasQuickPeek ? '13px 13px 19px 19px' : '12px',
-    transition:
-      'width 0.35s cubic-bezier(0.34,1.2,0.64,1), height 0.35s cubic-bezier(0.34,1.2,0.64,1), border-radius 0.25s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.34,1.56,0.64,1)',
-    transform: isElevated && !hasQuickPeek ? 'scale(1.075)' : 'scale(1)',
-  } as const
-
-  const innerStyle = {
-    borderRadius: isElevated && !hasQuickPeek ? '13px' : '12px',
-    transition: 'border-radius 0.25s ease',
-  } as const
-
-  const peekStyle = {
-    opacity: hasQuickPeek ? 1 : 0,
-    filter: hasQuickPeek ? 'blur(0)' : 'blur(10px)',
-    transform: hasQuickPeek ? 'scaleX(1)' : 'scaleX(0.75)',
-    transition: 'opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease',
-    maskImage:
-      'linear-gradient(to left, rgba(0,0,0,0) 7%, rgba(0,0,0,1) 11%, rgba(0,0,0,1) 89%, rgba(0,0,0,0) 93%)',
-    WebkitMaskImage:
-      'linear-gradient(to left, rgba(0,0,0,0) 7%, rgba(0,0,0,1) 11%, rgba(0,0,0,1) 89%, rgba(0,0,0,0) 93%)',
-  } as const
+    document.addEventListener('pointerdown', clickOutside)
+    return () => { document.removeEventListener('pointerdown', clickOutside); if (hoverTimer.current) clearTimeout(hoverTimer.current) }
+  }, [close])
 
   return (
-    <div
-      className="select-none"
-      style={{ transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)' }}
-      onMouseEnter={() => {
-        if (!hasQuickPeek) setIsElevated(true)
-      }}
-      onMouseLeave={() => {
-        if (!hasQuickPeek) setIsElevated(false)
-      }}
-      onMouseDown={(event) => {
-        const target = event.currentTarget
-        target.style.transform = 'scale(0.94)'
-      }}
-      onMouseUp={(event) => {
-        const target = event.currentTarget
-        target.style.transform = 'scale(1)'
-      }}
-    >
-      <div
-        className={`relative flex origin-top overflow-hidden rounded-xl text-orange-25 ${
-          isElevated && !hasQuickPeek ? 'shadow-[0_2px_16px_0_rgba(12,10,9,0.25)]' : ''
-        }`}
-        style={notchStyle}
-      >
-        <div className="h-full w-full rounded-xl bg-stone-950" style={innerStyle}>
-          <div className="absolute left-0 top-0 flex h-10 items-center">
-            {notificationType === 'didConnectAirPods' ? (
-              <div className="flex h-full items-center pb-0.5 pl-1.5 transition-all duration-300">
-                <video className="size-8" autoPlay loop muted playsInline>
-                  <source src="/videos/airpods-pro.mp4" type="video/mp4" />
-                </video>
-              </div>
-            ) : null}
-
-            {liveActivityType === 'isLocked' ? (
-              <div className="pl-2.5 transition-all duration-300">
-                <IslandLockIcon className="size-[18px] fill-current" unlocked={isUnlocked} />
-              </div>
-            ) : null}
-
-            {liveActivityType === 'isPlaying' ? (
-              <div className={`origin-[20%_0%] pl-[9px] transition duration-300 ${hasQuickPeek ? 'scale-[1.20]' : ''}`}>
-                <div className={`ease transition duration-500 ${isFlipped ? '-scale-x-100' : ''}`}>
-                  <div className={`ease transition duration-500 ${isFlipped ? '-scale-x-100' : ''}`}>
-                    <button
-                      type="button"
-                      className={`ease size-[22px] cursor-pointer rounded-md bg-cover transition-all duration-150 ${!isPlaying ? 'scale-[0.85] opacity-60' : ''}`}
-                      style={track ? { backgroundImage: `url(${track.album_art})` } : { backgroundColor: '#333' }}
-                      onMouseEnter={() => toggleQuickPeek(true)}
-                      onMouseLeave={() => toggleQuickPeek(false)}
-                      onMouseUp={() => {
-                        if (track?.url && track.url !== '#') window.open(track.url, '_blank', 'noopener,noreferrer')
-                      }}
-                      aria-label={track ? `Open ${track.name}` : 'Open track'}
-                    />
-                  </div>
-                </div>
-              </div>
-            ) : null}
-          </div>
-
-          <div className="absolute right-0 top-0 flex h-10 items-center">
-            {notificationType === 'didConnectAirPods' ? (
-              <div className="pr-2.5 transition-all duration-300">
-                <StatusRingIcon className="size-5 -rotate-90" />
-              </div>
-            ) : null}
-
-            {liveActivityType === 'isPlaying' ? (
-              <div className="group relative pr-[9px] transition-all duration-300">
-                <button
-                  type="button"
-                  className="absolute inset-0 z-10 cursor-pointer opacity-0 group-hover:opacity-100"
-                  onClick={(event) => {
-                    event.stopPropagation()
-                    toggle()
-                  }}
-                  aria-label={isPlaying ? 'Pause preview' : 'Play preview'}
-                >
-                  <div className={`absolute inset-0 flex items-center justify-center pr-[9px] transition duration-400 ${!isPlaying ? 'scale-0 opacity-0 blur-sm' : ''}`}>
-                    <PauseIcon className="size-4 fill-current text-orange-25/85" />
-                  </div>
-                  <div className={`absolute inset-0 flex items-center justify-center pr-[9px] transition duration-400 ${isPlaying ? 'scale-0 opacity-0 blur-sm' : ''}`}>
-                    <PlayIcon className="size-4 fill-current text-orange-25/85" />
-                  </div>
-                </button>
-
-                <div className="flex w-5 items-center justify-center space-x-[1.5px] brightness-110 group-hover:scale-125 group-hover:blur-[3.5px] group-hover:brightness-125 group-hover:saturate-150">
-                  {['0.95s', '1.46s', '0.82s', '1.24s'].map((duration) => (
-                    <div
-                      key={duration}
-                      className={`ease size-0.5 rounded-[1px] transition-all duration-500 ${isPlaying ? '' : '!max-h-[2px]'}`}
-                      style={{
-                        ...barStyle,
-                        maxHeight: '20px',
-                        animation: isPlaying ? `playing ${duration} ease infinite` : 'none',
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
-
-          <div
-            className="pointer-events-none absolute bottom-0 left-0 right-0 flex origin-top justify-center pb-[11px] text-xs font-semibold text-stone-300/85"
-            style={peekStyle}
-          >
-            {tracks.length > 0 ? (
-              <div ref={marqueeRef} className="relative flex overflow-hidden" style={{ ['--marquee-duration' as string]: marqueeDuration }}>
-                <div className="inline-flex shrink-0 items-center whitespace-nowrap px-1.5" style={{ animation: 'marquee-first var(--marquee-duration, 8s) linear infinite' }}>
-                  <MarqueeTrackInfo name={track?.name} artist={track?.artist} />
-                </div>
-                <div className="absolute top-0 inline-flex shrink-0 items-center whitespace-nowrap px-1.5" style={{ animation: 'marquee-second var(--marquee-duration, 8s) linear infinite' }}>
-                  <MarqueeTrackInfo name={track?.name} artist={track?.artist} />
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </div>
+    <>
+      <div className="mac-hardware-notch pointer-events-none absolute top-0 left-1/2 z-30 -translate-x-1/2" aria-hidden="true">
+        <span className="absolute top-3 left-1/2 size-1.5 -translate-x-1/2 rounded-full bg-slate-950 ring-2 ring-inset ring-slate-800" />
       </div>
-    </div>
+      <motion.div
+        ref={rootRef}
+        className="mac-notch relative origin-top bg-black text-white"
+        data-state={isOpen ? 'open' : 'closed'}
+        initial={false}
+        animate={{ width: isOpen ? view === 'chat' ? 'var(--hud-chat-width)' : 'var(--hud-open-width)' : hasPendingApproval ? 'calc(var(--hud-closed-width) + 1.125rem)' : 'var(--hud-closed-width)', x: isOpen ? 0 : hasPendingApproval ? -29 : -20 }}
+        transition={reduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 360, damping: 34 }}
+        onPointerEnter={(event) => {
+          if (event.pointerType === 'mouse' && !isOpen && isReady) hoverTimer.current = setTimeout(open, 300)
+        }}
+        onPointerLeave={() => { if (hoverTimer.current) clearTimeout(hoverTimer.current) }}
+        onKeyDown={(event) => {
+          if (event.key === 'Escape') { event.preventDefault(); close(); toggleRef.current?.focus() }
+        }}
+        role="group"
+        aria-label="VibeHUD session controls"
+      >
+        <div className="overflow-hidden rounded-b-[inherit]">
+          <div className="mac-notch-controls relative flex items-center justify-between px-1">
+            <Button
+              ref={toggleRef}
+              variant="ghost"
+              className="h-8 min-w-0 flex-1 justify-start rounded-md px-1 focus-visible:ring-inset"
+              onClick={() => isOpen ? close() : open()}
+              disabled={!isReady}
+              aria-label={isOpen ? 'Collapse session HUD' : 'Open session HUD'}
+              aria-expanded={isOpen}
+              aria-controls={contentId}
+            >
+              <AgentActivity sessions={sessions} />
+              {hasPendingApproval && <CircleHelp className="size-3.5 text-agent-claude" aria-label="Tool approval needed" />}
+            </Button>
+            {isOpen && <Button variant="ghost" size="icon" className="size-8 text-white/50 focus-visible:ring-inset" onClick={() => view === 'settings' ? showSessions() : showSettings()} aria-label={view === 'settings' ? 'Close settings' : 'Open HUD settings'}>{view === 'settings' ? <X className="size-3.5" aria-hidden="true" /> : <Menu className="size-3.5" aria-hidden="true" />}</Button>}
+          </div>
+          <motion.div id={contentId} initial={false} animate={{ opacity: isOpen ? 1 : 0, height: isOpen ? 'auto' : 0 }} transition={{ duration: reduceMotion ? 0 : 0.2 }} className="overflow-hidden" inert={!isOpen} aria-hidden={!isOpen}>
+              <div className="hud-panel-content overflow-y-auto px-1 pb-2" data-view={view}>
+                {view === 'sessions' && <SessionList />}
+                {view === 'chat' && selected && <SessionChat key={selected.id} session={selected} />}
+                <div hidden={view !== 'settings'}><DemoSettings /></div>
+              </div>
+          </motion.div>
+        </div>
+        <span className="sr-only" role="status">{announcement}</span>
+      </motion.div>
+    </>
   )
 }

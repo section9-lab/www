@@ -3,7 +3,6 @@ import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import AppHeader from "../components/AppHeader.astro";
 import AppFooter from "../components/AppFooter.astro";
-import AppleWordmark from "../components/AppleWordmark.astro";
 import MacDownloadButton from "../components/buttons/MacDownloadButton.astro";
 import PurchaseButton from "../components/buttons/PurchaseButton.astro";
 import FeatureGrid from "../components/FeatureGrid.astro";
@@ -43,9 +42,9 @@ const structuredData = [
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         name: siteConfig.siteName,
-        applicationCategory: "MultimediaApplication",
-        applicationSubCategory: "Desktop Enhancement",
-        operatingSystem: "macOS 14 Sonoma or later",
+        applicationCategory: "DeveloperApplication",
+        applicationSubCategory: "AI Agent Session Manager",
+        operatingSystem: `macOS ${siteConfig.minimumMacOS} or later`,
         description: siteConfig.defaultDescription,
         url: homepageUrl,
         image: `${siteConfig.siteUrl}${siteConfig.defaultSocialImagePath}`,
@@ -55,7 +54,6 @@ const structuredData = [
             "@type": "Offer",
             price: siteConfig.priceUsd,
             priceCurrency: "USD",
-            availability: "https://schema.org/InStock",
             url: siteConfig.purchaseUrl,
         },
         brand: {
@@ -87,10 +85,10 @@ const structuredData = [
     description={siteConfig.defaultDescription}
     keywords={[
         "VibeHUD for Mac",
-        "Dynamic Island for macOS",
-        "macOS Dynamic Island app",
-        "Mac live activities app",
-        "Mac media controls app",
+        "Claude Code notch app",
+        "Codex sessions for Mac",
+        "AI agent session manager",
+        "Mac tool approvals",
     ]}
     structuredData={structuredData}
 >
@@ -102,21 +100,17 @@ const structuredData = [
             <!-- Hero Section -->
             <section class="mb-14 w-full sm:mb-20 xl:w-4/5 xl:max-w-screen-lg">
                 <h1
-                    class="relative text-center mb-6 text-6xl font-bold tracking-tight sm:text-8xl animate-fade-in"
+                    class="relative mb-6 text-center text-5xl font-bold tracking-tight sm:text-7xl"
                 >
-                    Dynamic Island
+                    Your agents.
                     <br />
-                    for
-                    <AppleWordmark
-                        class="pl-[55px] sm:pl-21"
-                        iconClass="absolute -bottom-1 -left-1 size-16 overflow-visible fill-current sm:-bottom-1.5 sm:-left-2 sm:size-25"
-                    />
+                    In your Mac’s notch.
                 </h1>
 
                 <p class="mx-auto max-w-2xl text-center text-xl leading-relaxed text-stone-700 dark:text-orange-75/80">
-                    VibeHUD is a Dynamic Island app for macOS that brings live
-                    activities, media controls, notifications, and lightweight
-                    widgets to your Mac with fluid native animations.
+                    Keep every AI session within reach. Follow your agents,
+                    approve tool requests, and reply from the notch —
+                    without hunting through terminal windows.
                 </p>
 
                 <!-- CTA Buttons -->
@@ -124,10 +118,7 @@ const structuredData = [
                     class="mt-14 flex flex-col items-center justify-center space-y-6 sm:mt-12 sm:flex-row sm:space-y-0 sm:space-x-7"
                 >
                     <MacDownloadButton href={siteConfig.downloadUrl} />
-                    <PurchaseButton
-                        href={siteConfig.purchaseUrl}
-                        price={siteConfig.priceLabel}
-                    />
+                    <PurchaseButton href={siteConfig.purchaseUrl} price={siteConfig.priceLabel} />
                 </div>
             </section>
 
@@ -136,9 +127,9 @@ const structuredData = [
 
             <section class="mt-10 max-w-screen-md text-center text-lg leading-relaxed text-stone-600 dark:text-orange-75/70 sm:mt-12">
                 <p>
-                    Built for people who want Dynamic Island style interactions on
-                    Mac, VibeHUD focuses on fast media controls, glanceable status,
-                    and a polished desktop HUD that stays out of the way.
+                    A quiet home for your AI workflow. Each ring represents an
+                    agent type; the number counts active sessions. Open the notch
+                    when a task needs your attention, then get back to your work.
                 </p>
             </section>
 

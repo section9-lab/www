@@ -1,6 +1,169 @@
 @config "../../../tailwind.config.ts";
 @import "tailwindcss";
 
+@theme {
+  --shadow-mac-frame: inset 0 1px 1px rgb(255 255 255 / 0.2), 0 2px 4px rgb(0 0 0 / 0.15);
+  --color-terminal-surface: #202020;
+  --color-agent-claude: #d97757;
+  --color-agent-gray: #8e8e93;
+  --color-agent-workbuddy: #0ec8a9;
+  --color-hud-green: #66bf73;
+  --color-hud-amber: #ffb300;
+  --color-hud-red: #ff4d4d;
+}
+
+@layer components {
+  .demo-scroll-scene {
+    --demo-min-top: calc(var(--demo-header-height, 5rem) + 1rem);
+    --demo-sticky-top: var(--demo-min-top);
+    --demo-step-scroll: 45svh;
+    height: calc(100svh + (var(--demo-stage-count) - 1) * var(--demo-step-scroll));
+  }
+  .demo-pin { top: var(--demo-sticky-top); }
+  .demo-display { width: 100%; max-width: min(100%, calc((100svh - var(--demo-min-top) - 2rem) * 4 / 3)); }
+  .macbook-frame { --mac-frame-radius: clamp(1.25rem, 3vw, 2.5rem); border-radius: var(--mac-frame-radius); }
+  .macbook-bezel { border-radius: calc(var(--mac-frame-radius) - 0.25rem); }
+  .macbook-screen {
+    --notch-width: clamp(4rem, 22cqw, 13rem);
+    --hud-open-width: min(24rem, calc(100cqw - 1rem));
+    --hud-chat-width: min(30rem, calc(100cqw - 1rem));
+    --hud-closed-width: calc(var(--notch-width) + 2.5rem);
+    --hud-body-height: min(22rem, calc(75cqw - 3rem));
+    --hud-chat-height: min(34.25rem, calc(75cqw - 3rem));
+    --notch-height: 2rem;
+    --notch-radius: 0.75rem;
+    container-type: inline-size;
+    border-radius: calc(var(--mac-frame-radius) - 1rem);
+  }
+  .mac-desktop {
+    width: 100%; height: 100%; container-type: inline-size;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  }
+  .mac-menu-bar, .mac-notch-controls { height: var(--notch-height); }
+  .mac-menu-bar { padding: 0 0.5rem; font-size: clamp(0.5rem, 1.3cqw, 0.6875rem); }
+  .mac-menu-side { max-width: calc(50% - var(--notch-width) / 2 - 0.5rem); }
+  .mac-menu-left { overflow: hidden; gap: clamp(0.375rem, 1.3cqw, 0.75rem); }
+  .mac-menu-status { gap: clamp(0.1875rem, 1cqw, 0.625rem); }
+  .mac-menu-symbol, .mac-menu-apple { width: clamp(0.5625rem, 1.5cqw, 0.8125rem); height: clamp(0.5625rem, 1.5cqw, 0.8125rem); flex-shrink: 0; }
+  .mac-menu-battery { width: clamp(0.75rem, 1.875cqw, 1.125rem); height: clamp(0.625rem, 1.5cqw, 0.875rem); flex-shrink: 0; }
+  .mac-menu-date, .mac-menu-items, .mac-menu-extras { display: none; }
+
+  .demo-dock-position { bottom: 4px; }
+  .demo-dock { gap: 0.25rem; padding: 0.375rem; border-radius: 1rem; }
+  .demo-dock-item { width: 2.25rem; height: 2.25rem; }
+  .demo-dock-icon { width: 2rem; height: 2rem; border-radius: 0.5rem; }
+  .demo-dock-dot { width: 0.1875rem; height: 0.1875rem; }
+  .demo-dock-tooltip { margin-bottom: 0.75rem; padding: 0.25rem 0.5rem; font-size: 0.75rem; }
+  .demo-dock-system, .demo-dock-separator { display: none; }
+  .demo-dock-calendar-month { font-size: 0.375rem; line-height: 1rem; }
+  .demo-dock-calendar { height: 68%; font-size: 1.5rem; line-height: 1; font-weight: 300; }
+
+  .demo-agent-window { top: 2.5rem; bottom: 3.5rem; left: 4%; right: 16%; z-index: 1; }
+  .demo-agent-window[data-front="true"] { z-index: 2; }
+  .demo-agent-window[data-agent="codex"] { top: 2.75rem; left: 12%; right: 4%; }
+  .demo-window-titlebar { height: 1rem; font-size: 0.375rem; }
+  .demo-window-control { width: 0.25rem; height: 0.25rem; }
+  .demo-terminal { font-size: clamp(0.375rem, 2cqw, 0.5625rem); line-height: 1.4; padding: 0.25rem 0.5rem; }
+  .demo-terminal-welcome { gap: 0.5rem; padding-bottom: 0.375rem; }
+  .demo-terminal-logo { width: 1.25rem; height: 1.25rem; }
+  .demo-terminal-transcript > * + * { margin-top: 0.375rem; }
+  .demo-terminal-footer { padding-top: 0.375rem; }
+  .demo-terminal-status { margin-bottom: 0.125rem; gap: 0.25rem; }
+  .demo-terminal-status-icon { width: 0.5rem; height: 0.5rem; }
+  .demo-terminal-input { height: 0.75rem; }
+  .demo-terminal-cursor { width: 0.1875rem; height: 0.375rem; }
+  .demo-terminal-hints { font-size: 0.375rem; }
+  .demo-terminal-answer, .demo-terminal-detail, .demo-terminal-tokens, .demo-terminal-shortcut { display: none; }
+  .demo-codex { font-size: 0.5rem; }
+  .demo-codex-sidebar { display: none; }
+  .demo-codex-main { padding: 0.5rem; }
+  .demo-codex-small { font-size: 0.375rem; }
+  .demo-codex-heading { padding-bottom: 0.25rem; }
+  .demo-codex-transcript { display: flex; flex-direction: column; gap: 0.375rem; padding: 0.25rem 0; }
+  .demo-codex-user, .demo-codex-tool, .demo-codex-composer { padding: 0.25rem 0.375rem; }
+  .demo-codex-explanation, .demo-codex-read { display: none; }
+  .demo-codex-meta { margin-top: 0.125rem; font-size: 0.3125rem; }
+  .demo-codex-send { width: 0.75rem; height: 0.75rem; padding: 0.125rem; }
+
+  @container (max-width: 260px) {
+    .demo-terminal-welcome, .demo-terminal-hints { display: none; }
+  }
+
+  @media (min-width: 640px) {
+    .demo-scroll-scene { --demo-min-top: calc(var(--demo-header-height, 7.25rem) + 1rem); }
+    .demo-display { max-width: min(100%, calc((100svh - var(--demo-min-top) - 2rem) * 1710 / 1112)); }
+    /* All desktop UI uses the same native coordinate space and scale. */
+    .mac-desktop {
+      --notch-width: 12.125rem;
+      --notch-height: 1.75rem;
+      --hud-open-width: 27rem;
+      --hud-chat-width: 31rem;
+      --hud-closed-width: 14.625rem;
+      --hud-body-height: 25rem;
+      --hud-chat-height: 36rem;
+      width: 1710px; height: 1112px;
+      transform: scale(var(--desktop-scale, 0)); transform-origin: top left;
+    }
+  }
+
+  @container (min-width: 600px) {
+    .mac-menu-bar { padding: 0 1.25rem; font-size: 0.8125rem; }
+    .mac-menu-left, .mac-menu-status { gap: 1.125rem; }
+    .mac-menu-symbol, .mac-menu-apple { width: 1rem; height: 1rem; }
+    .mac-menu-battery { width: 1.5rem; height: 1rem; }
+    .mac-menu-items { display: flex; gap: 1.25rem; }
+    .mac-menu-date { display: inline; }
+    .mac-menu-extras { display: flex; gap: 1.125rem; }
+    .mac-menu-extras > * { width: 1rem; height: 1rem; }
+    .demo-dock { gap: 0.375rem; padding: 0.5625rem 0.6875rem; border-radius: 1.5rem; }
+    .demo-dock-item { width: 3rem; height: 3rem; }
+    .demo-dock-icon { width: 2.625rem; height: 2.625rem; border-radius: 0.625rem; }
+    .demo-dock-dot { width: 0.1875rem; height: 0.1875rem; }
+    .demo-dock-system { display: flex; }
+    .demo-dock-separator { display: block; width: 1px; height: 2.75rem; margin: 0 0.375rem; background: rgb(255 255 255 / 0.25); }
+    .demo-agent-window { top: 20%; bottom: auto; left: 18%; right: auto; width: 56%; height: 58%; }
+    .demo-agent-window[data-agent="codex"] { top: 24%; left: 27%; right: auto; width: 58%; height: 59%; }
+    .demo-window-titlebar { height: 1.75rem; font-size: 0.75rem; }
+    .demo-window-control { width: 0.625rem; height: 0.625rem; }
+    .demo-terminal { padding: 1.25rem 1.5rem; font-size: 0.8125rem; line-height: 1.6; }
+    .demo-terminal-welcome { gap: 1rem; padding-bottom: 1.5rem; }
+    .demo-terminal-logo { width: 2.625rem; height: 2.625rem; }
+    .demo-terminal-transcript > * + * { margin-top: 1rem; }
+    .demo-terminal-footer { padding-top: 1rem; }
+    .demo-terminal-status { margin-bottom: 0.5rem; gap: 0.5rem; }
+    .demo-terminal-status-icon { width: 0.875rem; height: 0.875rem; }
+    .demo-terminal-input { height: 2rem; }
+    .demo-terminal-cursor { width: 0.375rem; height: 0.875rem; }
+    .demo-terminal-hints { font-size: 0.6875rem; }
+    .demo-terminal-answer, .demo-terminal-detail { display: block; }
+    .demo-terminal-tokens, .demo-terminal-shortcut { display: inline; }
+    .demo-codex { font-size: 0.8125rem; }
+    .demo-codex-sidebar { display: flex; width: 13rem; flex-direction: column; padding: 1.25rem 1rem; }
+    .demo-codex-main { padding: 1.25rem 2rem; }
+    .demo-codex-small { font-size: 0.75rem; }
+    .demo-codex-heading { padding-bottom: 0.75rem; }
+    .demo-codex-transcript { gap: 1.5rem; padding: 1.5rem 0; }
+    .demo-codex-user, .demo-codex-composer { padding: 0.75rem 1rem; }
+    .demo-codex-tool { padding: 0.5rem 0.75rem; }
+    .demo-codex-explanation { display: block; }
+    .demo-codex-read { display: flex; }
+    .demo-codex-meta { margin-top: 0.75rem; font-size: 0.625rem; }
+    .demo-codex-send { width: 1.25rem; height: 1.25rem; padding: 0.25rem; }
+  }
+
+  .mac-notch { width: var(--notch-width); border-radius: 0 0 var(--notch-radius) var(--notch-radius); }
+  .mac-notch[data-state="open"] { --notch-radius: 1.1875rem; border-bottom-right-radius: 1.5rem; border-bottom-left-radius: 1.5rem; }
+  .mac-notch[data-state="closed"] { --notch-radius: 0.375rem; border-bottom-right-radius: 0.875rem; border-bottom-left-radius: 0.875rem; }
+  .mac-hardware-notch { width: var(--notch-width); height: var(--notch-height); border-radius: 0 0 var(--notch-radius) var(--notch-radius); background: black; }
+  .hud-panel-content { max-height: var(--hud-body-height); }
+  .hud-chat { height: calc(var(--hud-chat-height) - 0.5rem); }
+  .hud-panel-content[data-view="chat"] { max-height: var(--hud-chat-height); }
+  .agent-ring-active { mask-image: conic-gradient(transparent 0deg 20deg, black 20deg 333deg, transparent 333deg); }
+  .mac-notch::before, .mac-notch::after { position: absolute; top: 0; width: var(--notch-radius); height: var(--notch-radius); content: ""; }
+  .mac-notch::before { right: 100%; border-top-right-radius: var(--notch-radius); box-shadow: 0 calc(-0.5 * var(--notch-radius)) 0 0 black; }
+  .mac-notch::after { left: 100%; border-top-left-radius: var(--notch-radius); box-shadow: 0 calc(-0.5 * var(--notch-radius)) 0 0 black; }
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: #4314071a transparent;

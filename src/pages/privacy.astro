@@ -5,63 +5,21 @@ import AppFooter from '../components/AppFooter.astro'
 import { siteConfig } from '../config/site'
 import { uiClasses } from '../config/ui'
 import '../assets/css/main.css'
-
-const pageUrl = `${siteConfig.siteUrl}/privacy`
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: 'VibeHUD Privacy Policy',
-  description:
-    'Learn how VibeHUD handles privacy on macOS. VibeHUD does not collect personal data or analytics from the app.',
-  url: pageUrl,
-  isPartOf: {
-    '@type': 'WebSite',
-    name: siteConfig.siteName,
-    url: siteConfig.siteUrl,
-  },
-  inLanguage: siteConfig.language,
-}
+const description = 'How vibe hud uses local session history and product analytics on macOS.'
 ---
-<Layout
-  title="VibeHUD Privacy Policy | Data Collection and App Privacy"
-  description="Learn how VibeHUD handles privacy on macOS. VibeHUD does not collect personal data or analytics from the app."
-  keywords={[
-    'VibeHUD privacy policy',
-    'VibeHUD data collection',
-    'VibeHUD app privacy',
-    'macOS app privacy policy',
-  ]}
-  structuredData={structuredData}
->
+<Layout title="vibe hud | Privacy and data use" description={description}>
   <AppHeader showDownload={false} />
-  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
+  <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28">
     <section class="w-full max-w-screen-md">
       <h1 class="mb-6 text-5xl font-bold tracking-tight sm:text-7xl">Privacy</h1>
-      <div class="space-y-6 text-xl leading-relaxed text-stone-700 dark:text-orange-75/85">
-        <p>
-          VibeHUD does not collect personal data or usage analytics from inside the macOS app.
-        </p>
-        <p>
-          The app is designed to run locally on your Mac without sending your personal content,
-          playback data, or notification history to VibeHUD servers.
-        </p>
-        <p>
-          This website may use standard web analytics to understand visits and improve the product,
-          but the VibeHUD app itself does not track you.
-        </p>
-        <p>
-          For answers about trials, refunds, licensing, or installation, visit the
-          <a class:list={[uiClasses.contactLink, 'ml-1']} href="/faqs">FAQ page</a>.
-        </p>
-        <p>
-          If you have privacy-related questions, contact
-          <a
-            class:list={[uiClasses.contactLink, 'ml-1']}
-            href={`mailto:${siteConfig.supportEmail}?subject=VibeHUD%20Privacy`}
-          >
-            {siteConfig.supportEmail}
-          </a>.
-        </p>
+      <div class="space-y-6 text-lg leading-relaxed text-stone-600">
+        <p>vibe hud reads local agent session events and conversation history to show progress, tool requests, and messages in the notch. When you approve a tool or send a reply, the app routes that action to the corresponding agent session.</p>
+        <h2 class="pt-4 text-2xl font-bold text-stone-800">Product analytics</h2>
+        <p>The macOS app uses Mixpanel. The current implementation records app launches and session starts, along with an app-generated identifier and metadata including app version, build number, macOS version, and Claude Code version.</p>
+        <p>The analytics events in the current source do not attach conversation text. Session transcripts are read locally for the HUD and conversation view. The agents and terminal tools you use have their own data handling practices.</p>
+        <h2 class="pt-4 text-2xl font-bold text-stone-800">This website</h2>
+        <p>This website uses Google Analytics to understand visits. The interactive product preview runs with sample sessions; it does not connect to your local terminal or submit the replies you enter to an AI agent.</p>
+        <p>You can inspect the implementation in the <a class={uiClasses.contactLink} href={siteConfig.repositoryUrl} target="_blank" rel="noopener noreferrer">source repository</a>. For questions or feedback, visit <a class={uiClasses.contactLink} href={siteConfig.supportUrl} target="_blank" rel="noopener noreferrer">GitHub issues</a>.</p>
       </div>
     </section>
   </main>
