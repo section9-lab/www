@@ -14,11 +14,11 @@ export const dockApps = [
 export type DockAppId = (typeof dockApps)[number]['id']
 
 const systemApps = [
-  ['apps', '应用程序'], ['safari', 'Safari'], ['messages', '信息'], ['mail', '邮件'],
-  ['maps', '地图'], ['photos', '照片'], ['facetime', 'FaceTime'], ['phone', '电话'],
-  ['calendar', '日历'], ['contacts', '通讯录'], ['reminders', '提醒事项'], ['notes', '备忘录'],
-  ['music', '音乐'], ['keynote', 'Keynote'], ['numbers', 'Numbers'], ['pages', 'Pages'],
-  ['appstore', 'App Store'], ['iphone', 'iPhone 镜像'],
+  ['apps', 'Launchpad'], ['safari', 'Safari'], ['messages', 'Messages'], ['mail', 'Mail'],
+  ['maps', 'Maps'], ['photos', 'Photos'], ['facetime', 'FaceTime'], ['phone', 'Phone'],
+  ['calendar', 'Calendar'], ['contacts', 'Contacts'], ['reminders', 'Reminders'], ['notes', 'Notes'],
+  ['music', 'Music'], ['keynote', 'Keynote'], ['numbers', 'Numbers'], ['pages', 'Pages'],
+  ['appstore', 'App Store'], ['iphone', 'iPhone Mirroring'],
 ] as const
 const recentApps = [['github', 'GitHub Desktop']] as const
 
@@ -32,8 +32,8 @@ interface DemoDockProps {
 
 function DockCalendarDate() {
   const day = useTimeStore((state) => state.now.getDate())
-  const month = useTimeStore((state) => state.now.getMonth() + 1)
-  return <><span className="demo-dock-calendar-month absolute inset-x-0 top-0 text-center text-white" suppressHydrationWarning>{month}月</span><span className="demo-dock-calendar absolute inset-x-0 bottom-1 flex items-center justify-center bg-white text-zinc-800" suppressHydrationWarning>{day}</span></>
+  const weekday = useTimeStore((state) => new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(state.now).toUpperCase())
+  return <><span className="demo-dock-calendar-month absolute inset-x-0 top-0 text-center text-white" suppressHydrationWarning>{weekday}</span><span className="demo-dock-calendar absolute inset-x-0 bottom-1 flex items-center justify-center bg-white text-zinc-800" suppressHydrationWarning>{day}</span></>
 }
 
 function SystemDockItem({ id, label }: { id: string; label: string }) {
@@ -87,8 +87,8 @@ export default function DemoDock({ isReady, activeApp, openApps, launch, onOpen 
         {recentApps.map(([id, label]) => <SystemDockItem key={id} id={id} label={label} />)}
         {launcher('vibehud')}
         <span className="demo-dock-separator" aria-hidden="true" />
-        <SystemDockItem id="folder" label="下载" />
-        <SystemDockItem id="trash" label="废纸篓" />
+        <SystemDockItem id="folder" label="Downloads" />
+        <SystemDockItem id="trash" label="Trash" />
       </div>
     </div>
   )

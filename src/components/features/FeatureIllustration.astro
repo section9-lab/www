@@ -1,8 +1,60 @@
 ---
-import { Layers3, ShieldCheck, MessagesSquare, Send, Terminal, SlidersHorizontal, RefreshCw, Plug } from 'lucide-react'
 import type { FeatureItemId } from '../../config/features'
-interface Props { id: FeatureItemId }
-const icons = { sessions: Layers3, approvals: ShieldCheck, history: MessagesSquare, replies: Send, terminals: Terminal, preferences: SlidersHorizontal, updates: RefreshCw, hooks: Plug }
-const Icon = icons[Astro.props.id]
+import FeatureBlazingFastDoodle from '../icons/features/FeatureBlazingFastDoodle.astro'
+import FeatureBlazingFastIcon from '../icons/features/FeatureBlazingFastIcon.astro'
+import FeatureCustomizableHudsIcon from '../icons/features/FeatureCustomizableHudsIcon.astro'
+import FeatureInstantNotificationsIcon from '../icons/features/FeatureInstantNotificationsIcon.astro'
+import FeatureLiveActivitiesIcon from '../icons/features/FeatureLiveActivitiesIcon.astro'
+import FeatureLockScreenWidgetsIcon from '../icons/features/FeatureLockScreenWidgetsIcon.astro'
+import FeaturePackedSurprisesIcon from '../icons/features/FeaturePackedSurprisesIcon.astro'
+import FeatureSwipeGesturesIcon from '../icons/features/FeatureSwipeGesturesIcon.astro'
+
+interface Props {
+  id: FeatureItemId
+}
+
+const { id } = Astro.props as Props
 ---
-<Icon className="mb-5 size-12 text-stone-700" strokeWidth={1.5} aria-hidden="true" />
+{id === 'sessions' && (
+  <div class="mb-5 h-18">
+    <div class="gooey flex h-full items-center justify-center space-x-2.5">
+      <div class="h-11 w-11 rounded-full bg-stone-800 transition duration-700 group-hover:translate-x-11"></div>
+      <div class="h-7 w-7 rounded-full bg-stone-800 transition duration-700 group-hover:-translate-x-12"></div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="hidden" aria-hidden="true">
+      <defs>
+        <filter id="gooey">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"></feGaussianBlur>
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="gooey"></feColorMatrix>
+          <feComposite in="SourceGraphic" in2="gooey" operator="atop"></feComposite>
+        </filter>
+      </defs>
+    </svg>
+  </div>
+)}
+{id === 'approvals' && (
+  <FeatureInstantNotificationsIcon class="mb-5 h-18 w-18 overflow-visible fill-current" />
+)}
+{id === 'history' && (
+  <FeatureLiveActivitiesIcon class="mb-5 h-18 w-18 fill-current" />
+)}
+{id === 'replies' && (
+  <FeatureSwipeGesturesIcon class="mb-5 h-18 w-18 overflow-visible fill-current" />
+)}
+{id === 'terminals' && (
+  <FeaturePackedSurprisesIcon class="mb-5 h-18 w-18 overflow-visible fill-current transition duration-300 group-hover:-translate-y-px group-hover:-rotate-2" />
+)}
+{id === 'preferences' && (
+  <FeatureCustomizableHudsIcon class="mb-5 h-18 w-18 fill-current" />
+)}
+{id === 'updates' && (
+  <FeatureLockScreenWidgetsIcon class="mb-5 h-18 w-18 fill-current" />
+)}
+{id === 'hooks' && (
+  <div class="relative">
+    <FeatureBlazingFastIcon class="mb-5 h-18 w-18 overflow-visible fill-current" />
+    <div class="absolute right-0 -bottom-3.5 left-0 flex items-center justify-center">
+      <FeatureBlazingFastDoodle class="w-44 fill-transparent stroke-current stroke-[0.1875rem] text-purple-400/95 animate-draw" />
+    </div>
+  </div>
+)}

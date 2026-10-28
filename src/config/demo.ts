@@ -8,7 +8,7 @@ export const agents: Record<AgentSource, { name: string; icon?: string; tint: st
   pi: { name: 'Pi', icon: '/images/agents/pi.svg', tint: 'text-agent-gray' },
   opencode: { name: 'OpenCode', icon: '/images/agents/opencode.svg', tint: 'text-agent-gray' },
   workbuddy: { name: 'WorkBuddy', tint: 'text-agent-workbuddy' },
-  qwenWork: { name: '千问办公', icon: '/images/agents/qwen.svg', tint: 'text-agent-workbuddy' },
+  qwenWork: { name: 'Qwen Work', icon: '/images/agents/qwen.svg', tint: 'text-agent-workbuddy' },
 }
 
 export const phaseLabels: Record<SessionPhase, string> = {

@@ -78,15 +78,15 @@
   .demo-terminal-hints { font-size: 0.375rem; }
   .demo-terminal-tokens, .demo-terminal-shortcut { display: none; }
   .demo-codex { font-size: 0.5rem; }
-  .demo-codex-sidebar { display: none; }
+  .demo-codex-rail, .demo-codex-sidebar { display: none; }
+  .demo-codex-heading { height: 1.5rem; padding: 0 0.5rem; }
   .demo-codex-main { padding: 0.5rem; }
-  .demo-codex-small { font-size: 0.375rem; }
-  .demo-codex-heading { padding-bottom: 0.25rem; }
   .demo-codex-transcript { display: flex; flex-direction: column; gap: 0.375rem; padding: 0.25rem 0; }
-  .demo-codex-user, .demo-codex-tool, .demo-codex-composer { padding: 0.25rem 0.375rem; }
-  .demo-codex-explanation, .demo-codex-read { display: none; }
-  .demo-codex-meta { margin-top: 0.125rem; font-size: 0.3125rem; }
-  .demo-codex-send { width: 0.75rem; height: 0.75rem; padding: 0.125rem; }
+  .demo-codex-user, .demo-codex-approval, .demo-codex-composer { padding: 0.25rem 0.375rem; }
+  .demo-codex-input { min-height: 1rem; font-size: inherit; }
+  .demo-codex-meta { margin-top: 0.125rem; font-size: 0.375rem; }
+  .demo-codex-send { width: 1rem; height: 1rem; padding: 0.125rem; }
+  .demo-codex-footer { display: none; }
 
   @container (max-width: 260px) {
     .mac-menu-bar { padding: 0 0.375rem; font-size: 0.375rem; }
@@ -146,18 +146,29 @@
     .demo-terminal-hints { font-size: 0.6875rem; }
     .demo-terminal-tokens, .demo-terminal-shortcut { display: inline; }
     .demo-codex { font-size: 0.8125rem; }
+    .demo-codex-rail { display: flex; width: 3.5rem; flex-direction: column; align-items: center; gap: 0.75rem; padding: 0.75rem 0; }
+    .demo-codex-rail svg { width: 1rem; height: 1rem; }
     .demo-codex-sidebar { display: flex; width: 13rem; flex-direction: column; padding: 1.25rem 1rem; }
-    .demo-codex-main { padding: 1.25rem 2rem; }
-    .demo-codex-small { font-size: 0.75rem; }
-    .demo-codex-heading { padding-bottom: 0.75rem; }
-    .demo-codex-transcript { gap: 1.5rem; padding: 1.5rem 0; }
+    .demo-codex-heading { height: 2.75rem; padding: 0 1.25rem; }
+    .demo-codex-main { padding: 1rem 1.5rem 0.5rem; }
+    .demo-codex-transcript { gap: 1rem; padding: 1rem 0; }
     .demo-codex-user, .demo-codex-composer { padding: 0.75rem 1rem; }
-    .demo-codex-tool { padding: 0.5rem 0.75rem; }
-    .demo-codex-explanation { display: block; }
-    .demo-codex-read { display: flex; }
-    .demo-codex-meta { margin-top: 0.75rem; font-size: 0.625rem; }
-    .demo-codex-send { width: 1.25rem; height: 1.25rem; padding: 0.25rem; }
+    .demo-codex-approval { padding: 0.75rem; }
+    .demo-codex-input { min-height: 2.25rem; }
+    .demo-codex-meta { margin-top: 0.5rem; font-size: 0.6875rem; }
+    .demo-codex-send { width: 1.75rem; height: 1.75rem; padding: 0.375rem; }
+    .demo-codex-footer { display: flex; padding-top: 0.5rem; font-size: 0.625rem; }
+
   }
+
+  .demo-codex-dialog .demo-codex { font-size: 0.875rem; }
+  .demo-codex-dialog .demo-codex-heading { height: 2.75rem; padding: 0 1rem; }
+  .demo-codex-dialog .demo-codex-main { padding: 1rem; }
+  .demo-codex-dialog .demo-codex-transcript { gap: 1rem; padding: 1rem 0; }
+  .demo-codex-dialog .demo-codex-user, .demo-codex-dialog .demo-codex-composer, .demo-codex-dialog .demo-codex-approval { padding: 0.75rem 1rem; }
+  .demo-codex-dialog .demo-codex-input { min-height: 2.5rem; font-size: 1rem; }
+  .demo-codex-dialog .demo-codex-meta { margin-top: 0.5rem; font-size: 0.75rem; }
+  .demo-codex-dialog .demo-codex-send { width: 2.75rem; height: 2.75rem; padding: 0.75rem; }
 
   .demo-terminal-dialog { container-type: inline-size; }
   .demo-terminal-dialog .demo-terminal { padding: 1rem; font-size: 0.875rem; line-height: 1.6; }

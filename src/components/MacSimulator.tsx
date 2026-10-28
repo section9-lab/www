@@ -4,6 +4,7 @@ import AgentWindows from './demo/AgentWindows'
 import DemoDock, { dockApps, type DockAppId } from './demo/DemoDock'
 import MacMenuBar from './demo/MacMenuBar'
 import TerminalDialog from './demo/TerminalDialog'
+import CodexDialog from './demo/CodexDialog'
 import { walkthroughSteps, type DemoAgent } from '../config/walkthrough'
 import { useDemoWalkthrough } from '../hooks/useDemoWalkthrough'
 import { useIslandStore } from '../stores/island'
@@ -46,9 +47,10 @@ export default function MacSimulator() {
   const terminalBusy = useIslandStore((state) => state.terminal.job !== null)
   const terminalInteractive = useIslandStore((state) => state.terminal.interactive)
   const [terminalExpanded, setTerminalExpanded] = useState(false)
+  const [codexExpanded, setCodexExpanded] = useState(false)
   const [terminalFocused, setTerminalFocused] = useState(false)
   const [terminalDraft, setTerminalDraft] = useState('')
-  const { sceneRef, step, isExploring, explore } = useDemoWalkthrough(terminalInteractive || terminalExpanded || terminalFocused || terminalBusy)
+  const { sceneRef, step, isExploring, explore } = useDemoWalkthrough(terminalInteractive || terminalExpanded || codexExpanded || terminalFocused || terminalBusy)
   const [isReady, setIsReady] = useState(false)
   const [activeApp, setActiveApp] = useState<DockAppId>('finder')
   const [launch, setLaunch] = useState<{ app: DockAppId; sequence: number } | null>(null)
@@ -87,7 +89,10 @@ export default function MacSimulator() {
     setActiveApp(appId)
     setOpenApps((current) => new Set([...current, appId]))
     if (appId === 'terminal' || appId === 'codex') {
-      if (appId === 'codex') launchAgent('codex')
+      if (appId === 'codex') {
+        launchAgent('codex')
+        if (window.matchMedia('(max-width: 639px)').matches) setCodexExpanded(true)
+      }
       setLaunch((current) => ({ app: appId, sequence: (current?.sequence ?? 0) + 1 }))
       if (appId === 'terminal') {
         if (window.matchMedia('(max-width: 639px)').matches) setTerminalExpanded(true)
@@ -121,7 +126,7 @@ export default function MacSimulator() {
               <MacMenuBar appName={dockApps.find((app) => app.id === activeApp)?.label ?? 'Finder'} isReady={isReady} />
 
               <AgentWindows openAgents={openAgents} activeAgent={activeApp === 'terminal' ? 'claude' : activeApp === 'codex' ? 'codex' : null} sessions={sessions}
-                terminalExpanded={terminalExpanded} onExpandTerminal={() => setTerminalExpanded(true)} terminalDraft={terminalDraft} onDraftChange={setTerminalDraft}
+                terminalExpanded={terminalExpanded} onExpandTerminal={() => setTerminalExpanded(true)} codexExpanded={codexExpanded} onExpandCodex={() => setCodexExpanded(true)} terminalDraft={terminalDraft} onDraftChange={setTerminalDraft}
                 onClose={(agent) => {
                   const app = agent === 'claude' ? 'terminal' : 'codex'
                   setOpenApps((current) => new Set([...current].filter((item) => item !== app)))
@@ -139,6 +144,7 @@ export default function MacSimulator() {
         </div>
       </div>
     </section>
+    {codexExpanded && <CodexDialog session={sessions.find((session) => session.source === 'codex')} onClose={() => setCodexExpanded(false)} />}
     {terminalExpanded && <TerminalDialog session={sessions.find((session) => session.source === 'claude')} initialInput={terminalDraft} onDraftChange={setTerminalDraft} onClose={() => setTerminalExpanded(false)} />}
     </>
   )

@@ -37,6 +37,17 @@ describe('production SEO output', () => {
     }
   })
 
+  it('renders English page content across all published pages', () => {
+    for (const page of pages) {
+      const body = page.document.body.cloneNode(true) as HTMLElement
+      body.querySelectorAll('script, style').forEach((node) => node.remove())
+      expect(body.textContent, page.url.pathname).not.toMatch(/[\u3400-\u9fff]/)
+      for (const element of body.querySelectorAll('[aria-label], img[alt]')) {
+        expect(element.getAttribute('aria-label') ?? element.getAttribute('alt') ?? '', page.url.pathname).not.toMatch(/[\u3400-\u9fff]/)
+      }
+    }
+  })
+
   it('emits parseable JSON-LD in real script elements on every page', () => {
     for (const page of pages) {
       const scripts = [...page.document.querySelectorAll('script[type="application/ld+json"]')]

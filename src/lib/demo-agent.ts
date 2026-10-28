@@ -30,6 +30,6 @@ export function planDemoTask(input: string, workspace: DemoWorkspace): DemoPlan 
   }
   if (/列出|有哪些文件|list.*files|show.*files/i.test(text)) return { introduction: 'I’ll list the project files.', actions: [{ kind: 'bash', command: 'ls' }], answer: 'These files are available in the preview workspace.' }
   if (/项目|project|了解|介绍|explain|review/i.test(text)) return { introduction: 'I’ll read the project overview and package scripts.', actions: [{ kind: 'read', path: 'README.md' }, { kind: 'read', path: 'package.json' }], answer: `This workspace contains a small greeting module and tests, plus a sample vibe hud conversation parser. There are ${Object.keys(workspace.files).length} files. Try “Write notes.txt: Hello”, “Read notes.txt”, or “Run npm test”.` }
-  if (/^(?:hi|hello|hey|你好|您好)[!！。.]?$/i.test(text)) return { introduction: '', actions: [], answer: '你好！可以让我读取项目文件、创建或修改文件、运行预览 Bash 命令。试试：创建 hello.txt 内容为 你好世界，或输入 /help 查看示例。' }
+  if (/^(?:hi|hello|hey|你好|您好)[!！。.]?$/i.test(text)) return { introduction: '', actions: [], answer: 'Hello! Ask me to read, write or edit preview files, or run a Bash command. Try “Write hello.txt: Hello”, or type /help for examples.' }
   return { introduction: '', actions: [], answer: 'This interactive preview supports file reads, writes, edits, and common shell commands. Try “Read README.md”, “Write notes.txt: Hello”, “Edit notes.txt replace "Hello" with "Hi"”, or “!ls”. Type /help for more examples.' }
 }

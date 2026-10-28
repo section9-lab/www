@@ -1,6 +1,6 @@
 ---
 title: "Agent and terminal compatibility"
-description: "See how vibe hud connects to Claude Code, Codex, Cursor, GitHub Copilot, Pi, OpenCode, WorkBuddy, and 千问办公, and what affects terminal controls and replies."
+description: "See how vibe hud connects to Claude Code, Codex, Cursor, GitHub Copilot, Pi, OpenCode, WorkBuddy, and Qwen Work, and what affects terminal controls and replies."
 order: 30
 updated: "2026-10-28"
 ---
@@ -20,7 +20,7 @@ Open the notch menu and expand **Agent Hooks** to enable or disable each integra
 | Pi | Agent extension | Enable Pi to install the vibe hud extension used by the integration. |
 | OpenCode | Agent plugin | Enable OpenCode to install its integration plugin. |
 | WorkBuddy | Session hooks | Enable WorkBuddy to connect supported session events and local conversation history. |
-| 千问办公 | Local session monitoring | Enable 千问办公 to turn on the app’s monitoring integration. |
+| Qwen Work | Local session monitoring | Enable Qwen Work to turn on the app’s monitoring integration. |
 
 An agent being listed here does not imply that every tool, prompt, or terminal-control action is available. If you need a specific workflow, test it with the versions you use and include those versions when reporting a problem.
 
