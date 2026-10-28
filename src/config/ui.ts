@@ -9,5 +9,5 @@ export const uiClasses = {
   socialButton:
     "group inline-flex size-10 items-center justify-center rounded-xl p-2 text-orange-950/50 hover:bg-orange-950/5 hover:text-orange-950/75 dark:text-orange-75 dark:hover:text-orange-75",
   contactLink:
-    "relative font-medium whitespace-nowrap outline-hidden transition duration-200 after:pointer-events-none after:absolute after:right-0 after:bottom-0 after:left-0 after:h-0.5 after:rounded-xs after:bg-teal-400 after:transition after:duration-200 after:content-[''] hover:text-teal-400 hover:after:translate-y-px",
+    "relative rounded-sm font-medium outline-hidden transition duration-200 after:pointer-events-none after:absolute after:right-0 after:bottom-0 after:left-0 after:h-0.5 after:rounded-xs after:bg-teal-400 after:transition after:duration-200 after:content-[''] hover:text-teal-400 hover:after:translate-y-px focus-visible:ring-2 focus-visible:ring-rose-300",
 } as const;

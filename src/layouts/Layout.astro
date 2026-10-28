@@ -1,4 +1,5 @@
 ---
+import JsonLd from "../components/seo/JsonLd.astro";
 import { siteConfig } from "../config/site";
 
 type StructuredData = Record<string, unknown>;
@@ -38,6 +39,7 @@ const baseStructuredData = [
     {
         "@context": "https://schema.org",
         "@type": "Organization",
+        "@id": `${siteConfig.siteUrl}/#organization`,
         name: siteConfig.siteName,
         url: siteUrl,
         logo: new URL(siteConfig.defaultSocialImagePath, siteUrl).toString(),
@@ -46,6 +48,8 @@ const baseStructuredData = [
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
+        "@id": `${siteConfig.siteUrl}/#website`,
+        publisher: { "@id": `${siteConfig.siteUrl}/#organization` },
         name: siteConfig.siteName,
         url: siteUrl,
         description: siteConfig.defaultDescription,
@@ -54,13 +58,10 @@ const baseStructuredData = [
 ];
 
 const allStructuredData = [...baseStructuredData, ...structuredDataItems];
-const structuredDataScripts = allStructuredData.map((item) =>
-    JSON.stringify(item),
-);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={siteConfig.language}>
     <head>
         <script
             is:inline
@@ -104,15 +105,7 @@ const structuredDataScripts = allStructuredData.map((item) =>
         <meta name="twitter:image" content={socialImageUrl} />
         <meta name="twitter:image:alt" content={imageAlt} />
 
-        {
-            structuredDataScripts.map((structuredDataScript) => (
-                <script
-                    type="application/ld+json"
-                    is:inline
-                    set:text={structuredDataScript}
-                />
-            ))
-        }
+        {allStructuredData.map((data) => <JsonLd data={data} />)}
     </head>
     <body>
         <div

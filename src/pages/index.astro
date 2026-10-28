@@ -5,6 +5,7 @@ import AppHeader from "../components/AppHeader.astro";
 import AppFooter from "../components/AppFooter.astro";
 import MacDownloadButton from "../components/buttons/MacDownloadButton.astro";
 import PurchaseButton from "../components/buttons/PurchaseButton.astro";
+import ProductOverview from "../components/ProductOverview.astro";
 import FeatureGrid from "../components/FeatureGrid.astro";
 import FaqsContent from "../components/faq/FaqsContent.astro";
 import MacSimulator from "../components/MacSimulator";
@@ -34,6 +35,7 @@ const structuredData = [
         },
         about: {
             "@type": "SoftwareApplication",
+            "@id": `${siteConfig.siteUrl}/#app`,
             name: siteConfig.siteName,
         },
         inLanguage: siteConfig.language,
@@ -41,6 +43,7 @@ const structuredData = [
     {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
+        "@id": `${siteConfig.siteUrl}/#app`,
         name: siteConfig.siteName,
         applicationCategory: "DeveloperApplication",
         applicationSubCategory: "AI Agent Session Manager",
@@ -62,6 +65,7 @@ const structuredData = [
         },
         publisher: {
             "@type": "Organization",
+            "@id": `${siteConfig.siteUrl}/#organization`,
             name: siteConfig.siteName,
             url: siteConfig.siteUrl,
         },
@@ -74,7 +78,7 @@ const structuredData = [
             "@type": "ListItem",
             position: index + 1,
             name: entry.data.title,
-            url: `${siteConfig.siteUrl}/faqs#${entry.id}`,
+            url: `${siteConfig.siteUrl}/faqs/#${entry.id}`,
         })),
     },
 ];
@@ -108,9 +112,9 @@ const structuredData = [
                 </h1>
 
                 <p class="mx-auto max-w-2xl text-center text-xl leading-relaxed text-stone-700 dark:text-orange-75/80">
-                    Keep every AI session within reach. Follow your agents,
-                    approve tool requests, and reply from the notch —
-                    without hunting through terminal windows.
+                    vibe hud is a native macOS app that brings AI agent sessions
+                    to your Mac’s notch. Follow progress, review tool requests,
+                    and reply without switching terminal windows.
                 </p>
 
                 <!-- CTA Buttons -->
@@ -135,6 +139,7 @@ const structuredData = [
 
             <!-- Features Grid -->
             <FeatureGrid />
+            <ProductOverview />
 
             <!-- FAQs -->
             <section id="faqs" class="mt-20 w-full max-w-screen-md sm:mt-28">

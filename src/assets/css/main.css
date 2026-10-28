@@ -45,8 +45,9 @@
   .mac-menu-left { overflow: hidden; gap: clamp(0.375rem, 1.3cqw, 0.75rem); }
   .mac-menu-status { gap: clamp(0.1875rem, 1cqw, 0.625rem); }
   .mac-menu-symbol, .mac-menu-apple { width: clamp(0.5625rem, 1.5cqw, 0.8125rem); height: clamp(0.5625rem, 1.5cqw, 0.8125rem); flex-shrink: 0; }
-  .mac-menu-battery { width: clamp(0.75rem, 1.875cqw, 1.125rem); height: clamp(0.625rem, 1.5cqw, 0.875rem); flex-shrink: 0; }
-  .mac-menu-date, .mac-menu-items, .mac-menu-extras { display: none; }
+  .mac-menu-battery { width: clamp(0.875rem, 2cqw, 1.75rem); height: clamp(0.4375rem, 1cqw, 0.875rem); }
+  .mac-menu-control-center { width: clamp(0.5rem, 1.25cqw, 0.9375rem); height: clamp(0.5rem, 1.25cqw, 0.875rem); }
+  .mac-menu-items { display: none; }
 
   .demo-dock-position { bottom: 4px; }
   .demo-dock { gap: 0.25rem; padding: 0.375rem; border-radius: 1rem; }
@@ -86,6 +87,11 @@
   .demo-codex-send { width: 0.75rem; height: 0.75rem; padding: 0.125rem; }
 
   @container (max-width: 260px) {
+    .mac-menu-bar { padding: 0 0.375rem; font-size: 0.375rem; }
+    .mac-menu-status { max-width: none; gap: 0.0625rem; }
+    .mac-menu-symbol { width: 0.5rem; height: 0.5rem; }
+    .mac-menu-battery { width: 0.75rem; height: 0.375rem; }
+    .mac-menu-control-center { width: 0.375rem; height: 0.375rem; }
     .demo-terminal-welcome, .demo-terminal-hints { display: none; }
   }
 
@@ -107,14 +113,15 @@
   }
 
   @container (min-width: 600px) {
-    .mac-menu-bar { padding: 0 1.25rem; font-size: 0.8125rem; }
-    .mac-menu-left, .mac-menu-status { gap: 1.125rem; }
-    .mac-menu-symbol, .mac-menu-apple { width: 1rem; height: 1rem; }
-    .mac-menu-battery { width: 1.5rem; height: 1rem; }
+    .mac-menu-bar { padding: 0 1.25rem; font-size: 0.875rem; }
+    .mac-menu-left { gap: 1.125rem; }
+    .mac-menu-status { gap: 1.25rem; }
+    .mac-menu-symbol { width: 1.125rem; height: 1.125rem; }
+    .mac-menu-apple { width: 1rem; height: 1rem; }
+    .mac-menu-battery { width: 1.75rem; height: 0.875rem; }
+    .mac-menu-control-center { width: 0.9375rem; height: 0.875rem; }
     .mac-menu-items { display: flex; gap: 1.25rem; }
     .mac-menu-date { display: inline; }
-    .mac-menu-extras { display: flex; gap: 1.125rem; }
-    .mac-menu-extras > * { width: 1rem; height: 1rem; }
     .demo-dock { gap: 0.375rem; padding: 0.5625rem 0.6875rem; border-radius: 1.5rem; }
     .demo-dock-item { width: 3rem; height: 3rem; }
     .demo-dock-icon { width: 2.625rem; height: 2.625rem; border-radius: 0.625rem; }

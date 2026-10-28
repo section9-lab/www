@@ -38,6 +38,12 @@ export default [
     },
   },
   {
+    // This is the only raw-output boundary; serializeJsonLd escapes script delimiters
+    // and its HTML parsing behavior is covered by seo.test.ts.
+    files: ['src/components/seo/JsonLd.astro'],
+    rules: { 'astro/no-set-html-directive': 'off' },
+  },
+  {
     files: ['**/*.{test,spec}.{js,ts,jsx,tsx}'],
     languageOptions: {
       globals: {

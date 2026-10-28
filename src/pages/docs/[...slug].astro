@@ -1,0 +1,15 @@
+---
+import { getCollection, render } from 'astro:content'
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro'
+import GuideLayout from '../../layouts/GuideLayout.astro'
+
+export const getStaticPaths = (async () => {
+  const guides = await getCollection('docs')
+  return guides.map((entry) => ({ params: { slug: entry.id }, props: { entry } }))
+}) satisfies GetStaticPaths
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>
+const { entry } = Astro.props
+const { Content } = await render(entry)
+---
+<GuideLayout title={entry.data.title} description={entry.data.description} updated={entry.data.updated}><Content /></GuideLayout>

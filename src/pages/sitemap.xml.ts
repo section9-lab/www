@@ -1,28 +1,16 @@
 import type { APIRoute } from 'astro'
+import { getCollection } from 'astro:content'
 import { siteConfig } from '../config/site'
 
-const routes = [
-  { path: '/', lastmod: '2026-10-28' },
-  { path: '/download', lastmod: '2026-10-28' },
-  { path: '/faqs', lastmod: '2026-10-28' },
-  { path: '/privacy', lastmod: '2026-10-28' },
-  { path: '/recover', lastmod: '2026-10-28' },
-] as const
+const routes = ['/', '/download/', '/faqs/', '/privacy/', '/recover/', '/docs/', '/pricing/'] as const
+const siteUpdated = '2026-10-28'
 
-export const GET: APIRoute = () => {
-  const urls = routes
-    .map(({ path, lastmod }) => {
-      const href = new URL(path, siteConfig.siteUrl).toString()
-      return `<url><loc>${href}</loc><lastmod>${lastmod}</lastmod></url>`
-    })
-    .join('')
-
-  const body = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`
-
-  return new Response(body, {
-    headers: {
-      'Content-Type': 'application/xml; charset=utf-8',
-    },
-  })
+export const GET: APIRoute = async () => {
+  const guides = await getCollection('docs')
+  const entries = [
+    ...routes.map((path) => ({ path, lastmod: siteUpdated })),
+    ...guides.map((guide) => ({ path: `/docs/${guide.id}/`, lastmod: guide.data.updated })),
+  ]
+  const urls = entries.map(({ path, lastmod }) => `<url><loc>${new URL(path, siteConfig.siteUrl).toString()}</loc><lastmod>${lastmod}</lastmod></url>`).join('')
+  return new Response(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls}</urlset>`, { headers: { 'Content-Type': 'application/xml; charset=utf-8' } })
 }

@@ -1,5 +1,4 @@
-import { AudioLines, BatteryCharging, MessagesSquare, Paperclip, SlidersHorizontal, Wifi } from 'lucide-react'
-import { agents } from '../../config/demo'
+import { Wifi } from 'lucide-react'
 import { getMinutes, useTimeStore } from '../../stores/time'
 
 interface MacMenuBarProps { appName: string; isReady: boolean }
@@ -18,10 +17,9 @@ export default function MacMenuBar({ appName, isReady }: MacMenuBarProps) {
         <span className="mac-menu-items text-white/95" aria-hidden="true"><span>文件</span><span>编辑</span><span>视图</span><span>窗口</span><span>帮助</span></span>
       </div>
       <div className="mac-menu-side mac-menu-status flex shrink-0 items-center">
-        <span className="mac-menu-extras items-center" aria-hidden="true"><Paperclip /><MessagesSquare /><img src={agents.codex.icon} alt="" /><AudioLines /></span>
         <Wifi className="mac-menu-symbol" aria-label="Wi-Fi connected" />
-        <BatteryCharging className="mac-menu-battery text-yellow-100" aria-label="Battery charging" />
-        <SlidersHorizontal className="mac-menu-symbol" aria-label="Control Center" />
+        <img className="mac-menu-battery shrink-0 object-contain" src="/images/system/battery-full.webp" alt="Battery full" draggable={false} />
+        <img className="mac-menu-control-center shrink-0 object-contain" src="/images/system/control-center.webp" alt="Control Center" draggable={false} />
         <span className="mac-menu-date whitespace-nowrap" suppressHydrationWarning>{isReady ? date : '10月28日'}</span>
         <span className="tabular-nums" suppressHydrationWarning>{isReady ? time : '13:26'}</span>
       </div>

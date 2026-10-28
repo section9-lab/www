@@ -1,10 +1,16 @@
 ---
+import { footerNavigation } from '../config/navigation';
+import { cn } from '../lib/utils';
+import { uiClasses } from '../config/ui';
 import SocialLinks from "./SocialLinks.astro";
 ---
 
 <footer
     class="relative flex min-h-[400px] flex-col items-center justify-end overflow-x-clip px-8 pb-0"
 >
+    <nav aria-label="Footer" class="mx-auto mb-12 grid w-full max-w-screen-lg grid-cols-2 gap-8 border-t border-orange-950/10 pt-10 text-sm sm:mb-16 sm:grid-cols-3">
+        {footerNavigation.map((group) => <div><p class="mb-4 font-semibold text-stone-800">{group.label}</p><ul class="space-y-3">{group.links.map((link) => <li><a class={cn(uiClasses.focusRing, 'rounded-sm text-stone-600 hover:text-stone-900 hover:underline')} href={link.href}>{link.label}</a></li>)}</ul></div>)}
+    </nav>
     <div class="mb-3 sm:mb-4">
         <SocialLinks />
     </div>

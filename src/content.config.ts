@@ -12,6 +12,14 @@ const faqs = defineCollection({
   }),
 })
 
-export const collections = {
-  faqs,
-}
+const docs = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/docs' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number().int().positive(),
+    updated: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  }),
+})
+
+export const collections = { faqs, docs }

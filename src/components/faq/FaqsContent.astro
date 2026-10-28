@@ -15,11 +15,15 @@ const faqs = (await getCollection('faqs'))
     body: entry.body ?? '',
   }))
 
+interface Props { standalone?: boolean }
+const { standalone = false } = Astro.props
+const Heading = standalone ? 'h1' : 'h2'
+const SupportHeading = standalone ? 'h2' : 'h3'
 const lastUpdated = 'October 2026'
 ---
 
 <div class="mb-0 w-full max-w-screen-md sm:mb-6">
-  <h2 class="mb-3 text-6xl font-bold sm:text-8xl">FAQs</h2>
+  <Heading class="mb-3 text-6xl font-bold sm:text-8xl">FAQs</Heading>
 
   <div>
     <p class="group dark:text-orange-75/50 flex items-center text-xl text-stone-500">
@@ -28,10 +32,10 @@ const lastUpdated = 'October 2026'
     </p>
   </div>
 
-  <FaqAccordion client:idle items={faqs} />
+  <FaqAccordion client:idle items={faqs} questionLevel={standalone ? 2 : 3} />
 
   <div class="mt-12 pt-6">
-    <h3 class="mb-3 text-2xl font-bold">Have more questions?</h3>
+    <SupportHeading class="mb-3 text-2xl font-bold">Have more questions?</SupportHeading>
     <p class="text-xl">
       For setup help or feedback,
       <a

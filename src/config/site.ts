@@ -1,5 +1,5 @@
 export const siteConfig = {
-  siteUrl: 'https://section9lab.cn',
+  siteUrl: 'https://hud.vibevibe.cc',
   siteName: 'vibe hud',
   defaultTitle: 'vibe hud for Mac | AI agents in your notch',
   defaultDescription:
@@ -21,7 +21,7 @@ export const siteConfig = {
   priceUsd: '14.99',
   priceLabel: '$14.99',
   xHandle: '@tachiko73951901',
-  downloadUrl: '/download',
+  downloadUrl: '/download/',
   releaseUrl: 'https://github.com/section9-lab/vibe-hud/releases/latest',
   supportUrl: 'https://github.com/section9-lab/vibe-hud/issues',
   minimumMacOS: '15.6',

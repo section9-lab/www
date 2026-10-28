@@ -16,7 +16,7 @@ const stripMarkdown = (value: string) =>
     .replace(/\s+/g, ' ')
     .trim()
 
-const pageUrl = `${siteConfig.siteUrl}/faqs`
+const pageUrl = `${siteConfig.siteUrl}/faqs/`
 const structuredData = [
   {
     '@context': 'https://schema.org',
@@ -60,7 +60,7 @@ const structuredData = [
 >
   <AppHeader />
   <main class="flex flex-1 justify-center px-8 pt-32 pb-16 sm:pt-48 sm:pb-28 xl:px-36">
-    <FaqsContent />
+    <FaqsContent standalone />
   </main>
   <AppFooter />
 </Layout>

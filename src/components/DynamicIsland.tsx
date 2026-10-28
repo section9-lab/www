@@ -60,7 +60,7 @@ export default function DynamicIsland({ isReady }: { isReady: boolean }) {
           <div className="mac-notch-controls relative flex items-center justify-between px-1">
             <Button
               ref={toggleRef}
-              variant="ghost"
+              variant="plain"
               className="h-8 min-w-0 flex-1 justify-start rounded-md px-1 focus-visible:ring-inset"
               onClick={() => isOpen ? close() : open()}
               disabled={!isReady}
@@ -71,7 +71,7 @@ export default function DynamicIsland({ isReady }: { isReady: boolean }) {
               <AgentActivity sessions={sessions} />
               {hasPendingApproval && <CircleHelp className="size-3.5 text-agent-claude" aria-label="Tool approval needed" />}
             </Button>
-            {isOpen && <Button variant="ghost" size="icon" className="size-8 text-white/50 focus-visible:ring-inset" onClick={() => view === 'settings' ? showSessions() : showSettings()} aria-label={view === 'settings' ? 'Close settings' : 'Open HUD settings'}>{view === 'settings' ? <X className="size-3.5" aria-hidden="true" /> : <Menu className="size-3.5" aria-hidden="true" />}</Button>}
+            {isOpen && <Button variant="plain" size="icon" className="size-8 text-white/50 focus-visible:ring-inset" onClick={() => view === 'settings' ? showSessions() : showSettings()} aria-label={view === 'settings' ? 'Close settings' : 'Open HUD settings'}>{view === 'settings' ? <X className="size-3.5" aria-hidden="true" /> : <Menu className="size-3.5" aria-hidden="true" />}</Button>}
           </div>
           <motion.div id={contentId} initial={false} animate={{ opacity: isOpen ? 1 : 0, height: isOpen ? 'auto' : 0 }} transition={{ duration: reduceMotion ? 0 : 0.2 }} className="overflow-hidden" inert={!isOpen} aria-hidden={!isOpen}>
               <div className="hud-panel-content overflow-y-auto px-1 pb-2" data-view={view}>

@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content'
+import Layout from '../../layouts/Layout.astro'
+import AppHeader from '../../components/AppHeader.astro'
+import AppFooter from '../../components/AppFooter.astro'
+import { siteConfig } from '../../config/site'
+import { uiClasses } from '../../config/ui'
+import '../../assets/css/main.css'
+const guides = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order)
+const description = 'Install vibe hud on macOS, enable Claude Code or Codex hooks, and follow sessions, tool requests, and replies from your Mac’s notch.'
+const structuredData = { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'vibe hud setup guides', description, url: `${siteConfig.siteUrl}/docs/`, about: { '@id': `${siteConfig.siteUrl}/#app` }, hasPart: guides.map((guide) => ({ '@type': 'TechArticle', name: guide.data.title, url: `${siteConfig.siteUrl}/docs/${guide.id}/` })) }
+---
+<Layout title="vibe hud setup guides | Claude Code, Codex, and Mac compatibility" description={description} structuredData={structuredData}>
+  <AppHeader />
+  <main class="mx-auto w-full max-w-4xl flex-1 px-8 pt-32 pb-16 sm:pt-44 sm:pb-24">
+    <h1 class="text-4xl font-bold tracking-tight sm:text-6xl">Get started with vibe hud.</h1>
+    <p class="mt-6 text-xl leading-relaxed text-stone-600">vibe hud is a native macOS notch app for AI coding sessions. Use it to monitor work, review conversation history, handle supported tool requests, and reply through your terminal environment.</p>
+    <section class="guide-content mt-10 text-base leading-relaxed text-stone-600 sm:text-lg" aria-labelledby="setup-title">
+      <h2 id="setup-title">Set up your first session</h2>
+      <ol class="mt-5 list-decimal space-y-4 pl-6">
+        <li><strong class="font-semibold text-stone-800">Check requirements.</strong> You need macOS {siteConfig.minimumMacOS} or later and an installed, supported coding agent. The HUD uses local session events; it does not replace your agent.</li>
+        <li><strong class="font-semibold text-stone-800">Install the Mac app.</strong> Get the DMG from the <a class={uiClasses.contactLink} href="/download/">download page</a>, move VibeHUD.app into Applications, and launch it.</li>
+        <li><strong class="font-semibold text-stone-800">Enable your integration.</strong> Open the notch menu, expand Agent Hooks, and switch on the agent you use. Start a new agent session after enabling hooks.</li>
+        <li><strong class="font-semibold text-stone-800">Follow work from the notch.</strong> Begin a task in your terminal. Open the HUD to see running work, waiting input, and tool requests.</li>
+        <li><strong class="font-semibold text-stone-800">Handle the next action.</strong> Open a session to review its history. When supported by the agent and terminal, approve a tool or send a reply from the HUD.</li>
+      </ol>
+    </section>
+    <section class="mt-12" aria-labelledby="guides-title"><h2 id="guides-title" class="text-2xl font-bold">Choose your setup</h2><div class="mt-5 divide-y divide-orange-950/10 border-y border-orange-950/10">{guides.map((guide) => <a class="block rounded-lg py-6 outline-none hover:bg-orange-950/5 focus-visible:ring-2 focus-visible:ring-rose-300" href={`/docs/${guide.id}/`}><h3 class="text-xl font-semibold">{guide.data.title}</h3><p class="mt-2 leading-relaxed text-stone-600">{guide.data.description}</p></a>)}</div></section>
+    <section class="mt-12 space-y-4 text-base leading-relaxed text-stone-600 sm:text-lg"><h2 class="text-2xl font-bold text-stone-800">Permissions and data</h2><p>Some terminal-control and reply fallbacks need macOS Accessibility permission. The app shows an Accessibility entry in the notch menu. Review the request in System Settings if your chosen workflow requires it.</p><p>Session history is read locally for the HUD. The Mac app uses product analytics, and this website’s preview uses sample data. See <a class={uiClasses.contactLink} href="/privacy/">privacy and data use</a> for details.</p><p>For a missing session, check Agent Hooks first, then start a fresh agent session. Use <a class={uiClasses.contactLink} href="/recover/">installation help</a> or <a class={uiClasses.contactLink} href="/faqs/">FAQs</a> for the next troubleshooting steps.</p></section>
+  </main>
+  <AppFooter />
+</Layout>

@@ -6,7 +6,7 @@ import AppFooter from '../components/AppFooter.astro'
 import { siteConfig } from '../config/site'
 import { uiClasses } from '../config/ui'
 import '../assets/css/main.css'
-const pageUrl = `${siteConfig.siteUrl}/download`
+const pageUrl = `${siteConfig.siteUrl}/download/`
 const description = 'Download vibe hud for macOS 15.6 or later. Follow AI agent sessions, handle tool approvals, and reply from your Mac’s notch.'
 const structuredData = {
   '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: siteConfig.siteName,
@@ -27,10 +27,10 @@ const structuredData = {
         <a href={siteConfig.releaseUrl} class="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-stone-800 px-5 py-3 font-semibold text-orange-25 outline-none hover:bg-stone-700 focus-visible:ring-3 focus-visible:ring-rose-300" target="_blank" rel="noopener noreferrer"><DownloadIcon className="size-4" aria-hidden="true" />Get the latest release</a>
       </div>
       <div class="mx-auto max-w-xl space-y-5 text-left text-lg leading-relaxed text-stone-600">
-        <p>Download the DMG from GitHub Releases, then move <strong class="font-medium text-stone-800">VibeHUD.app</strong> into Applications. On first launch, vibe hud installs its Claude Code hooks automatically.</p>
+        <p>Download the DMG from GitHub Releases, then move <strong class="font-medium text-stone-800">VibeHUD.app</strong> into Applications. Open Agent Hooks in the notch menu and enable the integration you use, then start a new agent session.</p>
         <p>Open your coding agent in a terminal to start a session. Use the notch menu to manage agent hooks, choose your display and notification sound, or enable Launch at Login.</p>
         <p>Already installed? Check for updates from the app’s notch menu.</p>
-        <p>For setup and compatibility details, visit the <a class={uiClasses.contactLink} href="/faqs">FAQ page</a> or <a class={uiClasses.contactLink} href={siteConfig.supportUrl} target="_blank" rel="noopener noreferrer">get help on GitHub</a>.</p>
+        <p>For setup and compatibility details, follow the <a class={uiClasses.contactLink} href="/docs/">setup guide</a>, visit the <a class={uiClasses.contactLink} href="/faqs/">FAQ page</a> or <a class={uiClasses.contactLink} href={siteConfig.supportUrl} target="_blank" rel="noopener noreferrer">get help on GitHub</a>.</p>
       </div>
       <a class="mt-8 inline-flex items-center gap-2 text-sm font-medium text-stone-500 hover:text-stone-800 focus-visible:ring-2 focus-visible:ring-rose-300" href={siteConfig.repositoryUrl} target="_blank" rel="noopener noreferrer"><CodeXml className="size-4" aria-hidden="true" />View source</a>
     </section>
